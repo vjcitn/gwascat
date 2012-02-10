@@ -1,0 +1,203 @@
+
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+
+%\VignetteIndexEntry{}
+%\VignetteDepends{}
+%\VignetteKeywords{}
+%\VignettePackage{}
+
+\documentclass[12pt]{article}
+
+\usepackage{amsmath,pstricks}
+\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\textwidth=6.2in
+
+\bibliographystyle{plainnat} 
+ 
+\begin{document}
+%\setkeys{Gin}{width=0.55\textwidth}
+
+\title{\textit{gwascat}: structuring and querying the NHGRI GWAS catalog}
+\author{VJ Carey\footnote{Generous support of Robert Gentleman and the
+Computational Biology Group of
+Genentech, Inc. is gratefully acknowledged}.}
+\maketitle
+
+\section{Introduction}
+
+NHGRI maintains and routinely updates a database of selected genome-wide
+association studies.  This document describes R/Bioconductor facilities for
+working with contents of this database.
+
+\subsection{Installation}
+The package can be installed using Bioconductor's \textit{BiocInstaller}
+package, with the sequence
+\begin{verbatim}
+library(BiocInstaller)
+biocLite("gwascat")
+\end{verbatim}
+
+\subsection{Attachment and access to documentation}
+Once the package has been installed, use \verb+library(gwascat)+ to 
+obtain interactive access to all the facilities.  After executing
+this command, use \verb+help(package="gwascat")+ to obtain an overview.
+The current version of this vignette can always be accessed at
+www.bioconductor.org, or by suitably navigating the web pages generated
+with \texttt{help.start()}.
+
+<<getlib,echo=FALSE,results=hide>>=
+library(gwascat)
+@
+
+Some noteworthy limitations:  As of
+Feb 10 2012, there are \Sexpr{sum(gwcat$SNPs == "NR")}
+records in the database for which no SNP is identified.
+There are \Sexpr{sum(gwcat$Chr_pos == "")} records for which no
+chromosomal position of the associated locus is given.
+
+
+\subsection{Illustrations}
+
+<<lk1,echo=FALSE,results=hide>>=
+if (length(grep("gwascat", search()))>0) detach("package:gwascat")
+@
+Available functions are:
+<<lk2>>=
+library(gwascat)
+objects("package:gwascat")
+@
+
+The GRanges instance with all SNP-disease associations is:
+<<lkgr>>=
+gwrngs
+@
+
+To determine the most frequently occurring traits:
+<<lktr>>=
+topTraits(gwrngs)
+@
+
+For a given trait, obtain a GRanges with all recorded associations; here
+only three associations are shown:
+<<lklocs>>=
+subsetByTraits(gwrngs, tr="LDL cholesterol")[1:3]
+@
+
+\section{SNP sets and trait sets}
+
+\subsection{SNPs by name}
+
+We can regard the content of a SNP chip as a set of SNP, referenced
+by name.  The
+pd.genomewidesnp.6 package describes the Affymetrix SNP 6.0 chip.
+We can determine which traits are associated with loci interrogated
+by the chip as follows.  We work with a subset of the 1 million loci
+for illustration.
+
+<<doaff,keep.source=TRUE>>=
+library(pd.genomewidesnp.6)
+con = pd.genomewidesnp.6@getdb()
+rson6 = as.character(dbGetQuery(con, 
+   "select dbsnp_rs_id from featureSet limit 10000")[[1]])
+@
+
+We can subset the GWAS ranges structure with rsids that
+are common to both the chip and the GWAS catalog.
+We then tabulate the diseases associated with the
+common loci.
+<<lkdtab>>=
+intr = gwrngs[ intersect(getRsids(gwrngs), rson6) ]
+sort(table(getTraits(intr)), decreasing=TRUE)[1:10]
+@
+
+\subsection{Traits by genomic location}
+
+We will assemble genomic coordinates for SNP on the Affymetrix 6.0 chip
+and show the effects of identifying the trait-associated
+loci with regions of width 1000bp instead
+of 1bp.
+
+The following code retrieves coordinates for SNP interrogated
+on 10000 probes (to save time)
+on the 6.0 chip, and stores the results in a GRanges instance.
+<<lkexp,keep.source=TRUE>>=
+locon6 = dbGetQuery(con, 
+   "select dbsnp_rs_id, chrom, physical_pos from featureSet limit 10000")
+gr6.0 = GRanges(seqnames=ifelse(is.na(locon6$chrom),0,locon6$chrom), 
+       IRanges(ifelse(is.na(locon6$phys),1,locon6$phys), width=1))
+elementMetadata(gr6.0)$rsid = as.character(locon6$dbsnp_rs_id)
+seqlevels(gr6.0) = paste("chr", seqlevels(gr6.0), sep="")
+@
+
+Here we compute overlaps with both the raw disease-associated locus
+addresses, and with the locus address $\pm$ 500bp.
+<<dosub>>=
+ag = function(x) as(x, "GRanges")
+ovraw = subsetByOverlaps(ag(gwrngs), gr6.0)
+length(ovraw)
+ovaug = subsetByOverlaps(ag(gwrngs+500), gr6.0)
+length(ovaug)
+@
+
+To acquire the subset of the catalog to which 6.0 probes are
+within 500bp, use:
+<<dosub>>=
+rawrs = elementMetadata(ovraw)$SNPs
+augrs = elementMetadata(ovaug)$SNPs
+gwrngs[augrs]
+@
+
+Relaxing the intersection criterion in this
+limited case leads to a larger set of traits.
+
+<<lkrelax>>=
+setdiff( getTraits(gwrngs[augrs]), getTraits(gwrngs[rawrs]) )
+@
+
+
+
+
+\section{Appendix: Adequacy of location annotation}
+
+A basic question concerning the use of range structures is
+accuracy of the association between asserted location
+and SNP identity.  The \texttt{chklocs}
+function uses a current Bioconductor
+SNPlocs package to check this.
+
+For example, to verify that locations asserted on chromosome
+20 agree between the Bioconductor dbSNP image and the
+gwas catalog,
+<<getrs>>=
+chklocs("20")
+@
+
+This is not a fast procedure but has succeeded for 
+all chromosomes 1-22 when checked off line.
+
+
+\end{document}
