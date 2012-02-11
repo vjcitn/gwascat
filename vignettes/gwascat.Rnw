@@ -118,14 +118,23 @@ We can determine which traits are associated with loci interrogated
 by the chip as follows.  We work with a subset of the 1 million loci
 for illustration.
 
-<<doaff,keep.source=TRUE>>=
+The \texttt{locon6} data frame has information on 10000 probes,
+acquired through the following code (not executed here to reduce
+dependence on the pd.genomewidesnp.6 package, which is very large.
+<<dobig,eval=FALSE>>=
 library(pd.genomewidesnp.6)
 con = pd.genomewidesnp.6@getdb()
-rson6 = as.character(dbGetQuery(con, 
-   "select dbsnp_rs_id from featureSet limit 10000")[[1]])
+locon6 = dbGetQuery(con, 
+   "select dbsnp_rs_id, chrom, physical_pos from featureSet limit 10000")
+@
+Instead use the serialized information:
+<<doloc>>=
+data(locon6)
+rson6 = as.character(locon6[[1]])
+rson6[1:5]
 @
 
-We can subset the GWAS ranges structure with rsids that
+We subset the GWAS ranges structure with rsids that
 are common to both the chip and the GWAS catalog.
 We then tabulate the diseases associated with the
 common loci.
@@ -145,9 +154,6 @@ The following code retrieves coordinates for SNP interrogated
 on 10000 probes (to save time)
 on the 6.0 chip, and stores the results in a GRanges instance.
 <<lkexp,keep.source=TRUE>>=
-#locon6 = dbGetQuery(con, 
-#   "select dbsnp_rs_id, chrom, physical_pos from featureSet limit 10000")
-data(locon6)
 gr6.0 = GRanges(seqnames=ifelse(is.na(locon6$chrom),0,locon6$chrom), 
        IRanges(ifelse(is.na(locon6$phys),1,locon6$phys), width=1))
 elementMetadata(gr6.0)$rsid = as.character(locon6$dbsnp_rs_id)
