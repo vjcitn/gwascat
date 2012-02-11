@@ -145,8 +145,9 @@ The following code retrieves coordinates for SNP interrogated
 on 10000 probes (to save time)
 on the 6.0 chip, and stores the results in a GRanges instance.
 <<lkexp,keep.source=TRUE>>=
-locon6 = dbGetQuery(con, 
-   "select dbsnp_rs_id, chrom, physical_pos from featureSet limit 10000")
+#locon6 = dbGetQuery(con, 
+#   "select dbsnp_rs_id, chrom, physical_pos from featureSet limit 10000")
+data(locon6)
 gr6.0 = GRanges(seqnames=ifelse(is.na(locon6$chrom),0,locon6$chrom), 
        IRanges(ifelse(is.na(locon6$phys),1,locon6$phys), width=1))
 elementMetadata(gr6.0)$rsid = as.character(locon6$dbsnp_rs_id)
@@ -183,17 +184,19 @@ setdiff( getTraits(gwrngs[augrs]), getTraits(gwrngs[rawrs]) )
 
 \section{Appendix: Adequacy of location annotation}
 
-A basic question concerning the use of range structures is
-accuracy of the association between asserted location
-and SNP identity.  The \texttt{chklocs}
+A basic question concerning the use of archived
+SNP identifiers is durability
+of the association between asserted location
+and SNP identifier.  The \texttt{chklocs}
 function uses a current Bioconductor
 SNPlocs package to check this.
 
 For example, to verify that locations asserted on chromosome
 20 agree between the Bioconductor dbSNP image and the
 gwas catalog,
-<<getrs>>=
-chklocs("20")
+<<getrs,keep.source=TRUE>>=
+if ("SNPlocs.Hsapiens.dbSNP.20110815" %in% installed.packages()[,1])
+suppressWarnings(chklocs("20"))
 @
 
 This is not a fast procedure but has succeeded for 
