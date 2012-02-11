@@ -3,7 +3,7 @@ Title: representing and modeling data in the NHGRI GWAS catalog
 Version: 0.0.3
 Author: VJ Carey <stvjc@channing.harvard.edu>
 Description: representing and modeling data in the NHGRI GWAS catalog
-Suggests: 
+Suggests: SNPlocs.Hsapiens.dbSNP.20110815
 Depends: R (>= 2.14.0), methods, IRanges, GenomicRanges
 Imports: 
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>

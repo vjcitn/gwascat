@@ -7,6 +7,11 @@
 \alias{getTraits,gwaswloc-method}
 \alias{subsetByChromosome,gwaswloc-method}
 \alias{subsetByTraits,gwaswloc-method}
+\alias{getTraits}
+\alias{getRsids}
+\alias{subsetByChromosome}
+\alias{subsetByTraits}
+
 
 \title{Class \code{"gwaswloc"}}
 \description{
@@ -50,9 +55,9 @@ as a character vector}
     \item{getTraits}{\code{signature(x = "gwaswloc")}: extract all traits (NHGRI
 term 'Disease/Trait') as a
 character vector}
-    \item{subsetByChromosome}{\code{signature(x = "gwaswloc")}: select records by chromosome }
+    \item{subsetByChromosome}{\code{signature(x = "gwaswloc")}: select records by chromosome, a vector of chromosomes may be supplied }
     \item{subsetByTraits}{\code{signature(x = "gwaswloc")}: select all records corresponding
-to a given trait }
+to a given vector of traits }
 	 }
 }
 \references{
@@ -69,10 +74,10 @@ In gwascat package, the globally accessible \code{gwaswloc} instance
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%\seealso{
 %%  ~~objects to See Also as \code{\link{~~fun~~}}, ~~~
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
-}
+%}
 \examples{
 showClass("gwaswloc")
 }

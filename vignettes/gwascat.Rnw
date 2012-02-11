@@ -4,10 +4,10 @@
 % likely to be overwritten.
 %
 
-%\VignetteIndexEntry{}
-%\VignetteDepends{}
-%\VignetteKeywords{}
-%\VignettePackage{}
+%\VignetteIndexEntry{gwascat -- exploring NHGRI GWAS catalog
+%\VignetteDepends{GenomicRanges}
+%\VignetteKeywords{genetics, GWAS}
+%\VignettePackage{gwascat}
 
 \documentclass[12pt]{article}
 

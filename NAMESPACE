@@ -15,6 +15,5 @@ exportClass(gwaswloc)
 exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits")
 
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs)
-export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
-	"GRanges")
+export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits")
 

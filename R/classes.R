@@ -57,11 +57,11 @@ setMethod("getTraits", "gwaswloc", function(x)
 
 setGeneric("subsetByChromosome", function(x, ch)standardGeneric("subsetByChromosome"))
 setMethod("subsetByChromosome", "gwaswloc", function(x, ch) {
- x[ which(seqnames(x) == ch) ]
+ x[ which(seqnames(x) %in% ch) ]
 })
 
 setGeneric("subsetByTraits", function(x, tr)standardGeneric("subsetByTraits"))
 setMethod("subsetByTraits", "gwaswloc", function(x, tr) {
- x[ which(getTraits(x) == tr) ]
+ x[ which(getTraits(x) %in% tr) ]
 })
 
