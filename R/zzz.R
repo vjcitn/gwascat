@@ -27,7 +27,6 @@
 #
  badco = values(gwrngs)$"Strongest.SNP.Risk.Allele"
  co = gsub(" $", "", badco)
- co = toupper(co)
  values(gwrngs)$"Strongest.SNP.Risk.Allele" = co
 #
 # 4) deal with OR or beta field entries possessing strings
