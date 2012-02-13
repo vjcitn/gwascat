@@ -63,7 +63,7 @@ to SNP
 %}
 \examples{
 data(gg17N)
-h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="chr17")
+h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
