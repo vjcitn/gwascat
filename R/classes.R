@@ -28,7 +28,11 @@ setMethod("show", "gwaswloc", function(object) {
   "attributes per record.\n")
  cat("Excerpt:\n")
  nrec = min(5, length(object))
- show(as(object, "GRanges")[1:nrec, c("Disease.Trait", "SNPs", "p.Value")])
+ availcols = colnames(elementMetadata(object))
+ majorfields = c("Disease.Trait", "SNPs", "p.Value")
+ if (all(majorfields %in% availcols) & length(availcols) > 5)
+   show(as(object, "GRanges")[1:nrec, majorfields])
+ else show(as(object, "GRanges")[1:nrec,])
 })
 
 #
@@ -57,7 +61,7 @@ setMethod("getTraits", "gwaswloc", function(x)
 
 setGeneric("subsetByChromosome", function(x, ch)standardGeneric("subsetByChromosome"))
 setMethod("subsetByChromosome", "gwaswloc", function(x, ch) {
- x[ which(seqnames(x) %in% ch) ]
+ x[ which(as.character(seqnames(x)) %in% ch) ]
 })
 
 setGeneric("subsetByTraits", function(x, tr)standardGeneric("subsetByTraits"))

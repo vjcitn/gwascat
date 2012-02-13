@@ -14,6 +14,6 @@ importFrom(IRanges, RangedData)
 exportClass(gwaswloc)
 exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits")
 
-export(locs4trait, topTraits, elementMetadata, ranges, chklocs)
+export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits")
 

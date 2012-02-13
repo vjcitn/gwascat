@@ -9,12 +9,29 @@
  psm("'gwcat' data frame now available, provides NHGRI GWAS cat records of 02/02/2012.\n")
  psm("building 'gwrngs', GRanges for studies with located variants...")
  gwcatloc = gwcat[nchar(gwcat$Chr_pos)>0,]
+#
+# various fixes
+# 1) put chrnn
+#
  ch = gwcatloc$Chr_id
  if (length(grep("chr", ch)) == 0) ch = paste("chr", ch, sep="")
  gwrngs = GRanges(seqnames=ch, IRanges(as.numeric(gwcatloc$Chr_pos),width=1))
  values(gwrngs) = gwcatloc
+#
+# 2) make numeric p values and addresses
+#
  values(gwrngs)$p.Value = as.numeric(values(gwrngs)$p.Value)
  values(gwrngs)$Chr_pos = as.numeric(values(gwrngs)$Chr_pos)
+#
+# 3) clean out stray whitespace
+#
+ badco = values(gwrngs)$"Strongest.SNP.Risk.Allele"
+ co = gsub(" $", "", badco)
+ co = toupper(co)
+ values(gwrngs)$"Strongest.SNP.Risk.Allele" = co
+#
+# 4) deal with OR or beta field entries possessing strings
+#
  strinds = grep("[A-Z]", values(gwrngs)[,"OR.or.beta"])
  if (length(strinds)>0) values(gwrngs)$OR.or.beta[strinds] = ""
  values(gwrngs)$OR.or.beta = as.numeric(values(gwrngs)$OR.or.beta)
