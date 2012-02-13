@@ -155,6 +155,7 @@ riskyAlleleCount = function(callmat, matIsAB=TRUE, chr,
  nhits = t(apply(callmat, 1, function(x) {
       sapply(1:length(x), function(z) length(grep(vpallele[z],
                strsplit(x[z], "/")[[1]]))) }))
+ colnames(nhits) = possrs
  nhits
 }
  

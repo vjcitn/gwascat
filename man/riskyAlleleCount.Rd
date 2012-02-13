@@ -62,8 +62,10 @@ to SNP
 %%% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
 \examples{
-data(gg17N)
+data(gg17N) # translated from GGdata chr 17 calls using ABmat2nuc
 h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17")
+h17[1:5,1:5]
+table(as.numeric(h17))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
