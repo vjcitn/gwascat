@@ -31,9 +31,18 @@
 #
 # 4) deal with OR or beta field entries possessing strings
 #
- strinds = grep("[A-Z]", values(gwrngs)[,"OR.or.beta"])
- if (length(strinds)>0) values(gwrngs)$OR.or.beta[strinds] = ""
- values(gwrngs)$OR.or.beta = as.numeric(values(gwrngs)$OR.or.beta)
+ fixhet = function(vec) {
+# take a mix of numerical strings and character strings 
+# and set char strings to ""
+# so that as.numeric will not warn
+   strinds = grep("[a-zA-Z]", vec)
+   if (length(strinds)>0) vec[strinds] = ""
+   vec
+   }
+# strinds = grep("[a-zA-Z]", values(gwrngs)[,"OR.or.beta"])
+# if (length(strinds)>0) values(gwrngs)$OR.or.beta[strinds] = ""
+ values(gwrngs)$OR.or.beta = as.numeric(fixhet(values(gwrngs)$OR.or.beta))
+ values(gwrngs)$Risk.Allele.Frequency = as.numeric(fixhet(values(gwrngs)$Risk.Allele.Frequency))
  gwrngs = new("gwaswloc", gwrngs)
  assign("gwrngs", gwrngs, .GlobalEnv)
  psm("done.\n")

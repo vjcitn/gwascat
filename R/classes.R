@@ -42,6 +42,7 @@ setMethod("show", "gwaswloc", function(object) {
 setMethod("[", "gwaswloc", function(x, i, j, ..., drop=FALSE) {
  if (missing(drop)) drop <- FALSE
 # if (!missing(j)) stop("no column subscripting on gwaswloc")
+ if (missing(i)) i = 1:length(x)
  if (!is(i, "numeric")) {
   rsids = getRsids(x)
   i = match(i, rsids, nomatch=0)
