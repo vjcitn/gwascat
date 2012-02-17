@@ -185,7 +185,102 @@ limited case leads to a larger set of traits.
 setdiff( getTraits(gwrngs[augrs]), getTraits(gwrngs[rawrs]) )
 @
 
+\section{Counting alleles associated with traits}
 
+We can use \texttt{riskyAlleleCount} to count
+risky alleles enumerated in the GWAS catalog.  This
+particular function assumes that we have genotyped at
+the catalogued loci.  Below we will discuss how to impute
+from non-catalogued loci to those enumerated in the catalog.
+<<lkcout>>=
+data(gg17N) # translated from GGdata chr 17 calls using ABmat2nuc
+gg17N[1:5,1:5]
+@
+This function can use genotype information in the A/B format,
+assuming that B denotes the alphabetically later nucleotide.
+Because we have direct nucleotide coding in our matrix, we set
+the \texttt{matIsAB} parameter to false in this call.
+
+<<dorun>>=
+h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17")
+h17[1:5,1:5]
+table(as.numeric(h17))
+@
+
+It is of interest to bind the counts back to the catalog data.
+<<domo>>=
+gwr = gwrngs
+gwr = gwr[colnames(h17),]
+elementMetadata(gwr) = cbind(elementMetadata(gwr), DataFrame(t(h17)))
+sn = rownames(h17)
+gwr[,c("Disease.Trait", sn[1:4])]
+@
+
+Now by programming on the elementMetadata, we can identify
+individuals with particular risk profiles.
+
+\section{Imputation to unobserved loci}
+
+If we lack information on a specific locus $s$, but have
+reasonably dense genotyping on a subject, population genetics
+may allow a reasonable guess at the genotype at $s$ for
+this subject.  Many algorithms for genotype imputation have been proposed.
+Here we use a very simple approach due to
+David Clayton in the \textit{snpStats} package.
+
+We use the ``low coverage'' 1000 genomes genotypes for
+the CEU (central European) HapMap cohort as a base for constructing
+imputation rules.  We focus on chromosome 17 for illustration.
+
+The base data are
+<<getbase>>=
+data(low17)
+low17
+@
+
+A somewhat sparser set of genotypes (HapMap phase II,
+genomewide 4 million loci) on chromosome 17 is 
+archived as \texttt{g17SM}.
+This has a compact SnpMatrix encoding of genotypes.
+<<lkggd>>=
+data(g17SM)
+g17SM
+@
+For a realistic demonstration, we use the subset of these
+loci that are present on the Affy 6.0 SNP array.
+<<dog>>=
+g17SM = g17SM[, intersect(colnames(g17SM), gw6.rs_17)]
+dim(g17SM)
+@
+
+The base data were used to create a set of rules allowing
+imputation from genotypes in the sparse set to the richer set.
+Some rules involve only a single locus, some as many as 4.
+The construction of rules involves tuning of modeling parameters.
+See snp.imputation in snpStats for details.
+<<lkrul>>=
+data(rules_hm2_6.0_17)
+rules_6.0_1kg_17[1:5,]
+@
+The summary of rules shows the degree of association between
+the predictors and predictands in terms of $R^2$.  Many potential
+targets are not imputed.
+<<lksum>>=
+summary(rules_6.0_1kg_17)
+@
+The overlap between the 6.0-resident g17SM loci and the catalog is
+<<lkov>>=
+length(intersect(colnames(g17SM), values(gwrngs)$SNPs))
+@
+
+The new expected B allele counts are
+<<doimp>>=
+exg17 = impute.snps(rules_6.0_1kg_17, g17SM)
+@
+The number of new loci that coincide with risk loci in the catalog is:
+<<lkl>>=
+length(intersect(colnames(exg17), values(gwrngs)$SNPs))
+@
 
 
 \section{Appendix: Adequacy of location annotation}
