@@ -249,6 +249,7 @@ g17SM
 For a realistic demonstration, we use the subset of these
 loci that are present on the Affy 6.0 SNP array.
 <<dog>>=
+data(gw6.rs_17)
 g17SM = g17SM[, intersect(colnames(g17SM), gw6.rs_17)]
 dim(g17SM)
 @
@@ -259,7 +260,7 @@ Some rules involve only a single locus, some as many as 4.
 The construction of rules involves tuning of modeling parameters.
 See snp.imputation in snpStats for details.
 <<lkrul>>=
-data(rules_hm2_6.0_17)
+data(rules_6.0_1kg_17)
 rules_6.0_1kg_17[1:5,]
 @
 The summary of rules shows the degree of association between
