@@ -21,11 +21,13 @@
 #setClass("study", representation(author="character",
 # pmid="character", date="character"
 
-setClass("gwaswloc", contains="GRanges")
+setClass("gwaswloc", representation(extractDate="character"), 
+   contains="GRanges")
 
 setMethod("show", "gwaswloc", function(object) {
  cat("gwasloc instance with", length(object), "records and", ncol(elementMetadata(object)),
   "attributes per record.\n")
+ cat("Extracted: ", object@extractDate, "\n")
  cat("Excerpt:\n")
  nrec = min(5, length(object))
  availcols = colnames(elementMetadata(object))

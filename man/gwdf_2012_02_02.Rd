@@ -1,5 +1,6 @@
 \name{gwdf_2012_02_02}
 \alias{gwdf_2012_02_02}
+\alias{gwdf_2012_03_07}
 \docType{data}
 \title{
 internal data frame for NHGRI GWAS catalog
@@ -7,7 +8,7 @@ internal data frame for NHGRI GWAS catalog
 \description{
 convenience container for imported table from NHGRI GWAS catalog
 }
-\usage{data(gwdf_2012_02_02)}
+\usage{data(gwdf_2012_02_02) # or more recent elements available}
 \format{
   A data frame with 7309 observations on the following 34 variables.
   \describe{
@@ -50,11 +51,16 @@ convenience container for imported table from NHGRI GWAS catalog
 \source{
 \url{http://www.genome.gov/gwastudies}
 }
+\note{
+The .onAttach function specifies which data frame is transformed
+to GRanges.
+}
 %\references{
 %}
 \examples{
 \dontrun{
 data(gwdf_2012_02_02)
+data(gwdf_2012_03_07)
 }
 }
 \keyword{datasets}

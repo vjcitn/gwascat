@@ -1,0 +1,60 @@
+gwdf_2012_03_07 = read.table(dir(), sep="\t", h=TRUE)
+gwdf_2012_03_07 = read.table(dir(), sep="\t", h=TRUE, nrow=93)
+tb = read.table(dir(), skip=94, sep="\t")
+tb = read.table(dir(), skip=110, sep="\t")
+?read.table
+alll = readLines(dir())
+sall = strsplit(alll, "\t")
+table(sapply(sall, length))
+alll = readLines(dir())
+sall = strsplit(alll, "\t")
+table(sapply(sall, length))
+head = sall[[1]]
+sall = sall[-1]
+length(sall)
+out = matrix(" ", nr=7463, nc=34)
+for (i in 1:7463) out[i,] = sall[[i]]
+out[1:6,1:6]
+colnames(out) = head
+out[1:6,1:6]
+out[1,]
+gwdf_2012_03_07 = data.frame(out)
+gwdf_2012_03_07 = data.frame(out, stringsAsFactors=FALSE)
+library(gwascat)
+sapply(gwcat, class)
+gwcat = gwdf_2012_03_07
+ gwcatloc = gwcat[nchar(gwcat$Chr_pos)>0,]
+dim(gwcat)
+dim(gwcatloc)
+gwascat:::.onLoad
+gwascat:::.onAttach
+    gwcatloc = gwcat[nchar(gwcat$Chr_pos) > 0, ]
+    ch = gwcatloc$Chr_id
+    if (length(grep("chr", ch)) == 0) 
+        ch = paste("chr", ch, sep = "")
+    gwrngs = GRanges(seqnames = ch, IRanges(as.numeric(gwcatloc$Chr_pos), 
+        width = 1))
+    values(gwrngs) = gwcatloc
+    values(gwrngs)$p.Value = as.numeric(values(gwrngs)$p.Value)
+    values(gwrngs)$Chr_pos = as.numeric(values(gwrngs)$Chr_pos)
+    badco = values(gwrngs)$Strongest.SNP.Risk.Allele
+table(batco)
+table(badco)
+gwascat:::.onAttach
+    co = gsub(" $", "", badco)
+    values(gwrngs)$Strongest.SNP.Risk.Allele = co
+    fixhet = function(vec) {
+        strinds = grep("[a-zA-Z]", vec)
+        if (length(strinds) > 0) 
+            vec[strinds] = ""
+        vec
+    }
+    values(gwrngs)$OR.or.beta = as.numeric(fixhet(values(gwrngs)$OR.or.beta))
+    values(gwrngs)$Risk.Allele.Frequency = as.numeric(fixhet(values(gwrngs)$Risk.Allele.Frequency))
+    gwrngs = new("gwaswloc", gwrngs)
+gwrngs
+library(gwascat)
+gwascat:::.onAttach("A", "B")
+gwrngs
+objects()
+savehistory(file="build0307df.hist.txt")

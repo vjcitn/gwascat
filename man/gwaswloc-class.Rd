@@ -23,6 +23,8 @@ Any GRanges instance can be supplied.
 }
 \section{Slots}{
   \describe{
+    \item{\code{extractDate}:}{character set manually in .onAttach code to
+indicate date of retrieval of base table}
     \item{\code{seqnames}:}{Object of class \code{"Rle"} typically
 representing chromosome numbers of loci associated with specific traits }
     \item{\code{ranges}:}{Object of class \code{"IRanges"} genomic

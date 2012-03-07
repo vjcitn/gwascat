@@ -74,7 +74,8 @@ library(gwascat)
 @
 
 Some noteworthy limitations:  As of
-Feb 10 2012, there are \Sexpr{sum(gwcat$SNPs == "NR")}
+\Sexpr{gwrngs@extractDate},
+there are \Sexpr{sum(gwcat$SNPs == "NR")}
 records in the database for which no SNP is identified.
 There are \Sexpr{sum(gwcat$Chr_pos == "")} records for which no
 chromosomal position of the associated locus is given.

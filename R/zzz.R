@@ -4,9 +4,13 @@
 #  1) gwcat, a data.frame instance directly reflecting content of the table from NHGRI
 #  2) gwrngs, a GRanges that is filtered to studies with specific claims of SNP-trait associations
 #
- gwcat <<- get(load(system.file("data/gwdf_2012_02_02.rda", package="gwascat")))
+ gwcat <<- get(load(system.file("data/gwdf_2012_03_07.rda", package="gwascat")))
+#
+# !! please reset extractDate as appropriate
+#
+ extractDate = "2012.03.07"
  psm =  function(..., appendLF=FALSE )packageStartupMessage(..., appendLF=appendLF)
- psm("'gwcat' data frame now available, provides NHGRI GWAS cat records of 02/02/2012.\n")
+ psm(paste("'gwcat' data frame now available, provides NHGRI GWAS cat records of ", extractDate,".\n", sep=""))
  psm("building 'gwrngs', GRanges for studies with located variants...")
  gwcatloc = gwcat[nchar(gwcat$Chr_pos)>0,]
 #
@@ -43,7 +47,7 @@
 # if (length(strinds)>0) values(gwrngs)$OR.or.beta[strinds] = ""
  values(gwrngs)$OR.or.beta = as.numeric(fixhet(values(gwrngs)$OR.or.beta))
  values(gwrngs)$Risk.Allele.Frequency = as.numeric(fixhet(values(gwrngs)$Risk.Allele.Frequency))
- gwrngs = new("gwaswloc", gwrngs)
+ gwrngs = new("gwaswloc", extractDate=extractDate, gwrngs)
  assign("gwrngs", gwrngs, .GlobalEnv)
  psm("done.\n")
 }
