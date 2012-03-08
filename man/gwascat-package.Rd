@@ -1,6 +1,11 @@
 \name{gwascat-package}
 \alias{gwascat-package}
 \alias{gwascat}
+\alias{g17SM} 
+\alias{gg17N} 
+\alias{gw6.rs_17} 
+\alias{low17}
+\alias{rules_6.0_1kg_17}
 \docType{package}
 \title{
 representing and modeling data in the NHGRI GWAS catalog
@@ -28,6 +33,12 @@ gwaswloc-class          Class '"gwaswloc"'
 Upon attachment, a \code{\link[GenomicRanges]{GRanges-class}} structure
 call \code{gwrngs} is formed which can be interrogated by position or
 through use of element metadata to learn about catalogued GWAS associations.
+
+The data objects
+\begin{verbatim}
+'g17SM' 'gg17N' 'gw6.rs_17' 'low17' 'rules_6.0_1kg_17'
+\end{verbatim}
+are described in vignettes.
 }
 \author{
 VJ Carey <stvjc@channing.harvard.edu>

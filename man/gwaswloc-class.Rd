@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{gwaswloc-class}
+\alias{[,gwaswloc,ANY,ANY,ANY-method}
 \alias{[,gwaswloc-method}
 \alias{getRsids,gwaswloc-method}
 \alias{getTraits,gwaswloc-method}
