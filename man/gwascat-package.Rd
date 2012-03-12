@@ -35,9 +35,9 @@ call \code{gwrngs} is formed which can be interrogated by position or
 through use of element metadata to learn about catalogued GWAS associations.
 
 The data objects
-\begin{verbatim}
+
 'g17SM' 'gg17N' 'gw6.rs_17' 'low17' 'rules_6.0_1kg_17'
-\end{verbatim}
+
 are described in vignettes.
 }
 \author{
