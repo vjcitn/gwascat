@@ -4,7 +4,7 @@
 % likely to be overwritten.
 %
 
-%\VignetteIndexEntry{gwascat -- exploring NHGRI GWAS catalog
+%\VignetteIndexEntry{gwascat -- exploring NHGRI GWAS catalog}
 %\VignetteDepends{GenomicRanges}
 %\VignetteKeywords{genetics, GWAS}
 %\VignettePackage{gwascat}
