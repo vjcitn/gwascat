@@ -15,5 +15,6 @@ exportClass(gwaswloc)
 exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits")
 
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
-export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits")
+export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
+   "obo2graphNEL")
 

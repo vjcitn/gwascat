@@ -5,7 +5,7 @@
 %
 
 %\VignetteIndexEntry{gwascat -- exploring NHGRI GWAS catalog}
-%\VignetteDepends{GenomicRanges}
+%\VignetteDepends{GenomicRanges, DO.db}
 %\VignetteKeywords{genetics, GWAS}
 %\VignettePackage{gwascat}
 
@@ -47,6 +47,7 @@
 Computational Biology Group of
 Genentech, Inc. is gratefully acknowledged}.}
 \maketitle
+\tableofcontents
 
 \section{Introduction}
 
@@ -235,7 +236,7 @@ the CEU (central European) HapMap cohort as a base for constructing
 imputation rules.  We focus on chromosome 17 for illustration.
 
 The base data are
-<<getbase>>=
+<<getbase,cache=TRUE>>=
 data(low17)
 low17
 @
@@ -244,13 +245,13 @@ A somewhat sparser set of genotypes (HapMap phase II,
 genomewide 4 million loci) on chromosome 17 is 
 archived as \texttt{g17SM}.
 This has a compact SnpMatrix encoding of genotypes.
-<<lkggd>>=
+<<lkggd,cache=TRUE>>=
 data(g17SM)
 g17SM
 @
 For a realistic demonstration, we use the subset of these
 loci that are present on the Affy 6.0 SNP array.
-<<dog>>=
+<<dog,cache=TRUE>>=
 data(gw6.rs_17)
 g17SM = g17SM[, intersect(colnames(g17SM), gw6.rs_17)]
 dim(g17SM)
@@ -261,7 +262,7 @@ imputation from genotypes in the sparse set to the richer set.
 Some rules involve only a single locus, some as many as 4.
 The construction of rules involves tuning of modeling parameters.
 See snp.imputation in snpStats for details.
-<<lkrul>>=
+<<lkrul,cache=TRUE>>=
 data(rules_6.0_1kg_17)
 rules_6.0_1kg_17[1:5,]
 @
@@ -285,6 +286,62 @@ The number of new loci that coincide with risk loci in the catalog is:
 length(intersect(colnames(exg17), values(gwrngs)$SNPs))
 @
 
+\section{Formalizing disease traits with Disease Ontology}
+
+The Disease Ontology project \cite{osborne} formalizes a vocabulary
+for human diseases.  Bioconductor's DO.db package is a curated
+representation.
+
+<<getdo>>=
+library(DO.db)
+DO()
+@
+
+All tokens of the ontology are acquired via:
+<<getallt>>=
+alltob = unlist(mget(mappedkeys(DOTERM), DOTERM))
+allt = sapply(alltob, Term)
+allt[1:5]
+@
+
+Direct mapping from disease trait tokens in the catalog
+to this vocabulary succeeds for a modest proportion of
+records.
+<<dohit>>=
+cattra = elementMetadata(gwrngs)$Disease.Trait
+mat = match(tolower(cattra), tolower(allt))
+catDO = names(allt)[mat]
+catDO[1:50]
+mean(is.na(catDO))
+@
+
+Approximate matching of unmatched tokens can proceed
+by various routes.  Some traits are not diseases, and
+will not be mappable.  However, consider
+<<dogr>>=
+unique(cattra[is.na(catDO)])[1:20]
+nomatch = cattra[is.na(catDO)]
+@
+Manual searching shows that a number of these have
+very close matches.
+
+% NB the graph stuff can be used for other OBO without .db packages..
+%The \textit{gwascat} package includes an OBO-formatted
+%image of the ontology and a model for it as a \texttt{graphNEL} instance
+%as defined in the Bioconductor \textit{graph} package \cite{carey2005}.
+
+%The graph model is constructed as follows.
+%<<dogrmod>>=
+%doobo = dir(system.file("obo", package="gwascat"), full=TRUE, patt="HumanDO")
+%DOgraph = obo2graphNEL(doobo)
+%DOgraph
+%@
+%
+%Nodes are the formal disease term identifiers; node data provides additional
+%metadata.
+%<<lkno>>=
+%nodeData(DOgraph)[1:5]
+%@
 
 \section{Appendix: Adequacy of location annotation}
 
@@ -298,7 +355,7 @@ SNPlocs package to check this.
 For example, to verify that locations asserted on chromosome
 20 agree between the Bioconductor dbSNP image and the
 gwas catalog,
-<<getrs,keep.source=TRUE>>=
+<<getrs,keep.source=TRUE,cache=TRUE>>=
 if ("SNPlocs.Hsapiens.dbSNP.20110815" %in% installed.packages()[,1])
 suppressWarnings(chklocs("20"))
 @
