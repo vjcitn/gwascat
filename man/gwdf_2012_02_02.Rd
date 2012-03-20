@@ -1,6 +1,7 @@
 \name{gwdf_2012_02_02}
 \alias{gwdf_2012_02_02}
 \alias{gwdf_2012_03_07}
+\alias{gwdf_2012_03_20}
 \docType{data}
 \title{
 internal data frame for NHGRI GWAS catalog

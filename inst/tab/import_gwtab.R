@@ -15,5 +15,5 @@ import_gwtab = function(fn) {
  outdat = matrix("", nr=nrec, nc=nfields)
  for (i in 1:nrec) outdat[i,] = dat[[i]]
  colnames(outdat) = fhead
- data.frame(outdat, stringsAsFactors=FALSE, check.names=FALSE)
+ gwascat:::fixNonASCII(data.frame(outdat, stringsAsFactors=FALSE, check.names=FALSE))
 }

@@ -8,7 +8,7 @@ convert a typical OBO text file to a graphNEL instance (using Term elements)
 convert a typical OBO text file to a graphNEL instance (using Term elements)
 }
 \usage{
-obo2graphNEL(obo, kill = "\\[Typedef\\]")
+obo2graphNEL(obo, kill = "\\\\[Typedef\\\\]")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
