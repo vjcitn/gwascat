@@ -262,8 +262,8 @@ imputation from genotypes in the sparse set to the richer set.
 Some rules involve only a single locus, some as many as 4.
 The construction of rules involves tuning of modeling parameters.
 See snp.imputation in snpStats for details.
-<<lkrul,cache=TRUE>>=
-data(rules_6.0_1kg_17)
+<<lkrul,cache=FALSE>>=
+if (!exists("rules_6.0_1kg_17")) data(rules_6.0_1kg_17)
 rules_6.0_1kg_17[1:5,]
 @
 The summary of rules shows the degree of association between
@@ -286,7 +286,9 @@ The number of new loci that coincide with risk loci in the catalog is:
 length(intersect(colnames(exg17), values(gwrngs)$SNPs))
 @
 
-\section{Formalizing disease traits with Disease Ontology}
+\section{Formal management of trait vocabularies}
+
+\subsection{Diseases: Disease Ontology}
 
 The Disease Ontology project \cite{osborne} formalizes a vocabulary
 for human diseases.  Bioconductor's DO.db package is a curated
@@ -317,13 +319,40 @@ mean(is.na(catDO))
 
 Approximate matching of unmatched tokens can proceed
 by various routes.  Some traits are not diseases, and
-will not be mappable.  However, consider
+will not be mappable using Disease Ontology.  However, consider
 <<dogr>>=
 unique(cattra[is.na(catDO)])[1:20]
 nomatch = cattra[is.na(catDO)]
 @
 Manual searching shows that a number of these have
 very close matches.
+
+\subsection{Other phenotypic traits: Human Phenotype Ontology}
+
+Bioconductor does not possess an annotation package for phenotype ontology,
+but the standardized OBO format can be parsed and modeled into a graph.
+
+<<dopar>>=
+hpobo = gzfile(dir(system.file("obo", package="gwascat"), pattern="hpo", full=TRUE))
+HPOgraph = obo2graphNEL(hpobo)
+close(hpobo)
+@
+
+The phenotypic terms are obtained via:
+<<dohpot>>=
+hpoterms = unlist(nodeData(HPOgraph, nodes(HPOgraph), "name"))
+hpoterms[1:10]
+@
+
+Exact hits to unmatched GWAS catalog traits exist:
+<<lkint>>=
+intersect(tolower(nomatch), tolower(hpoterms))
+@
+
+More work on formalization of trait terms is underway.
+
+\subsection{Curation of approximate matches}
+
 
 % NB the graph stuff can be used for other OBO without .db packages..
 %The \textit{gwascat} package includes an OBO-formatted
