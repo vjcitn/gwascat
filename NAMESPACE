@@ -16,5 +16,5 @@ exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTrait
 
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
-   "obo2graphNEL")
+   "obo2graphNEL", "makeCurrentGwascat")
 

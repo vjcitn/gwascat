@@ -1,3 +1,12 @@
+ fixhet = function(vec) {
+# take a mix of numerical strings and character strings 
+# and set char strings to ""
+# so that as.numeric will not warn
+   strinds = grep("[a-zA-Z]", vec)
+   if (length(strinds)>0) vec[strinds] = ""
+   vec
+   }
+
 .onAttach = function(libname, pkgname) {
 #
 # create global data objects
@@ -12,43 +21,65 @@
  extractDate = "2012.03.20"
  psm =  function(..., appendLF=FALSE )packageStartupMessage(..., appendLF=appendLF)
  psm(paste("'gwcat' data frame now available, provides NHGRI GWAS cat records of ", extractDate,".\n", sep=""))
+#if (0) {
  psm("building 'gwrngs', GRanges for studies with located variants...")
- gwcatloc = gwcat[nchar(gwcat$Chr_pos)>0,]
+# gwcatloc = gwcat[nchar(gwcat$Chr_pos)>0,]
+ assign("gwrngs", gwdf2GRanges(gwcat, extractDate=extractDate), .GlobalEnv)
+#}
+}
+
+gwdf2GRanges = function (df, extractDate) 
+{
 #
-# various fixes
-# 1) put chrnn
+# intent is to take a data frame like that distributed by NHGRI
+# and convert to a useful GRanges instance, coercing heterogeneous vectors
+# to majority type
 #
- ch = gwcatloc$Chr_id
- if (length(grep("chr", ch)) == 0) ch = paste("chr", ch, sep="")
- gwrngs = GRanges(seqnames=ch, IRanges(as.numeric(gwcatloc$Chr_pos),width=1))
- values(gwrngs) = gwcatloc
+    gwcatloc = df[which(!is.na(as.numeric(df$Chr_pos))), ]
 #
-# 2) make numeric p values and addresses
+# put chr prefix to Chr_id as needed
 #
- values(gwrngs)$p.Value = as.numeric(values(gwrngs)$p.Value)
- values(gwrngs)$Chr_pos = as.numeric(values(gwrngs)$Chr_pos)
+    ch = gwcatloc$Chr_id
+    if (length(grep("chr", ch)) == 0) 
+        ch = paste("chr", ch, sep = "")
+    gwrngs = GRanges(seqnames = ch, IRanges(as.numeric(gwcatloc$Chr_pos), 
+        width = 1))
+    values(gwrngs) = gwcatloc
 #
-# 3) clean out stray whitespace
+# make numeric p values and addresses
 #
- badco = values(gwrngs)$"Strongest.SNP.Risk.Allele"
- co = gsub(" $", "", badco)
- values(gwrngs)$"Strongest.SNP.Risk.Allele" = co
+    values(gwrngs)$p.Value = as.numeric(values(gwrngs)$p.Value)
+    values(gwrngs)$Chr_pos = as.numeric(values(gwrngs)$Chr_pos)
 #
-# 4) deal with OR or beta field entries possessing strings
+# clean out stray whitespace
 #
- fixhet = function(vec) {
-# take a mix of numerical strings and character strings 
-# and set char strings to ""
-# so that as.numeric will not warn
-   strinds = grep("[a-zA-Z]", vec)
-   if (length(strinds)>0) vec[strinds] = ""
-   vec
-   }
-# strinds = grep("[a-zA-Z]", values(gwrngs)[,"OR.or.beta"])
-# if (length(strinds)>0) values(gwrngs)$OR.or.beta[strinds] = ""
- values(gwrngs)$OR.or.beta = as.numeric(fixhet(values(gwrngs)$OR.or.beta))
- values(gwrngs)$Risk.Allele.Frequency = as.numeric(fixhet(values(gwrngs)$Risk.Allele.Frequency))
- gwrngs = new("gwaswloc", extractDate=extractDate, gwrngs)
- assign("gwrngs", gwrngs, .GlobalEnv)
- psm("done.\n")
+    badco = values(gwrngs)$Strongest.SNP.Risk.Allele
+    co = gsub(" $", "", badco)
+    values(gwrngs)$Strongest.SNP.Risk.Allele = co
+#
+#
+#
+#    fixhet = function(vec) {
+#        strinds = grep("[a-zA-Z]", vec)
+#        if (length(strinds) > 0) 
+#            vec[strinds] = ""
+#        vec
+#    }
+#
+# utility to strip out some unusual tokens in OR.or.beta
+#
+    cleanToNum = function(x, bad = c("NR", "Pending")) {
+      lkbad = which(x %in% bad)
+      if (length(lkbad) > 0) x[lkbad] = NA
+    }
+    values(gwrngs)$OR.or.beta = cleanToNum(
+          values(gwrngs)$OR.or.beta ) #as.numeric(fixhet(values(gwrngs)$OR.or.beta))
+#
+# utility to get numeric values in Risk.Allele.Frequency
+#
+    killpatt = "\\+|[[:alpha:]]|\\(|\\)|\\ "
+    nulcToNA = function(x) {isn = which(nchar(x)==0); if (length(isn)>0) x[isn] = NA; x}
+    values(gwrngs)$num.Risk.Allele.Frequency = as.numeric(nulcToNA(gsub(killpatt, "", as.character(values(gwrngs)$Risk.Allele.Frequency))))
+    gwrngs = new("gwaswloc", extractDate = extractDate, gwrngs)
+    gwrngs
 }
