@@ -167,9 +167,9 @@ Here we compute overlaps with both the raw disease-associated locus
 addresses, and with the locus address $\pm$ 500bp.
 <<dosub>>=
 ag = function(x) as(x, "GRanges")
-ovraw = subsetByOverlaps(ag(gwrngs), gr6.0)
+ovraw = suppressWarnings(subsetByOverlaps(ag(gwrngs), gr6.0))
 length(ovraw)
-ovaug = subsetByOverlaps(ag(gwrngs+500), gr6.0)
+ovaug = suppressWarnings(subsetByOverlaps(ag(gwrngs+500), gr6.0))
 length(ovaug)
 @
 
@@ -290,7 +290,7 @@ length(intersect(colnames(exg17), values(gwrngs)$SNPs))
 
 \subsection{Diseases: Disease Ontology}
 
-The Disease Ontology project \cite{osborne} formalizes a vocabulary
+The Disease Ontology project \cite{Osborne:2009p4571} formalizes a vocabulary
 for human diseases.  Bioconductor's DO.db package is a curated
 representation.
 
@@ -392,5 +392,7 @@ suppressWarnings(chklocs("20"))
 This is not a fast procedure but has succeeded for 
 all chromosomes 1-22 when checked off line.
 
+
+\bibliography{gwascat}
 
 \end{document}
