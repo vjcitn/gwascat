@@ -4,7 +4,9 @@
 #Warning: Class "Annotated" is defined (with package slot 'IRanges') but no metadata object found to revise subclass information---not exported?  Making a copy in package 'gwascat'
 #
 importFrom(IRanges, IRanges, "values<-", values, elementMetadata, ranges,	
-	"elementMetadata<-")
+	"elementMetadata<-", "%in%", as.list)
+
+importFrom(BiocGenerics, mget)
 
 importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
 
@@ -16,5 +18,5 @@ exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTrait
 
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
-   "obo2graphNEL", "makeCurrentGwascat", "traitsManh")
+   "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz")
 
