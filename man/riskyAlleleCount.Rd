@@ -39,9 +39,9 @@ name of a Bioconductor SNPlocs.Hsapiens.dbSNP.* package
 codes used for generic SNP call
 }
 }
-\details{
+%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%}
 \value{
 matrix with rows corresponding to subjects , columns corresponding
 to SNP

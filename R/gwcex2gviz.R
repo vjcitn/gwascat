@@ -28,12 +28,12 @@ gwcex2gviz = function(
  if (length(drop) > 0) k = k[-drop]
  kk = unlist(mget(values(k)$gene, org.Hs.egSYMBOL))
  values(k)$symbol = kk
- GR = GeneRegionTrack(k, chr=chrmin, genome=genome)
+ GR = GeneRegionTrack(k, chromosome=chrmin, genome=genome)
  library(gwascat)
  studs = gwrngs[ which(gwrngs %in% contextGR) ]
  sss = values(studs)$Pvalue_mlog
  studp = DataTrack( as(studs, "GRanges"), data=sss, 
-     chr=chrmin, genome=genome, name="-log P GWAS" )
+     chromosome=chrmin, genome=genome, name="-log P GWAS" )
 #
 # need to move these controls up to interface
 #
