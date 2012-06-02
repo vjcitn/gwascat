@@ -83,7 +83,7 @@ There are \Sexpr{sum(gwcat$Chr_pos == "")} records for which no
 chromosomal position of the associated locus is given.
 
 
-\subsection{Illustrations}
+\subsection{Illustrations: computing}
 
 <<lk1,echo=FALSE,results=hide>>=
 if (length(grep("gwascat", search()))>0) detach("package:gwascat")
@@ -109,6 +109,32 @@ only three associations are shown:
 <<lklocs>>=
 subsetByTraits(gwrngs, tr="LDL cholesterol")[1:3]
 @
+
+\section{Some visualizations}
+
+\subsection{Basic Manhattan plot}
+
+A basic Manhattan plot is easily constructed with the
+ggbio package facilities.  Here we confine attention to
+chromosomes 4:6.
+
+<<lkm>>=
+gwlit = gwrngs[ which(seqnames(gwrngs) %in% c("chr4", "chr5", "chr6")) ]
+library(ggbio)
+pdf(file="litman.pdf", width=8, height=2)
+jnk = autoplot(gwlit, geom="point", aes(y=Pvalue_mlog))
+dev.off()
+@
+
+\includegraphics{litman}
+
+\subsection{Annotated Manhattan plot}
+
+
+
+
+
+
 
 \section{SNP sets and trait sets}
 

@@ -22,7 +22,7 @@
  psm =  function(..., appendLF=FALSE )packageStartupMessage(..., appendLF=appendLF)
  psm(paste("'gwcat' data frame now available, provides NHGRI GWAS cat records of ", extractDate,".\n", sep=""))
 #if (0) {
- psm("building 'gwrngs', GRanges for studies with located variants...")
+ psm("building 'gwrngs', GRanges for studies with located variants...", appendLF=TRUE)
 # gwcatloc = gwcat[nchar(gwcat$Chr_pos)>0,]
  assign("gwrngs", gwdf2GRanges(gwcat, extractDate=extractDate), .GlobalEnv)
 #}
