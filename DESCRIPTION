@@ -6,7 +6,7 @@ Description: representing and modeling data in the NHGRI GWAS catalog
 Enhances: SNPlocs.Hsapiens.dbSNP.20110815, pd.genomewidesnp.6
 Depends: R (>= 2.14.0), methods, IRanges, GenomicRanges, snpStats, graph
 Imports: Biostrings
-Suggests: DO.db
+Suggests: DO.db, Gviz, ggbio
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
 BiocViews: genetics

@@ -5,7 +5,7 @@ traitsManh = function( gwr,
    ...)
  {
  require(ggbio)
- gwr = gwr[ which(gwr %in% selr) ]
+ gwr = gwr[ which(IRanges::"%in%"(gwr, selr)) ]
  availtr = values(gwr)$Disease.Trait
  oth = which(!(availtr %in% traits))
  availtr[oth] = "Other"
