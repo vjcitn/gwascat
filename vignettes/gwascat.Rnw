@@ -158,6 +158,60 @@ dev.off()
 \setkeys{Gin}{width=0.95\textwidth}
 \includegraphics{annman}
 
+\subsection{Integrative view of potential genetic determinants}
+
+
+The following chunk uses GFF3 data on eQTL and related
+phenomena distributed at the GBrowse instance at
+eqtl.uchicago.edu.  A request for all information at
+43-45 Mb was made on 2 June 2012, yielding the GFF3 referenced below.
+Of interest are locations and
+scores of genetic associations with DNaseI hypersensitivity
+(scores identifying dsQTL, see Degner et al 2012).
+<<getgd>>=
+gffpath = system.file("gff3/chr17_43000000_45000000.gff3", package="gwascat")
+library(rtracklayer)
+c17t = import(gffpath)
+c17tg = as(c17t, "GRanges")
+@
+
+We make a Gviz DataTrack of the dsQTL scores.
+<<lkgvt>>=
+c17td = c17tg[ which(values(c17tg)$type == "Degner_dsQTL") ]
+library(Gviz)
+dsqs = DataTrack( c17td, chrom="chr17", genome="hg19", data="score",
+  name="dsQTL")
+@
+
+We start the construction of the graph here.
+<<dost>>=
+g2 = GRanges(seqnames="chr17", IRanges(start=4.3e7, width=2e6))
+
+basic = gwcex2gviz(contextGR=g2, plot.it=FALSE) 
+@
+
+We also collect locations of eQTL in the Stranger 2007
+multipopulation eQTL study.
+<<getstr>>=
+c17ts = c17tg[ which(values(c17tg)$type == "Stranger_eqtl") ]
+eqloc = AnnotationTrack(ranges(c17ts),  chrom="chr17", genome="hg19", name="Str eQTL")
+displayPars(eqloc)$col = "black"
+displayPars(dsqs)$col = "red"
+integ = list(basic[[1]], eqloc, dsqs, basic[[2]], basic[[3]])
+@
+
+Now use Gviz.
+
+<<dogr,echo=FALSE,results=hide>>=
+pdf(file="integ.pdf", width=9, height=4)
+<<doplot>>=
+plotTracks(integ)
+<<dono,echo=FALSE, results=hide>>=
+dev.off()
+@
+
+\inclduegraphics{integ}
+
 
 
 \section{SNP sets and trait sets}
