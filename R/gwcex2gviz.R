@@ -1,8 +1,8 @@
-gwcex2gviz = function( 
+gwcex2gviz = function( basegr = gwrngs,
    contextGR = GRanges(seqnames="chr17", IRanges(start=37500000, width=1e6)), 
    txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", genome="hg19",
    genesympk = "org.Hs.eg.db",
-   plot.it=TRUE ) {
+   plot.it=TRUE, maxmlp=25 ) {
 #
 # objective is to visualize features of GWAS in gene/transcript context
 #
@@ -33,7 +33,10 @@ gwcex2gviz = function(
  values(k)$symbol = kk
  GR = GeneRegionTrack(k, chromosome=chrmin, genome=genome)
  library(gwascat)
- studs = gwrngs[ which(gwrngs %in% contextGR) ]
+ studs = basegr[ which(basegr %in% contextGR) ]
+ mlp = values(studs)$Pvalue_mlog
+ mlp = ifelse(mlp > maxmlp, maxmlp, mlp)
+ values(studs)$Pvalue_mlog = mlp
  sss = values(studs)$Pvalue_mlog
  studp = DataTrack( as(studs, "GRanges"), data=sss, 
      chromosome=chrmin, genome=genome, name="-log P GWAS" )
