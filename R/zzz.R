@@ -28,7 +28,7 @@
 #}
 }
 
-gwdf2GRanges = function (df, extractDate) 
+gwdf2GRanges = function (df, extractDate, seqlSrc="TxDb.Hsapiens.UCSC.hg19.knownGene" ) 
 {
 #
 # intent is to take a data frame like that distributed by NHGRI
@@ -39,7 +39,9 @@ gwdf2GRanges = function (df, extractDate)
 #
 # put chr prefix to Chr_id as needed
 #
-    ch = gwcatloc$Chr_id
+    ch = as.character(gwcatloc$Chr_id)
+    if (any(ch == "23")) ch[ch=="23"] = "X"
+    
     if (length(grep("chr", ch)) == 0) 
         ch = paste("chr", ch, sep = "")
     gwrngs = GRanges(seqnames = ch, IRanges(as.numeric(gwcatloc$Chr_pos), 
@@ -48,7 +50,9 @@ gwdf2GRanges = function (df, extractDate)
 #
 # make numeric p values and addresses
 #
-    values(gwrngs)$p.Value = as.numeric(values(gwrngs)$p.Value)
+    values(gwrngs)$p.Value = as.numeric(as.character(values(gwrngs)$p.Value)) # was factor
+    values(gwrngs)$Pvalue_mlog = as.numeric(as.character(values(gwrngs)$Pvalue_mlog)) # was factor
+    values(gwrngs)$OR.or.beta = suppressWarnings(as.numeric(as.character(values(gwrngs)$OR.or.beta))) # was factor
     values(gwrngs)$Chr_pos = as.numeric(values(gwrngs)$Chr_pos)
 #
 # clean out stray whitespace
@@ -68,18 +72,20 @@ gwdf2GRanges = function (df, extractDate)
 #
 # utility to strip out some unusual tokens in OR.or.beta
 #
-    cleanToNum = function(x, bad = c("NR", "Pending")) {
-      lkbad = which(x %in% bad)
-      if (length(lkbad) > 0) x[lkbad] = NA
-    }
-    values(gwrngs)$OR.or.beta = cleanToNum(
-          values(gwrngs)$OR.or.beta ) #as.numeric(fixhet(values(gwrngs)$OR.or.beta))
+#    cleanToNum = function(x, bad = c("NR", "Pending")) {
+#      lkbad = which(x %in% bad)
+#      if (length(lkbad) > 0) x[lkbad] = NA
+#    }
+#    values(gwrngs)$OR.or.beta = cleanToNum(
+#          values(gwrngs)$OR.or.beta ) #as.numeric(fixhet(values(gwrngs)$OR.or.beta))
 #
 # utility to get numeric values in Risk.Allele.Frequency
 #
     killpatt = "\\+|[[:alpha:]]|\\(|\\)|\\ "
     nulcToNA = function(x) {isn = which(nchar(x)==0); if (length(isn)>0) x[isn] = NA; x}
     values(gwrngs)$num.Risk.Allele.Frequency = as.numeric(nulcToNA(gsub(killpatt, "", as.character(values(gwrngs)$Risk.Allele.Frequency))))
+    gwrngs = makeConsecChrs(gwrngs)
+    gwrngs = addSeqlengths(gwrngs, src=seqlSrc)
     gwrngs = new("gwaswloc", extractDate = extractDate, gwrngs)
     gwrngs
 }
