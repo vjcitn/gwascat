@@ -11,6 +11,7 @@ Prepare salient components of GWAS catalog for rendering with Gviz
 gwcex2gviz(contextGR = 
   GRanges(seqnames = "chr17", IRanges(start = 37500000, width = 1e+06)), 
   txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", 
+  genesympk = "org.Hs.eg.db",
   genome = "hg19", plot.it = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -20,6 +21,9 @@ A GRanges instance delimiting the visualization in genomic coordinates
 }
   \item{txrefpk}{
 a TxDb package, typically
+}
+  \item{genesympk}{
+string naming annotationDbi .db package
 }
   \item{genome}{
 character tag like 'hg19'

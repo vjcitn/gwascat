@@ -1,12 +1,15 @@
 gwcex2gviz = function( 
    contextGR = GRanges(seqnames="chr17", IRanges(start=37500000, width=1e6)), 
    txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", genome="hg19",
+   genesympk = "org.Hs.eg.db",
    plot.it=TRUE ) {
 #
 # objective is to visualize features of GWAS in gene/transcript context
 #
  require(Gviz, quietly=TRUE)
  library(txrefpk, character.only=TRUE, quietly=TRUE)
+ library(genesympk, character.only=TRUE, quietly=TRUE)
+ symmap = get(gsub(".db", "SYMBOL", genesympk))
  chrmin = as.character(seqnames(contextGR))
 #
 # the get() here is a hack.  need to have a way of getting relevant object
@@ -26,7 +29,7 @@ gwcex2gviz = function(
  k = GRanges(seqnames=chrmin, ranges=ranges(txin), gene=g, exon=e,
     transcript=texx, id=1:length(g))
  if (length(drop) > 0) k = k[-drop]
- kk = unlist(mget(values(k)$gene, org.Hs.egSYMBOL))
+ kk = unlist(mget(values(k)$gene, symmap))
  values(k)$symbol = kk
  GR = GeneRegionTrack(k, chromosome=chrmin, genome=genome)
  library(gwascat)
