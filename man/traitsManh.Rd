@@ -57,7 +57,7 @@ VJ Carey <stvjc@channing.harvard.edu>
 %}
 \examples{
 # do a p-value truncation if you want to reduce compression
-traitManh(gwrngs)
+traitsManh(gwrngs)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
