@@ -13,9 +13,16 @@ gwcex2gviz(contextGR =
   txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", 
   genesympk = "org.Hs.eg.db",
   genome = "hg19", plot.it = TRUE)
+
+gwcex2gviz(basegr = gwrngs, contextGR = GRanges(seqnames =
+                 "chr17", IRanges(start = 37500000, width = 1e+06)),
+                 txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", genome
+                 = "hg19", genesympk = "org.Hs.eg.db", plot.it = TRUE,
+                 maxmlp = 25)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{basegr}{gwaswloc instance containing information about GWAS in catalog}
   \item{contextGR}{
 A GRanges instance delimiting the visualization in genomic coordinates
 }
@@ -31,6 +38,8 @@ character tag like 'hg19'
   \item{plot.it}{
 logical, if FALSE, just return list
 }
+  \item{maxmlp}{maximum value of -10 log p -- winsorization of all larger values is performed,
+modifying the contents of Pvalue\_mlogp in the elementMetadata for the call}
 }
 %\details{
 %%  ~~ If necessary, more details than the description above ~~
