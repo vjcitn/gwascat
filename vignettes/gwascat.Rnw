@@ -210,7 +210,7 @@ plotTracks(integ)
 dev.off()
 @
 
-\inclduegraphics{integ}
+\includegraphics{integ}
 
 
 
