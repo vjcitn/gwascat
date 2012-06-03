@@ -59,7 +59,7 @@ logical, if FALSE, just return list
 %}
 \examples{
 args(gwcex2gviz)
-library(gwascat) # needed after cleaning
+gwascat:::.onAttach("", "gwascat")
 gwcex2gviz()
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
