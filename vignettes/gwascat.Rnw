@@ -489,7 +489,7 @@ For example, to verify that locations asserted on chromosome
 20 agree between the Bioconductor dbSNP image and the
 gwas catalog,
 <<getrs,keep.source=TRUE,cache=TRUE>>=
-if ("SNPlocs.Hsapiens.dbSNP.20110815" %in% installed.packages()[,1])
+if ("SNPlocs.Hsapiens.dbSNP.20111119" %in% installed.packages()[,1])
 suppressWarnings(chklocs("20"))
 @
 
