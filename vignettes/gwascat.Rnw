@@ -340,7 +340,7 @@ the CEU (central European) HapMap cohort as a base for constructing
 imputation rules.  We focus on chromosome 17 for illustration.
 
 The base data are
-<<getbase,cache=TRUE>>=
+<<getbase,cache=FALSE>>=
 data(low17)
 low17
 @
@@ -349,13 +349,13 @@ A somewhat sparser set of genotypes (HapMap phase II,
 genomewide 4 million loci) on chromosome 17 is 
 archived as \texttt{g17SM}.
 This has a compact SnpMatrix encoding of genotypes.
-<<lkggd,cache=TRUE>>=
+<<lkggd,cache=FALSE>>=
 data(g17SM)
 g17SM
 @
 For a realistic demonstration, we use the subset of these
 loci that are present on the Affy 6.0 SNP array.
-<<dog,cache=TRUE>>=
+<<dog,cache=FALSE>>=
 data(gw6.rs_17)
 g17SM = g17SM[, intersect(colnames(g17SM), gw6.rs_17)]
 dim(g17SM)
@@ -436,7 +436,7 @@ very close matches.
 Bioconductor does not possess an annotation package for phenotype ontology,
 but the standardized OBO format can be parsed and modeled into a graph.
 
-<<dopar,cache=TRUE>>=
+<<dopar,cache=FALSE>>=
 hpobo = gzfile(dir(system.file("obo", package="gwascat"), pattern="hpo", full=TRUE))
 HPOgraph = obo2graphNEL(hpobo)
 close(hpobo)
@@ -488,7 +488,7 @@ SNPlocs package to check this.
 For example, to verify that locations asserted on chromosome
 20 agree between the Bioconductor dbSNP image and the
 gwas catalog,
-<<getrs,keep.source=TRUE,cache=TRUE>>=
+<<getrs,keep.source=TRUE,cache=FALSE>>=
 if ("SNPlocs.Hsapiens.dbSNP.20111119" %in% installed.packages()[,1]) {
  library(SNPlocs.Hsapiens.dbSNP.20111119)
  suppressWarnings(chklocs("20"))
