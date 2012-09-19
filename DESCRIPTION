@@ -1,6 +1,6 @@
 Package: gwascat
 Title: representing and modeling data in the NHGRI GWAS catalog
-Version: 1.1.13
+Version: 1.1.14
 Author: VJ Carey <stvjc@channing.harvard.edu>
 Description: representing and modeling data in the NHGRI GWAS catalog
 Enhances: SNPlocs.Hsapiens.dbSNP.20111119, pd.genomewidesnp.6

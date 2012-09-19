@@ -129,11 +129,12 @@ library(ggbio)
 mlpv = values(gwlit)$Pvalue_mlog
 mlpv = ifelse(mlpv > 25, 25, mlpv)
 values(gwlit)$Pvalue_mlog = mlpv
-<<dodie,echo=FALSE,results=hide>>=
+<<dodie,echo=FALSE,results=hide,eval=FALSE>>=
 pdf(file="litman.pdf", width=8, height=2)
-<<dorunap>>=
+<<dorunap,eval=FALSE>>=
+methods:::bind_activation(FALSE)
 autoplot(gwlit, geom="point", aes(y=Pvalue_mlog), xlab="chr4-chr6")
-<<dodie,echo=FALSE,results=hide>>=
+<<dodie,echo=FALSE,results=hide,eval=FALSE>>=
 dev.off()
 @
 
