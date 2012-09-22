@@ -8,12 +8,6 @@ Prepare salient components of GWAS catalog for rendering with Gviz
 Prepare salient components of GWAS catalog for rendering with Gviz
 }
 \usage{
-gwcex2gviz(contextGR = 
-  GRanges(seqnames = "chr17", IRanges(start = 37500000, width = 1e+06)), 
-  txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", 
-  genesympk = "org.Hs.eg.db",
-  genome = "hg19", plot.it = TRUE)
-
 gwcex2gviz(basegr = gwrngs, contextGR = GRanges(seqnames =
                  "chr17", IRanges(start = 37500000, width = 1e+06)),
                  txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", genome

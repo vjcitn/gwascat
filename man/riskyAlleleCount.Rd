@@ -11,7 +11,7 @@ to NHGRI GWAS catalog
 }
 \usage{
 riskyAlleleCount(callmat, matIsAB = TRUE, chr, 
-  gwwl = gwrngs, snpap = "SNPlocs.Hsapiens.dbSNP.20110815", 
+  gwwl = gwrngs, snpap = "SNPlocs.Hsapiens.dbSNP.20111119", 
   gencode = c("A/A", "A/B", "B/B"))
 }
 %- maybe also 'usage' for other objects documented here.

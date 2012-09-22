@@ -13,12 +13,12 @@
 #  1) gwcat, a data.frame instance directly reflecting content of the table from NHGRI
 #  2) gwrngs, a GRanges that is filtered to studies with specific claims of SNP-trait associations
 #
- gwcat <- get(load(system.file("data/gwdf_2012_03_20.rda", package="gwascat")))
+ gwcat <- get(load(system.file("data/gwdf_2012_09_22.rda", package="gwascat")))
  gwcat <<- fixNonASCII(gwcat)
 #
 # !! please reset extractDate as appropriate
 #
- extractDate = "2012.03.20"
+ extractDate = "2012.09.22"
  psm =  function(..., appendLF=FALSE )packageStartupMessage(..., appendLF=appendLF)
  psm(paste("'gwcat' data frame now available, provides NHGRI GWAS cat records of ", extractDate,".\n", sep=""))
 #if (0) {

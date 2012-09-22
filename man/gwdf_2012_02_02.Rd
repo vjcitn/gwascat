@@ -1,6 +1,5 @@
 \name{gwdf_2012_02_02}
-\alias{gwdf_2012_02_02}
-\alias{gwdf_2012_03_07}
+\alias{gwdf_2012_09_22}
 \alias{gwdf_2012_03_20}
 \docType{data}
 \title{
@@ -9,9 +8,9 @@ internal data frame for NHGRI GWAS catalog
 \description{
 convenience container for imported table from NHGRI GWAS catalog
 }
-\usage{data(gwdf_2012_02_02) # or more recent elements available}
+\usage{data(gwdf_2012_09_22) # or more recent elements available}
 \format{
-  A data frame with 7309 observations on the following 34 variables.
+  A data frame with 9000+ observations on the following 34 variables.
   \describe{
     \item{\code{Date Added to Catalog}}{a character vector}
     \item{\code{PUBMEDID}}{a character vector}
@@ -60,8 +59,7 @@ to GRanges.
 %}
 \examples{
 \dontrun{
-data(gwdf_2012_02_02)
-data(gwdf_2012_03_07)
+data(gwdf_2012_03_22)
 }
 }
 \keyword{datasets}
