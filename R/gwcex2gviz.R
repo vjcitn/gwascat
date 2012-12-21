@@ -17,7 +17,7 @@ gwcex2gviz = function( basegr = gwrngs,
 #
  ex = exons( get(txrefpk), columns = c("gene_id", "tx_id", "exon_id"),
     vals=list(exon_chrom = chrmin) )
- txin = ex[ which(!is.na(findOverlaps(ex, contextGR, select="first"))) ]
+ txin = ex[ which(overlapsAny(ex, contextGR)) ]
  if (length(txin) == 0) stop("no transcripts in contextGR")
  v = mcols(txin)
  e = v$exon_id
@@ -33,7 +33,7 @@ gwcex2gviz = function( basegr = gwrngs,
  mcols(k)$symbol = kk
  GR = GeneRegionTrack(k, chromosome=chrmin, genome=genome)
  library(gwascat)
- studs = basegr[ which(!is.na(findOverlaps(basegr, contextGR, select="first"))) ]
+ studs = basegr[ which(overlapsAny(basegr, contextGR)) ]
  mlp = mcols(studs)$Pvalue_mlog
  mlp = ifelse(mlp > maxmlp, maxmlp, mlp)
  mcols(studs)$Pvalue_mlog = mlp
