@@ -121,14 +121,14 @@ catalog with $-log_{10} p$ truncated at a maximum value of 25.
 
 <<lkm,results=hide>>=
 gwtrunc = gwrngs
-mlpv = values(gwrngs)$Pvalue_mlog
+mlpv = mcols(gwrngs)$Pvalue_mlog
 mlpv = ifelse(mlpv > 25, 25, mlpv)
-values(gwtrunc)$Pvalue_mlog = mlpv
+mcols(gwtrunc)$Pvalue_mlog = mlpv
 gwlit = gwtrunc[ which(seqnames(gwtrunc) %in% c("chr4", "chr5", "chr6")) ]
 library(ggbio)
-mlpv = values(gwlit)$Pvalue_mlog
+mlpv = mcols(gwlit)$Pvalue_mlog
 mlpv = ifelse(mlpv > 25, 25, mlpv)
-values(gwlit)$Pvalue_mlog = mlpv
+mcols(gwlit)$Pvalue_mlog = mlpv
 <<dodie,echo=FALSE,results=hide,eval=FALSE>>=
 pdf(file="litman.pdf", width=8, height=2)
 <<dorunap,eval=FALSE>>=
@@ -178,7 +178,7 @@ c17tg = as(c17t, "GRanges")
 
 We make a Gviz DataTrack of the dsQTL scores.
 <<lkgvt>>=
-c17td = c17tg[ which(values(c17tg)$type == "Degner_dsQTL") ]
+c17td = c17tg[ which(mcols(c17tg)$type == "Degner_dsQTL") ]
 library(Gviz)
 dsqs = DataTrack( c17td, chrom="chr17", genome="hg19", data="score",
   name="dsQTL")
@@ -194,7 +194,7 @@ basic = gwcex2gviz(contextGR=g2, plot.it=FALSE)
 We also collect locations of eQTL in the Stranger 2007
 multipopulation eQTL study.
 <<getstr>>=
-c17ts = c17tg[ which(values(c17tg)$type == "Stranger_eqtl") ]
+c17ts = c17tg[ which(mcols(c17tg)$type == "Stranger_eqtl") ]
 eqloc = AnnotationTrack(ranges(c17ts),  chrom="chr17", genome="hg19", name="Str eQTL")
 displayPars(eqloc)$col = "black"
 displayPars(dsqs)$col = "red"
@@ -264,7 +264,7 @@ on the 6.0 chip, and stores the results in a GRanges instance.
 <<lkexp,keep.source=TRUE>>=
 gr6.0 = GRanges(seqnames=ifelse(is.na(locon6$chrom),0,locon6$chrom), 
        IRanges(ifelse(is.na(locon6$phys),1,locon6$phys), width=1))
-elementMetadata(gr6.0)$rsid = as.character(locon6$dbsnp_rs_id)
+mcols(gr6.0)$rsid = as.character(locon6$dbsnp_rs_id)
 seqlevels(gr6.0) = paste("chr", seqlevels(gr6.0), sep="")
 @
 
@@ -281,8 +281,8 @@ length(ovaug)
 To acquire the subset of the catalog to which 6.0 probes are
 within 500bp, use:
 <<dosub>>=
-rawrs = elementMetadata(ovraw)$SNPs
-augrs = elementMetadata(ovaug)$SNPs
+rawrs = mcols(ovraw)$SNPs
+augrs = mcols(ovaug)$SNPs
 gwrngs[augrs]
 @
 
@@ -319,12 +319,12 @@ It is of interest to bind the counts back to the catalog data.
 <<domo>>=
 gwr = gwrngs
 gwr = gwr[colnames(h17),]
-elementMetadata(gwr) = cbind(elementMetadata(gwr), DataFrame(t(h17)))
+mcols(gwr) = cbind(mcols(gwr), DataFrame(t(h17)))
 sn = rownames(h17)
 gwr[,c("Disease.Trait", sn[1:4])]
 @
 
-Now by programming on the elementMetadata, we can identify
+Now by programming on the metadata columns, we can identify
 individuals with particular risk profiles.
 
 \section{Imputation to unobserved loci}
@@ -379,7 +379,7 @@ summary(rules_6.0_1kg_17)
 @
 The overlap between the 6.0-resident g17SM loci and the catalog is
 <<lkov>>=
-length(intersect(colnames(g17SM), values(gwrngs)$SNPs))
+length(intersect(colnames(g17SM), mcols(gwrngs)$SNPs))
 @
 
 The new expected B allele counts are
@@ -388,7 +388,7 @@ exg17 = impute.snps(rules_6.0_1kg_17, g17SM)
 @
 The number of new loci that coincide with risk loci in the catalog is:
 <<lkl>>=
-length(intersect(colnames(exg17), values(gwrngs)$SNPs))
+length(intersect(colnames(exg17), mcols(gwrngs)$SNPs))
 @
 
 \section{Formal management of trait vocabularies}
@@ -415,7 +415,7 @@ Direct mapping from disease trait tokens in the catalog
 to this vocabulary succeeds for a modest proportion of
 records.
 <<dohit>>=
-cattra = elementMetadata(gwrngs)$Disease.Trait
+cattra = mcols(gwrngs)$Disease.Trait
 mat = match(tolower(cattra), tolower(allt))
 catDO = names(allt)[mat]
 catDO[1:50]

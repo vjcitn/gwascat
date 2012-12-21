@@ -25,12 +25,12 @@ setClass("gwaswloc", representation(extractDate="character"),
    contains="GRanges")
 
 setMethod("show", "gwaswloc", function(object) {
- cat("gwasloc instance with", length(object), "records and", ncol(elementMetadata(object)),
+ cat("gwasloc instance with", length(object), "records and", ncol(mcols(object)),
   "attributes per record.\n")
  cat("Extracted: ", object@extractDate, "\n")
  cat("Excerpt:\n")
  nrec = min(5, length(object))
- availcols = colnames(elementMetadata(object))
+ availcols = colnames(mcols(object))
  majorfields = c("Disease.Trait", "SNPs", "p.Value")
  if (all(majorfields %in% availcols) & length(availcols) > 5)
    show(as(object, "GRanges")[1:nrec, majorfields])
@@ -55,11 +55,11 @@ setMethod("[", "gwaswloc", function(x, i, j, ..., drop=FALSE) {
 
 setGeneric("getRsids", function(x)standardGeneric("getRsids"))
 setMethod("getRsids", "gwaswloc", function(x)
- elementMetadata(x)$SNPs)
+ mcols(x)$SNPs)
 
 setGeneric("getTraits", function(x)standardGeneric("getTraits"))
 setMethod("getTraits", "gwaswloc", function(x)
- elementMetadata(x)$Disease.Trait)
+ mcols(x)$Disease.Trait)
 
 
 setGeneric("subsetByChromosome", function(x, ch)standardGeneric("subsetByChromosome"))

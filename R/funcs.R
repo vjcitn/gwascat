@@ -1,11 +1,11 @@
 
 topTraits = function(gwwl, n=10, tag="Disease.Trait") {
- sort(table(values(gwwl)[[tag]]), decreasing=TRUE)[1:n]
+ sort(table(mcols(gwwl)[[tag]]), decreasing=TRUE)[1:n]
 }
 
 locs4trait = function(gwwl, trait, tag="Disease.Trait") {
  if (length(trait) != 1) stop("please supply only one trait string")
- curem = elementMetadata(gwwl) #as(values(gwwl), "DataFrame")
+ curem = mcols(gwwl) #as(mcols(gwwl), "DataFrame")
  tr = curem[[tag]]
  if (!(trait %in% tr)) stop(paste(trait, "not found in ", substitute(gwwl)))
  okind = which(tr == trait)
@@ -18,25 +18,25 @@ chklocs = function(chrtag="20", gwwl=gwrngs) {
 # the SNPlocs package and the gwascat agree 
 #
   require(SNPlocs.Hsapiens.dbSNP.20111119)
-  allrs = elementMetadata(gwwl)$SNPs
-  allch = elementMetadata(gwwl)$Chr_id
+  allrs = mcols(gwwl)$SNPs
+  allch = mcols(gwwl)$Chr_id
   rsbyc = split(allrs, allch)
   rcur = rsbyc[[chrtag]]
   refcur = getSNPlocs(paste("ch", chrtag, sep=""))
   rownames(refcur) = paste("rs", refcur$RefSNP_id, sep="")
   Ncur = refcur[ intersect(rcur, rownames(refcur)), ]
-  minds <- match(rownames(Ncur), elementMetadata(gwwl)$SNPs)
-  Ncurpos = elementMetadata(gwwl[ minds ])$Chr_pos
-  all((as.numeric(elementMetadata(gwwl[ minds ])$Chr_pos) - Ncur[,3]) == 0)
+  minds <- match(rownames(Ncur), mcols(gwwl)$SNPs)
+  Ncurpos = mcols(gwwl[ minds ])$Chr_pos
+  all((as.numeric(mcols(gwwl[ minds ])$Chr_pos) - Ncur[,3]) == 0)
 }
 
 variantProps = function(rs, ..., gwwl=gwrngs) {
   subr = gwwl[rs,]
-  strg = elementMetadata(subr)$Strongest.SNP
+  strg = mcols(subr)$Strongest.SNP
   alls = sapply(strsplit(strg, "-"), "[", 2)
   strs = sapply(strsplit(strg, "-"), "[", 1)
-  elementMetadata(subr) = DataFrame(rsid=strs, riskAllele=alls,
-     elementMetadata(subr)[, c("Disease.Trait", "SNPs", "p.Value")])
+  mcols(subr) = DataFrame(rsid=strs, riskAllele=alls,
+     mcols(subr)[, c("Disease.Trait", "SNPs", "p.Value")])
   subr
 }
 
@@ -149,9 +149,9 @@ riskyAlleleCount = function(callmat, matIsAB=TRUE, chr,
  gwwl = gwwl[possrs,]
  vp = variantProps(possrs, gwwl=gwwl)
  list(callmat=callmat, vp=vp)
- vpallele = elementMetadata(vp)$riskAllele
+ vpallele = mcols(vp)$riskAllele
  vpallele = gsub("\\?", "@@", vpallele)
- elementMetadata(vp)$riskAllele = vpallele
+ mcols(vp)$riskAllele = vpallele
  nhits = t(apply(callmat, 1, function(x) {
       sapply(1:length(x), function(z) length(grep(vpallele[z],
                strsplit(x[z], "/")[[1]]))) }))

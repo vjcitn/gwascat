@@ -5,12 +5,12 @@ traitsManh = function( gwr,
    ...)
  {
  require(ggbio)
- gwr = gwr[ which(IRanges::"%in%"(gwr, selr)) ]
- availtr = values(gwr)$Disease.Trait
+ gwr = gwr[ which(!is.na(findOverlaps(gwr, selr, select="first"))) ]
+ availtr = mcols(gwr)$Disease.Trait
  oth = which(!(availtr %in% traits))
  availtr[oth] = "Other"
- values(gwr)$Trait = availtr
- pv = values(gwr)$Pvalue_mlog 
- values(gwr)$Pvalue_mlog = ifelse(pv > 25, 25, pv)
+ mcols(gwr)$Trait = availtr
+ pv = mcols(gwr)$Pvalue_mlog 
+ mcols(gwr)$Pvalue_mlog = ifelse(pv > 25, 25, pv)
  autoplot( gwr, geom="point", aes(y=Pvalue_mlog, color=Trait))
 }

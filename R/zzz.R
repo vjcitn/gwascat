@@ -46,20 +46,20 @@ gwdf2GRanges = function (df, extractDate, seqlSrc="TxDb.Hsapiens.UCSC.hg19.known
         ch = paste("chr", ch, sep = "")
     gwrngs = GRanges(seqnames = ch, IRanges(as.numeric(gwcatloc$Chr_pos), 
         width = 1))
-    values(gwrngs) = gwcatloc
+    mcols(gwrngs) = gwcatloc
 #
 # make numeric p values and addresses
 #
-    values(gwrngs)$p.Value = as.numeric(as.character(values(gwrngs)$p.Value)) # was factor
-    values(gwrngs)$Pvalue_mlog = as.numeric(as.character(values(gwrngs)$Pvalue_mlog)) # was factor
-    values(gwrngs)$OR.or.beta = suppressWarnings(as.numeric(as.character(values(gwrngs)$OR.or.beta))) # was factor
-    values(gwrngs)$Chr_pos = as.numeric(values(gwrngs)$Chr_pos)
+    mcols(gwrngs)$p.Value = as.numeric(as.character(mcols(gwrngs)$p.Value)) # was factor
+    mcols(gwrngs)$Pvalue_mlog = as.numeric(as.character(mcols(gwrngs)$Pvalue_mlog)) # was factor
+    mcols(gwrngs)$OR.or.beta = suppressWarnings(as.numeric(as.character(mcols(gwrngs)$OR.or.beta))) # was factor
+    mcols(gwrngs)$Chr_pos = as.numeric(mcols(gwrngs)$Chr_pos)
 #
 # clean out stray whitespace
 #
-    badco = values(gwrngs)$Strongest.SNP.Risk.Allele
+    badco = mcols(gwrngs)$Strongest.SNP.Risk.Allele
     co = gsub(" $", "", badco)
-    values(gwrngs)$Strongest.SNP.Risk.Allele = co
+    mcols(gwrngs)$Strongest.SNP.Risk.Allele = co
 #
 #
 #
@@ -76,14 +76,14 @@ gwdf2GRanges = function (df, extractDate, seqlSrc="TxDb.Hsapiens.UCSC.hg19.known
 #      lkbad = which(x %in% bad)
 #      if (length(lkbad) > 0) x[lkbad] = NA
 #    }
-#    values(gwrngs)$OR.or.beta = cleanToNum(
-#          values(gwrngs)$OR.or.beta ) #as.numeric(fixhet(values(gwrngs)$OR.or.beta))
+#    mcols(gwrngs)$OR.or.beta = cleanToNum(
+#          mcols(gwrngs)$OR.or.beta ) #as.numeric(fixhet(mcols(gwrngs)$OR.or.beta))
 #
 # utility to get numeric values in Risk.Allele.Frequency
 #
     killpatt = "\\+|[[:alpha:]]|\\(|\\)|\\ "
     nulcToNA = function(x) {isn = which(nchar(x)==0); if (length(isn)>0) x[isn] = NA; x}
-    values(gwrngs)$num.Risk.Allele.Frequency = as.numeric(nulcToNA(gsub(killpatt, "", as.character(values(gwrngs)$Risk.Allele.Frequency))))
+    mcols(gwrngs)$num.Risk.Allele.Frequency = as.numeric(nulcToNA(gsub(killpatt, "", as.character(mcols(gwrngs)$Risk.Allele.Frequency))))
     gwrngs = makeConsecChrs(gwrngs)
     gwrngs = addSeqlengths(gwrngs, src=seqlSrc)
     gwrngs = new("gwaswloc", extractDate = extractDate, gwrngs)

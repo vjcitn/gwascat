@@ -17,9 +17,9 @@ gwcex2gviz = function( basegr = gwrngs,
 #
  ex = exons( get(txrefpk), columns = c("gene_id", "tx_id", "exon_id"),
     vals=list(exon_chrom = chrmin) )
- txin = ex[ which(ex %in% contextGR ) ]
+ txin = ex[ which(!is.na(findOverlaps(ex, contextGR, select="first"))) ]
  if (length(txin) == 0) stop("no transcripts in contextGR")
- v = values(txin)
+ v = mcols(txin)
  e = v$exon_id
  txl = v$tx_id
  texx = sapply(as.list(v$tx_id), "[", 1)
@@ -29,15 +29,15 @@ gwcex2gviz = function( basegr = gwrngs,
  k = GRanges(seqnames=chrmin, ranges=ranges(txin), gene=g, exon=e,
     transcript=texx, id=1:length(g))
  if (length(drop) > 0) k = k[-drop]
- kk = unlist(mget(values(k)$gene, symmap))
- values(k)$symbol = kk
+ kk = unlist(mget(mcols(k)$gene, symmap))
+ mcols(k)$symbol = kk
  GR = GeneRegionTrack(k, chromosome=chrmin, genome=genome)
  library(gwascat)
- studs = basegr[ which(basegr %in% contextGR) ]
- mlp = values(studs)$Pvalue_mlog
+ studs = basegr[ which(!is.na(findOverlaps(basegr, contextGR, select="first"))) ]
+ mlp = mcols(studs)$Pvalue_mlog
  mlp = ifelse(mlp > maxmlp, maxmlp, mlp)
- values(studs)$Pvalue_mlog = mlp
- sss = values(studs)$Pvalue_mlog
+ mcols(studs)$Pvalue_mlog = mlp
+ sss = mcols(studs)$Pvalue_mlog
  studp = DataTrack( as(studs, "GRanges"), data=sss, 
      chromosome=chrmin, genome=genome, name="-log P GWAS" )
 #
