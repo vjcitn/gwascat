@@ -10,5 +10,5 @@ Imports: Biostrings
 Suggests: DO.db, Gviz, ggbio, rtracklayer
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
-BiocViews: genetics
+biocViews: genetics
 LazyLoad: yes
