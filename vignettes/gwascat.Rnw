@@ -194,7 +194,7 @@ We also collect locations of eQTL in the Stranger 2007
 multipopulation eQTL study.
 <<getstr>>=
 c17ts = c17tg[ which(mcols(c17tg)$type == "Stranger_eqtl") ]
-eqloc = AnnotationTrack(ranges(c17ts),  chrom="chr17", genome="hg19", name="Str eQTL")
+eqloc = AnnotationTrack(c17ts,  chrom="chr17", genome="hg19", name="Str eQTL")
 displayPars(eqloc)$col = "black"
 displayPars(dsqs)$col = "red"
 integ = list(basic[[1]], eqloc, dsqs, basic[[2]], basic[[3]])
@@ -417,7 +417,7 @@ records.
 cattra = mcols(gwrngs)$Disease.Trait
 mat = match(tolower(cattra), tolower(allt))
 catDO = names(allt)[mat]
-catDO[1:50]
+na.omit(catDO)[1:50]
 mean(is.na(catDO))
 @
 
@@ -427,6 +427,7 @@ will not be mappable using Disease Ontology.  However, consider
 <<dogr>>=
 unique(cattra[is.na(catDO)])[1:20]
 nomatch = cattra[is.na(catDO)]
+unique(nomatch)[1:5]
 @
 Manual searching shows that a number of these have
 very close matches.

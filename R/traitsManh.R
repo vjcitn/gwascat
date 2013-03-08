@@ -6,7 +6,7 @@ traitsManh = function( gwr,
  {
  require(ggbio)
  gwr = gwr[ which(overlapsAny(gwr, selr)) ]
- availtr = mcols(gwr)$Disease.Trait
+ availtr = as.character(mcols(gwr)$Disease.Trait)
  oth = which(!(availtr %in% traits))
  availtr[oth] = "Other"
  mcols(gwr)$Trait = availtr
