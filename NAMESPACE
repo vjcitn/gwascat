@@ -1,22 +1,19 @@
-#Warning: Class "GenomicRanges" is defined (with package slot 'GenomicRanges') but no metadata object found to revise subclass information---not exported?  Making a copy in package 'gwascat'
-#Warning: Class "Vector" is defined (with package slot 'IRanges') but no metadata object found to revise subclass information---not exported?  Making a copy in package 'gwascat'
-#Warning: Class "GenomicRangesORmissing" is defined (with package slot 'GenomicRanges') but no metadata object found to revise subclass information---not exported?  Making a copy in package 'gwascat'
-#Warning: Class "Annotated" is defined (with package slot 'IRanges') but no metadata object found to revise subclass information---not exported?  Making a copy in package 'gwascat'
-#
 importFrom(IRanges, IRanges, "values<-", values, elementMetadata, ranges,	
 	"elementMetadata<-", "%in%", as.list)
 
-importFrom(BiocGenerics, mget)
+importFrom(BiocGenerics, mget, match)
 
 importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
+importClassFrom(IRanges, DataFrame)
 
-importFrom(GenomicRanges, GRanges)
-importFrom(IRanges, RangedData)
+importFrom(GenomicRanges, GRanges, seqnames)
+importFrom(IRanges, RangedData, mcols, values, "mcols<-", overlapsAny, DataFrame)
 
 exportClass(gwaswloc)
 exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits")
 
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
-   "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz")
+   "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz", 
+   values, mcols, "mcols<-", seqnames, match, overlapsAny, DataFrame)
 

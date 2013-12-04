@@ -17,7 +17,7 @@ chklocs = function(chrtag="20", gwwl=gwrngs) {
 # return TRUE if all named SNPs with locations in both
 # the SNPlocs package and the gwascat agree 
 #
-  require(SNPlocs.Hsapiens.dbSNP.20111119)
+  require(SNPlocs.Hsapiens.dbSNP.20120608)
   allrs = mcols(gwwl)$SNPs
   allch = mcols(gwwl)$Chr_id
   rsbyc = split(allrs, allch)
@@ -42,7 +42,7 @@ variantProps = function(rs, ..., gwwl=gwrngs) {
 
 
 
-snpGenos = function(chr, snpap="SNPlocs.Hsapiens.dbSNP.20111119") {
+snpGenos = function(chr, snpap="SNPlocs.Hsapiens.dbSNP.20120608") {
 #
 # for S snp on chrom chr, returns an S x 3 matrix with columns A/A, A/B, B/B
 # the i, j element is the nuc assignment for genotype j of snp i
@@ -62,7 +62,7 @@ snpGenos = function(chr, snpap="SNPlocs.Hsapiens.dbSNP.20111119") {
  ans
 }
 
-AB2nuc = function(abvec, rsids, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20111119") {
+AB2nuc = function(abvec, rsids, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608") {
 #
 # converts variant calls in A/B form to nucleotides assuming A in A/B is
 # alphabetically earlier and nucleotide mappings defined for rsids are as in
@@ -98,7 +98,7 @@ AB2nuc = function(abvec, rsids, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20111119"
 }
 
  
-ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20111119",
+ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608",
   gencode = c("A/A", "A/B", "B/B")) {
 #
 # converts variant calls in A/B form to nucleotides assuming A in A/B is
@@ -138,7 +138,7 @@ ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20111119",
 }
 
 riskyAlleleCount = function(callmat, matIsAB=TRUE, chr,
-   gwwl=gwrngs, snpap="SNPlocs.Hsapiens.dbSNP.20111119",
+   gwwl=gwrngs, snpap="SNPlocs.Hsapiens.dbSNP.20120608",
    gencode = c("A/A", "A/B", "B/B")) {
  if (matIsAB) callmat = ABmat2nuc( abmat=callmat, chr=chr, snpannopk=snpap, gencode=gencode)
  uchr = gsub("ch", "chr", chr)

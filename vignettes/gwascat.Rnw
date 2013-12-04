@@ -75,12 +75,12 @@ with \texttt{help.start()}.
 library(gwascat)
 @
 
-Some noteworthy limitations:  As of
-\Sexpr{gwrngs@extractDate},
-there are \Sexpr{sum(gwcat$SNPs == "NR")}
-records in the database for which no SNP is identified.
-There are \Sexpr{sum(gwcat$Chr_pos == "")} records for which no
-chromosomal position of the associated locus is given.
+%Some noteworthy limitations:  As of
+%\Sexpr{gwrngs@extractDate},
+%there are \Sexpr{sum(gwrngs$SNPs == "NR")}
+%records in the database for which no SNP is identified.
+%There are \Sexpr{sum(gwrngs$Chr_pos == "")} records for which no
+%chromosomal position of the associated locus is given.
 
 
 \subsection{Illustrations: computing}
@@ -94,7 +94,7 @@ library(gwascat)
 objects("package:gwascat")
 @
 
-The GRanges instance with all SNP-disease associations is:
+The extended GRanges instance with all SNP-disease associations is:
 <<lkgr>>=
 gwrngs
 @
@@ -124,7 +124,7 @@ gwtrunc = gwrngs
 mlpv = mcols(gwrngs)$Pvalue_mlog
 mlpv = ifelse(mlpv > 25, 25, mlpv)
 mcols(gwtrunc)$Pvalue_mlog = mlpv
-gwlit = gwtrunc[ which(seqnames(gwtrunc) %in% c("chr4", "chr5", "chr6")) ]
+gwlit = gwtrunc[ which(as.character(seqnames(gwtrunc)) %in% c("chr4", "chr5", "chr6")) ]
 library(ggbio)
 mlpv = mcols(gwlit)$Pvalue_mlog
 mlpv = ifelse(mlpv > 25, 25, mlpv)
@@ -490,8 +490,8 @@ For example, to verify that locations asserted on chromosome
 20 agree between the Bioconductor dbSNP image and the
 gwas catalog,
 <<getrs,keep.source=TRUE,cache=FALSE>>=
-if ("SNPlocs.Hsapiens.dbSNP.20111119" %in% installed.packages()[,1]) {
- library(SNPlocs.Hsapiens.dbSNP.20111119)
+if ("SNPlocs.Hsapiens.dbSNP.20120608" %in% installed.packages()[,1]) {
+ library(SNPlocs.Hsapiens.dbSNP.20120608)
  suppressWarnings(chklocs("20"))
 }
 @

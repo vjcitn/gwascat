@@ -6,6 +6,8 @@
 \alias{gw6.rs_17} 
 \alias{low17}
 \alias{rules_6.0_1kg_17}
+\alias{DataFrame}
+\alias{gwrngs}
 \docType{package}
 \title{
 representing and modeling data in the NHGRI GWAS catalog
@@ -17,13 +19,12 @@ using GRanges and allied infrastructure
 \details{
 \tabular{ll}{
 Package: \tab gwascat\cr
-Version: \tab 0.0.3\cr
+Version: \tab 1.7.1\cr
 Suggests: \tab \cr
-Depends: \tab R (>= 2.14.0), methods, IRanges, GenomicRanges\cr
+Depends: \tab R (>= 3.0.0), methods, IRanges, GenomicRanges\cr
 Imports: \tab \cr
 License: \tab Artistic-2.0\cr
 LazyLoad: \tab yes\cr
-Built: \tab R 2.15.0; ; 2012-02-10 21:08:32 UTC; unix\cr
 }
 
 Index:
@@ -37,8 +38,11 @@ through use of element metadata to learn about catalogued GWAS associations.
 The data objects
 
 'g17SM' 'gg17N' 'gw6.rs_17' 'low17' 'rules_6.0_1kg_17'
+'gwrngs'
 
 are described in vignettes.
+
+The DataFrame function is imported from IRanges.
 }
 \author{
 VJ Carey <stvjc@channing.harvard.edu>

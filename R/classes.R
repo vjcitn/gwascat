@@ -49,6 +49,7 @@ setMethod("[", "gwaswloc", function(x, i, j, ..., drop=FALSE) {
   rsids = getRsids(x)
   i = match(i, rsids, nomatch=0)
  }
+ if (length(i)==0) stop("index has length 0")
  callNextMethod()
 })
  

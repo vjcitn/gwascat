@@ -13,19 +13,23 @@
 #  1) gwcat, a data.frame instance directly reflecting content of the table from NHGRI
 #  2) gwrngs, a GRanges that is filtered to studies with specific claims of SNP-trait associations
 #
- gwcat <- get(load(system.file("data/gwdf_2012_09_22.rda", package="gwascat")))
- gwcat <<- fixNonASCII(gwcat)
+# gwcat <- get(load(system.file("data/gwdf_2012_09_22.rda", package="gwascat")))
+# gwcat <<- fixNonASCII(gwcat)
 #
 # !! please reset extractDate as appropriate
 #
- extractDate = "2012.09.22"
- psm =  function(..., appendLF=FALSE )packageStartupMessage(..., appendLF=appendLF)
- psm(paste("'gwcat' data frame now available, provides NHGRI GWAS cat records of ", extractDate,".\n", sep=""))
+# extractDate = "2013.12.03"
+## psm =  function(..., appendLF=FALSE )packageStartupMessage(..., appendLF=appendLF)
+# psm(paste("'gwcat' data frame now available, provides NHGRI GWAS cat records of ", extractDate,".\n", sep=""))
 #if (0) {
- psm("building 'gwrngs', GRanges for studies with located variants...", appendLF=TRUE)
+# psm("building 'gwrngs', GRanges for studies with located variants...", appendLF=TRUE)
 # gwcatloc = gwcat[nchar(gwcat$Chr_pos)>0,]
- assign("gwrngs", gwdf2GRanges(gwcat, extractDate=extractDate), .GlobalEnv)
+# assign("gwrngs", gwdf2GRanges(gwcat, extractDate=extractDate), .GlobalEnv)
 #}
+psm =  function(..., appendLF=FALSE )packageStartupMessage(..., appendLF=appendLF)
+gwrngs <<- get(load(system.file("data/gwrngs.rda", package="gwascat")))
+psm("Object 'gwrngs' loaded and assigned from serialized version of 2013.12.03.", appendLF=TRUE)
+psm("Use makeCurrentGwascat() to obtain up-to-date image.", appendLF=TRUE)
 }
 
 gwdf2GRanges = function (df, extractDate, seqlSrc="TxDb.Hsapiens.UCSC.hg19.knownGene" ) 
