@@ -1,1 +1,12 @@
-May 30 2012 -- improve makeCurrentGwascat to handle chrX and p.Value suitably
+CHANGES IN VERSION 1.7.1
+------------------------
+
+USER VISIBLE CHANGES
+
+    o gwrngs is now serialized and explicitly made available in global
+	workspace on attachment
+    o gwcat data.frame is not generated on attachment
+
+CHANGES PRIOR TO VERSION 1.7.1
+------------------------------
+    o May 30 2012 -- improve makeCurrentGwascat to handle chrX and p.Value suitably
