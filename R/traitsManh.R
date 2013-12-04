@@ -4,6 +4,7 @@ traitsManh = function( gwr,
    truncmlp = 25,
    ...)
  {
+ Trait <- NA # try to squelch note
  require(ggbio)
  gwr = gwr[ which(overlapsAny(gwr, selr)) ]
  availtr = as.character(mcols(gwr)$Disease.Trait)

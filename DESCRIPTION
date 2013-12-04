@@ -5,7 +5,7 @@ Author: VJ Carey <stvjc@channing.harvard.edu>
 Description: representing and modeling data in the NHGRI GWAS catalog
 Enhances: SNPlocs.Hsapiens.dbSNP.20120608, pd.genomewidesnp.6
 Depends: R (>= 3.0.0)
-Imports: Biostrings, IRanges, GenomicRanges, BiocGenerics, methods
+Imports: Biostrings, IRanges, GenomicRanges, BiocGenerics
 Suggests: DO.db, Gviz, ggbio, rtracklayer, snpStats, graph
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
