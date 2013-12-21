@@ -28,6 +28,10 @@ setMethod("show", "gwaswloc", function(object) {
  cat("gwasloc instance with", length(object), "records and", ncol(mcols(object)),
   "attributes per record.\n")
  cat("Extracted: ", object@extractDate, "\n")
+ if (length(object)==0) {
+     cat("no records selected.\n")
+     return(invisible(NULL))
+     }
  cat("Excerpt:\n")
  nrec = min(5, length(object))
  availcols = colnames(mcols(object))
@@ -50,6 +54,7 @@ setMethod("[", "gwaswloc", function(x, i, j, ..., drop=FALSE) {
   i = match(i, rsids, nomatch=0)
  }
  if (length(i)==0) stop("index has length 0")
+ if (i==0) return(new("gwaswloc"))
  callNextMethod()
 })
  

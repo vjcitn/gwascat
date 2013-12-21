@@ -8,6 +8,8 @@
 \alias{rules_6.0_1kg_17}
 \alias{DataFrame}
 \alias{gwrngs}
+\alias{impute.snps}
+\alias{SnpMatrix-class}
 \docType{package}
 \title{
 representing and modeling data in the NHGRI GWAS catalog
@@ -19,7 +21,7 @@ using GRanges and allied infrastructure
 \details{
 \tabular{ll}{
 Package: \tab gwascat\cr
-Version: \tab 1.7.1\cr
+Version: \tab 1.7.3\cr
 Suggests: \tab \cr
 Depends: \tab R (>= 3.0.0), methods, IRanges, GenomicRanges\cr
 Imports: \tab \cr
@@ -43,6 +45,10 @@ The data objects
 are described in vignettes.
 
 The DataFrame function is imported from IRanges.
+
+The \code{\link[snpStats]{SnpMatrix-class}} is used to represent data
+related to rule-based imputation, using the \code{\link[snpStats]{impute.snps}}
+function.
 }
 \author{
 VJ Carey <stvjc@channing.harvard.edu>

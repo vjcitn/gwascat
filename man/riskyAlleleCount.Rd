@@ -62,7 +62,7 @@ to SNP
 %%% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
 \examples{
-if (!exists("gwrngs")) gwascat:::.onAttach("a", "b")
+#if (!exists("gwrngs")) gwascat:::.onAttach("a", "b")
 data(gg17N) # translated from GGdata chr 17 calls using ABmat2nuc
 h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17")
 h17[1:5,1:5]

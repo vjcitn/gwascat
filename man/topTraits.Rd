@@ -60,7 +60,7 @@ VJ Carey <stvjc@channing.harvard.edu>
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
 \examples{
-if (!exists("gwrngs")) gwascat:::.onAttach("a", "b")
+#if (!exists("gwrngs")) gwascat:::.onAttach("a", "b")
 topTraits(gwrngs)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

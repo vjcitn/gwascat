@@ -62,7 +62,7 @@ modifying the contents of Pvalue\_mlogp in the elementMetadata for the call}
 %}
 \examples{
 args(gwcex2gviz)
-gwascat:::.onAttach("", "gwascat")
+#gwascat:::.onAttach("", "gwascat")
 gwcex2gviz()
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -1,5 +1,12 @@
+import(methods)
+
 importFrom(IRanges, IRanges, "values<-", values, elementMetadata, ranges,	
 	"elementMetadata<-", "%in%", as.list)
+
+importClassFrom(snpStats, "SnpMatrix")
+exportClass("SnpMatrix")
+importFrom(snpStats, impute.snps)
+export(impute.snps)
 
 importFrom(BiocGenerics, mget, match)
 
