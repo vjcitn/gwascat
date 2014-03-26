@@ -54,7 +54,7 @@ setMethod("[", "gwaswloc", function(x, i, j, ..., drop=FALSE) {
   i = match(i, rsids, nomatch=0)
  }
  if (length(i)==0) stop("index has length 0")
- if (i==0) return(new("gwaswloc"))
+ if ((length(i)==1 & i==0) | all(i==0)) return(new("gwaswloc"))
  callNextMethod()
 })
  
