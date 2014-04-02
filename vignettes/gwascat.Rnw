@@ -456,8 +456,7 @@ intersect(tolower(nomatch), tolower(hpoterms))
 
 More work on formalization of trait terms is underway.
 
-\subsection{Curation of approximate matches}
-
+%\subsection{Curation of approximate matches}
 
 % NB the graph stuff can be used for other OBO without .db packages..
 %The \textit{gwascat} package includes an OBO-formatted
@@ -476,6 +475,23 @@ More work on formalization of trait terms is underway.
 %<<lkno>>=
 %nodeData(DOgraph)[1:5]
 %@
+
+\section{CADD scores}
+
+Kircher et al. \citep{Kircher:2014p5681} define combined annotation-dependent
+depletion scores measuring variant pathogenicity in an integrative way.
+Small requests to bind scores for SNV to GRanges can be resolved
+through HTTP; large requests can be carried out on a local tabix-indexed
+selection from their archive.
+
+<<chkcadd>>=
+g3 = as(gwrngs, "GRanges")
+bg3 = bindcadd_snv( g3[which(seqnames(g3)=="chr3")][1:20] )
+inds = ncol(mcols(bg3))
+bg3[, (inds-3):inds]
+@
+
+
 
 \section{Appendix: Adequacy of location annotation}
 
