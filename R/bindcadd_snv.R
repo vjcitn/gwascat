@@ -30,9 +30,12 @@ padDF = function(n, targDF) {
  names(values(cur)) = c("Ref", "Alt", "CScore", "PHRED")
  newdf = padDF(length(gr), mcols(cur))
  fo = findOverlaps(gr, cur)
- for (i in 1:ncol(newdf)) newdf[queryHits(fo),i] = 
-    mcols(cur)[subjectHits(fo),i]
- mcols(gr) = cbind(mcols(gr), newdf)
+  for (i in 1:ncol(newdf)) {
+        f = force
+        if (class(mcols(cur)[,i]) == "factor") f = function(x) as.character(x)
+        newdf[queryHits(fo), i] = f(mcols(cur)[subjectHits(fo), i])
+        }
+    mcols(gr) = cbind(mcols(gr), newdf)
  gr
 }
 

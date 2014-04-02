@@ -13,10 +13,11 @@ importFrom(BiocGenerics, mget, match)
 importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
 importClassFrom(IRanges, DataFrame, Vector, Annotated)
 
-importFrom(GenomicRanges, GRanges, seqnames)
+importFrom(GenomicRanges, GRanges, seqnames, seqlevels)
 importFrom(IRanges, RangedData, mcols, values, "mcols<-", overlapsAny, DataFrame)
 importFrom(rtracklayer, import)
 importFrom(Rsamtools, TabixFile, open.TabixFile, close.TabixFile)
+importFrom(BiocGenerics, cbind)
 
 exportClass(gwaswloc)
 exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits")
