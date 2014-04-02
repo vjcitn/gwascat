@@ -1,3 +1,11 @@
+CHANGES IN VERSION 1.7.6
+------------------------
+
+USER VISIBLE CHANGES
+
+    o bindcadd_snv has been added to bind CADD scores of Kircher et al. 2014
+        for SNVs to any GRanges query
+
 CHANGES IN VERSION 1.7.1
 ------------------------
 

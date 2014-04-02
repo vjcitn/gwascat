@@ -15,6 +15,8 @@ importClassFrom(IRanges, DataFrame, Vector, Annotated)
 
 importFrom(GenomicRanges, GRanges, seqnames)
 importFrom(IRanges, RangedData, mcols, values, "mcols<-", overlapsAny, DataFrame)
+importFrom(rtracklayer, import)
+importFrom(Rsamtools, TabixFile, open.TabixFile, close.TabixFile)
 
 exportClass(gwaswloc)
 exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits")
@@ -22,5 +24,5 @@ exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTrait
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
    "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz", 
-   values, mcols, "mcols<-", seqnames, match, overlapsAny, DataFrame)
+   values, mcols, "mcols<-", seqnames, match, overlapsAny, DataFrame, bindcadd_snv)
 
