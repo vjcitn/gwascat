@@ -484,14 +484,48 @@ Small requests to bind scores for SNV to GRanges can be resolved
 through HTTP; large requests can be carried out on a local tabix-indexed
 selection from their archive.
 
-<<chkcadd>>=
+<<chkcadd,eval=FALSE>>=
 g3 = as(gwrngs, "GRanges")
 bg3 = bindcadd_snv( g3[which(seqnames(g3)=="chr3")][1:20] )
 inds = ncol(mcols(bg3))
 bg3[, (inds-3):inds]
 @
 
-
+This requires cooperation of network interface and server, so we
+don't evaluate in vignette build but on 1 Apr 2014 the response was:
+\begin{verbatim}
+GRanges with 20 ranges and 4 metadata columns:
+       seqnames                 ranges strand   |         Ref         Alt
+          <Rle>              <IRanges>  <Rle>   | <character> <character>
+   [1]        3 [109789570, 109789570]      *   |           A           G
+   [2]        3 [ 25922285,  25922285]      *   |           G           A
+   [3]        3 [109529550, 109529550]      *   |           T           C
+   [4]        3 [175055759, 175055759]      *   |           T           G
+   [5]        3 [191912870, 191912870]      *   |           C           T
+   ...      ...                    ...    ... ...         ...         ...
+  [16]        3 [187716886, 187716886]      *   |           A           G
+  [17]        3 [160820524, 160820524]      *   |           G           C
+  [18]        3 [169518455, 169518455]      *   |           T           C
+  [19]        3 [179172979, 179172979]      *   |           G           T
+  [20]        3 [171785168, 171785168]      *   |           G           C
+          CScore     PHRED
+       <numeric> <numeric>
+   [1] -0.182763     3.110
+   [2] -0.289708     2.616
+   [3]  0.225373     5.216
+   [4] -0.205689     3.003
+   [5] -0.172189     3.161
+   ...       ...       ...
+  [16] -0.019710     3.913
+  [17] -0.375183     2.235
+  [18] -0.695270     0.987
+  [19] -0.441673     1.949
+  [20]  0.231972     5.252
+  ---
+  seqlengths:
+           1         2         3         4 ...        21        22         X
+   249250621 243199373 198022430 191154276 ...  48129895  51304566 155270560
+\end{verbatim}
 
 \section{Appendix: Adequacy of location annotation}
 
