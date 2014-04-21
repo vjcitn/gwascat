@@ -10,8 +10,9 @@ export(impute.snps)
 
 importFrom(BiocGenerics, mget, match)
 
+importClassFrom(S4Vectors, Annotated)
+importClassFrom(IRanges, DataFrame, Vector)
 importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
-importClassFrom(IRanges, DataFrame, Vector, Annotated)
 
 importFrom(GenomicRanges, GRanges, seqnames, seqlevels)
 importFrom(IRanges, RangedData, mcols, values, "mcols<-", overlapsAny, DataFrame)
