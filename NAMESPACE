@@ -1,5 +1,8 @@
 import(methods)
 
+import(S4Vectors)
+import(GenomeInfoDb)
+
 importFrom(IRanges, IRanges, ranges, "%in%", as.list)
 
 importClassFrom(snpStats, "SnpMatrix")
@@ -9,13 +12,10 @@ export(impute.snps)
 
 importFrom(BiocGenerics, mget, match)
 
-importClassFrom(S4Vectors, Annotated, Vector)
 importClassFrom(IRanges, DataFrame)
 importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
 
-importFrom(S4Vectors, mcols, "mcols<-", elementMetadata, "elementMetadata<-",
-           values, "values<-")
-importFrom(GenomicRanges, GRanges, seqnames, seqlevels)
+importFrom(GenomicRanges, GRanges)
 importFrom(IRanges, RangedData, overlapsAny, DataFrame)
 importFrom(rtracklayer, import)
 importFrom(Rsamtools, TabixFile, open.TabixFile, close.TabixFile)
