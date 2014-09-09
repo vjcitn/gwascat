@@ -15,17 +15,17 @@ importFrom(BiocGenerics, mget, match)
 importClassFrom(IRanges, DataFrame)
 importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
 
-importFrom(GenomicRanges, GRanges)
+importFrom(GenomicRanges, GRanges, show)
 importFrom(IRanges, RangedData, overlapsAny, DataFrame)
 importFrom(rtracklayer, import)
 importFrom(Rsamtools, TabixFile, open.TabixFile, close.TabixFile)
 importFrom(BiocGenerics, cbind)
 
 exportClass(gwaswloc)
-exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits")
+exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits", show)
 
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
    "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz", 
-   values, mcols, "mcols<-", seqnames, match, overlapsAny, DataFrame, bindcadd_snv)
+   values, mcols, "mcols<-", seqnames, match, overlapsAny, DataFrame, bindcadd_snv, show)
 

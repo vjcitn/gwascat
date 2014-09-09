@@ -32,6 +32,7 @@ setMethod("show", "gwaswloc", function(object) {
      cat("no records selected.\n")
      return(invisible(NULL))
      }
+ cat("Genome: ", unique(genome(object)), "\n")
  cat("Excerpt:\n")
  nrec = min(5, length(object))
  availcols = colnames(mcols(object))

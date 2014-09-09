@@ -32,7 +32,7 @@
 #psm("Use makeCurrentGwascat() to obtain up-to-date image.", appendLF=TRUE)
 #}
 
-gwdf2GRanges = function (df, extractDate, seqlSrc="TxDb.Hsapiens.UCSC.hg19.knownGene" ) 
+gwdf2GRanges = function (df, extractDate, seqlSrc ) 
 {
 #
 # intent is to take a data frame like that distributed by NHGRI
@@ -88,8 +88,8 @@ gwdf2GRanges = function (df, extractDate, seqlSrc="TxDb.Hsapiens.UCSC.hg19.known
     killpatt = "\\+|[[:alpha:]]|\\(|\\)|\\ "
     nulcToNA = function(x) {isn = which(nchar(x)==0); if (length(isn)>0) x[isn] = NA; x}
     mcols(gwrngs)$num.Risk.Allele.Frequency = as.numeric(nulcToNA(gsub(killpatt, "", as.character(mcols(gwrngs)$Risk.Allele.Frequency))))
-    gwrngs = makeConsecChrs(gwrngs)
-    gwrngs = addSeqlengths(gwrngs, src=seqlSrc)
+#    gwrngs = makeConsecChrs(gwrngs)  # WHY???
+#    gwrngs = addSeqlengths(gwrngs, src=seqlSrc)
     gwrngs = new("gwaswloc", extractDate = extractDate, gwrngs)
     gwrngs
 }

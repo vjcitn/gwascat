@@ -94,9 +94,12 @@ library(gwascat)
 objects("package:gwascat")
 @
 
-The extended GRanges instance with all SNP-disease associations is:
+The extended GRanges instance with all SNP-disease associations is
+obtained as follows, using the hg19 genome build (hg38-based
+ranges are also available as gwrngs38).
 <<lkgr>>=
-gwrngs
+data(gwrngs19)
+gwrngs = gwrngs19
 @
 
 To determine the most frequently occurring traits:
@@ -542,7 +545,7 @@ gwas catalog,
 <<getrs,keep.source=TRUE,cache=FALSE>>=
 if ("SNPlocs.Hsapiens.dbSNP.20120608" %in% installed.packages()[,1]) {
  library(SNPlocs.Hsapiens.dbSNP.20120608)
- suppressWarnings(chklocs("20"))
+ suppressWarnings(chklocs("20", gwrngs19))
 }
 @
 

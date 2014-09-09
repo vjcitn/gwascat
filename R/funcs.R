@@ -12,10 +12,14 @@ locs4trait = function(gwwl, trait, tag="Disease.Trait") {
  new("gwaswloc", gwwl[okind])
 }
 
-chklocs = function(chrtag="20", gwwl=gwrngs) {
+chklocs = function(chrtag="20", gwwl=gwrngs19) {
 #
 # return TRUE if all named SNPs with locations in both
 # the SNPlocs package and the gwascat agree 
+#
+# Note -- as of 2014, we cannot use the Chr_pos element of
+# the shipped catalog.  We have to use the result of liftOver,
+# in the gwrngs19 structure
 #
   require(SNPlocs.Hsapiens.dbSNP.20120608)
   allrs = mcols(gwwl)$SNPs
@@ -26,8 +30,9 @@ chklocs = function(chrtag="20", gwwl=gwrngs) {
   rownames(refcur) = paste("rs", refcur$RefSNP_id, sep="")
   Ncur = refcur[ intersect(rcur, rownames(refcur)), ]
   minds <- match(rownames(Ncur), mcols(gwwl)$SNPs)
-  Ncurpos = mcols(gwwl[ minds ])$Chr_pos
-  all((as.numeric(mcols(gwwl[ minds ])$Chr_pos) - Ncur[,3]) == 0)
+  #Ncurpos = mcols(gwwl[ minds ])$Chr_pos
+  Ncurpos = start(gwwl[ minds ])
+  all((Ncurpos - Ncur[,3]) == 0)
 }
 
 variantProps = function(rs, ..., gwwl=gwrngs) {
