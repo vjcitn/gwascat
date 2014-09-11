@@ -12,11 +12,10 @@ export(impute.snps)
 
 importFrom(BiocGenerics, mget, match)
 
-importClassFrom(IRanges, DataFrame)
 importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
 
 importFrom(GenomicRanges, GRanges, show)
-importFrom(IRanges, RangedData, overlapsAny, DataFrame)
+importFrom(IRanges, RangedData, overlapsAny)
 importFrom(rtracklayer, import)
 importFrom(Rsamtools, TabixFile, open.TabixFile, close.TabixFile)
 importFrom(BiocGenerics, cbind)
