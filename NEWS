@@ -1,3 +1,14 @@
+CHANGES IN VERSION 1.9.8
+------------------------
+
+USER VISIBLE CHANGES
+
+    o makeCurrentGwascat has new arguments, useHg38seqinfo and altseqinfo.
+      These address the fact that the textual version of the catalog served
+      by NHGRI has hg38 addresses.  Two snapshots of the data are available,
+      created Sept 8 2014, one direct in hg38 (gwrngs38 in data) and the
+      other by liftOver to hg19 addresses (gwrngs19)
+
 CHANGES IN VERSION 1.7.6
 ------------------------
 
