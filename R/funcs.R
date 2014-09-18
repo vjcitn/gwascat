@@ -143,7 +143,7 @@ ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608",
 }
 
 riskyAlleleCount = function(callmat, matIsAB=TRUE, chr,
-   gwwl=gwrngs, snpap="SNPlocs.Hsapiens.dbSNP.20120608",
+   gwwl, snpap="SNPlocs.Hsapiens.dbSNP.20120608",
    gencode = c("A/A", "A/B", "B/B")) {
  if (matIsAB) callmat = ABmat2nuc( abmat=callmat, chr=chr, snpannopk=snpap, gencode=gencode)
  uchr = gsub("ch", "chr", chr)

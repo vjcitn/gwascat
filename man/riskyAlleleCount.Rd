@@ -11,7 +11,7 @@ to NHGRI GWAS catalog
 }
 \usage{
 riskyAlleleCount(callmat, matIsAB = TRUE, chr, 
-  gwwl = gwrngs, snpap = "SNPlocs.Hsapiens.dbSNP.20120608", 
+  gwwl , snpap = "SNPlocs.Hsapiens.dbSNP.20120608", 
   gencode = c("A/A", "A/B", "B/B"))
 }
 %- maybe also 'usage' for other objects documented here.
@@ -62,9 +62,9 @@ to SNP
 %%% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
 \examples{
-#if (!exists("gwrngs")) gwascat:::.onAttach("a", "b")
 data(gg17N) # translated from GGdata chr 17 calls using ABmat2nuc
-h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17")
+data(gwrngs19)
+h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17", gwwl=gwrngs19)
 h17[1:5,1:5]
 table(as.numeric(h17))
 }

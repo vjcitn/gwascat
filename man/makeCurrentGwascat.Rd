@@ -8,7 +8,9 @@ read NHGRI GWAS catalog table and construct associated GRanges instance
 read NHGRI table and construct associated GRanges instance
 }
 \usage{
-makeCurrentGwascat(table.url = "http://www.genome.gov/admin/gwascatalog.txt", fixNonASCII = TRUE)
+makeCurrentGwascat(table.url = 
+  "http://www.genome.gov/admin/gwascatalog.txt", 
+  fixNonASCII = TRUE, useHg38seqinfo = TRUE, altSeqinfo)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,6 +20,10 @@ string identifying the .txt file curated at NHGRI
   \item{fixNonASCII}{
 logical, if TRUE, non-ASCII characters as identified by iconv will be replaced by asterisk
 }
+  \item{useHg38seqinfo}{logical indicating that metadata on reference
+genome comes from GRCh38/hg38}
+  \item{altSeqinfo}{Seqinfo instance to be used directly to
+document the value produced}
 }
 \details{
 records for which clear genomic position cannot be determined are dropped from the

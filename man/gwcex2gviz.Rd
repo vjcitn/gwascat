@@ -8,7 +8,7 @@ Prepare salient components of GWAS catalog for rendering with Gviz
 Prepare salient components of GWAS catalog for rendering with Gviz
 }
 \usage{
-gwcex2gviz(basegr = gwrngs, contextGR = GRanges(seqnames =
+gwcex2gviz(basegr, contextGR = GRanges(seqnames =
                  "chr17", IRanges(start = 37500000, width = 1e+06)),
                  txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", genome
                  = "hg19", genesympk = "org.Hs.eg.db", plot.it = TRUE,
@@ -63,7 +63,8 @@ modifying the contents of Pvalue\_mlogp in the elementMetadata for the call}
 \examples{
 args(gwcex2gviz)
 #gwascat:::.onAttach("", "gwascat")
-gwcex2gviz()
+data(gwrngs19)
+gwcex2gviz(gwrngs19)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

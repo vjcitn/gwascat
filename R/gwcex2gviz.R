@@ -1,4 +1,4 @@
-gwcex2gviz = function( basegr = gwrngs,
+gwcex2gviz = function( basegr, 
    contextGR = GRanges(seqnames="chr17", IRanges(start=37500000, width=1e6)), 
    txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", genome="hg19",
    genesympk = "org.Hs.eg.db",

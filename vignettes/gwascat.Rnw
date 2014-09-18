@@ -75,13 +75,6 @@ with \texttt{help.start()}.
 library(gwascat)
 @
 
-%Some noteworthy limitations:  As of
-%\Sexpr{gwrngs@extractDate},
-%there are \Sexpr{sum(gwrngs$SNPs == "NR")}
-%records in the database for which no SNP is identified.
-%There are \Sexpr{sum(gwrngs$Chr_pos == "")} records for which no
-%chromosomal position of the associated locus is given.
-
 
 \subsection{Illustrations: computing}
 
@@ -99,18 +92,17 @@ obtained as follows, using the hg19 genome build (hg38-based
 ranges are also available as gwrngs38).
 <<lkgr>>=
 data(gwrngs19)
-gwrngs = gwrngs19
 @
 
 To determine the most frequently occurring traits:
 <<lktr>>=
-topTraits(gwrngs)
+topTraits(gwrngs19)
 @
 
 For a given trait, obtain a GRanges with all recorded associations; here
 only three associations are shown:
 <<lklocs>>=
-subsetByTraits(gwrngs, tr="LDL cholesterol")[1:3]
+subsetByTraits(gwrngs19, tr="LDL cholesterol")[1:3]
 @
 
 \section{Some visualizations}
@@ -123,8 +115,8 @@ chromosomes 4:6.  First, we create a version of the
 catalog with $-log_{10} p$ truncated at a maximum value of 25.
 
 <<lkm,results=hide>>=
-gwtrunc = gwrngs
-mlpv = mcols(gwrngs)$Pvalue_mlog
+gwtrunc = gwrngs19
+mlpv = mcols(gwrngs19)$Pvalue_mlog
 mlpv = ifelse(mlpv > 25, 25, mlpv)
 mcols(gwtrunc)$Pvalue_mlog = mlpv
 gwlit = gwtrunc[ which(as.character(seqnames(gwtrunc)) %in% c("chr4", "chr5", "chr6")) ]
@@ -190,7 +182,7 @@ We start the construction of the graph here.
 <<dost>>=
 g2 = GRanges(seqnames="chr17", IRanges(start=4.3e7, width=2e6))
 
-basic = gwcex2gviz(contextGR=g2, plot.it=FALSE) 
+basic = gwcex2gviz(basegr = gwrngs19, contextGR=g2, plot.it=FALSE) 
 @
 
 We also collect locations of eQTL in the Stranger 2007
@@ -249,7 +241,7 @@ are common to both the chip and the GWAS catalog.
 We then tabulate the diseases associated with the
 common loci.
 <<lkdtab>>=
-intr = gwrngs[ intersect(getRsids(gwrngs), rson6) ]
+intr = gwrngs19[ intersect(getRsids(gwrngs19), rson6) ]
 sort(table(getTraits(intr)), decreasing=TRUE)[1:10]
 @
 
@@ -274,9 +266,9 @@ Here we compute overlaps with both the raw disease-associated locus
 addresses, and with the locus address $\pm$ 500bp.
 <<dosub>>=
 ag = function(x) as(x, "GRanges")
-ovraw = suppressWarnings(subsetByOverlaps(ag(gwrngs), gr6.0))
+ovraw = suppressWarnings(subsetByOverlaps(ag(gwrngs19), gr6.0))
 length(ovraw)
-ovaug = suppressWarnings(subsetByOverlaps(ag(gwrngs+500), gr6.0))
+ovaug = suppressWarnings(subsetByOverlaps(ag(gwrngs19+500), gr6.0))
 length(ovaug)
 @
 
@@ -285,14 +277,14 @@ within 500bp, use:
 <<dosub>>=
 rawrs = mcols(ovraw)$SNPs
 augrs = mcols(ovaug)$SNPs
-gwrngs[augrs]
+gwrngs19[augrs]
 @
 
 Relaxing the intersection criterion in this
 limited case leads to a larger set of traits.
 
 <<lkrelax>>=
-setdiff( getTraits(gwrngs[augrs]), getTraits(gwrngs[rawrs]) )
+setdiff( getTraits(gwrngs19[augrs]), getTraits(gwrngs19[rawrs]) )
 @
 
 \section{Counting alleles associated with traits}
@@ -312,14 +304,15 @@ Because we have direct nucleotide coding in our matrix, we set
 the \texttt{matIsAB} parameter to false in this call.
 
 <<dorun>>=
-h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17")
+h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17",
+ gwwl = gwrngs19)
 h17[1:5,1:5]
 table(as.numeric(h17))
 @
 
 It is of interest to bind the counts back to the catalog data.
 <<domo>>=
-gwr = gwrngs
+gwr = gwrngs19
 gwr = gwr[colnames(h17),]
 mcols(gwr) = cbind(mcols(gwr), DataFrame(t(h17)))
 sn = rownames(h17)
@@ -381,7 +374,7 @@ summary(rules_6.0_1kg_17)
 @
 The overlap between the 6.0-resident g17SM loci and the catalog is
 <<lkov>>=
-length(intersect(colnames(g17SM), mcols(gwrngs)$SNPs))
+length(intersect(colnames(g17SM), mcols(gwrngs19)$SNPs))
 @
 
 The new expected B allele counts are
@@ -390,7 +383,7 @@ exg17 = impute.snps(rules_6.0_1kg_17, g17SM)
 @
 The number of new loci that coincide with risk loci in the catalog is:
 <<lkl>>=
-length(intersect(colnames(exg17), mcols(gwrngs)$SNPs))
+length(intersect(colnames(exg17), mcols(gwrngs19)$SNPs))
 @
 
 \section{Formal management of trait vocabularies}
@@ -417,7 +410,7 @@ Direct mapping from disease trait tokens in the catalog
 to this vocabulary succeeds for a modest proportion of
 records.
 <<dohit>>=
-cattra = mcols(gwrngs)$Disease.Trait
+cattra = mcols(gwrngs19)$Disease.Trait
 mat = match(tolower(cattra), tolower(allt))
 catDO = names(allt)[mat]
 na.omit(catDO)[1:50]
@@ -488,7 +481,7 @@ through HTTP; large requests can be carried out on a local tabix-indexed
 selection from their archive.
 
 <<chkcadd,eval=FALSE>>=
-g3 = as(gwrngs, "GRanges")
+g3 = as(gwrngs19, "GRanges")
 bg3 = bindcadd_snv( g3[which(seqnames(g3)=="chr3")][1:20] )
 inds = ncol(mcols(bg3))
 bg3[, (inds-3):inds]

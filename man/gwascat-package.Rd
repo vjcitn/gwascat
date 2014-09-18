@@ -7,9 +7,11 @@
 \alias{low17}
 \alias{rules_6.0_1kg_17}
 \alias{DataFrame}
-\alias{gwrngs}
+\alias{gwrngs19}
+\alias{gwrngs38}
 \alias{impute.snps}
 \alias{SnpMatrix-class}
+\alias{si.hs.38}
 \docType{package}
 \title{
 representing and modeling data in the NHGRI GWAS catalog
@@ -33,9 +35,15 @@ Index:
 \preformatted{
 gwaswloc-class          Class '"gwaswloc"'
 }
-Upon attachment, a \code{\link[GenomicRanges]{GRanges-class}} structure
-call \code{gwrngs} is formed which can be interrogated by position or
+Prior to 1.9.7, upon attachment, a \code{\link[GenomicRanges]{GRanges-class}} structure
+call \code{gwrngs} was formed.  This culd be interrogated by position or
 through use of element metadata to learn about catalogued GWAS associations.
+
+This automated approach is no longer used.  The user
+must use data(gwrngs19) for an hg19-based catalog, or
+data(gwrngs38) for an hg38-based catalog.  The latter
+is based on records as distributed by NHGRI, the
+former arises after liftOver.
 
 The data objects
 
@@ -49,6 +57,8 @@ The DataFrame function is imported from IRanges.
 The \code{\link[snpStats]{SnpMatrix-class}} is used to represent data
 related to rule-based imputation, using the \code{\link[snpStats]{impute.snps}}
 function.
+
+si.hs.38 is a \code{\link[GenomeInfoDb]{Seqinfo-class}} instance for hg38.
 }
 \author{
 VJ Carey <stvjc@channing.harvard.edu>
@@ -67,6 +77,7 @@ Genentech, Inc.
 %}
 \examples{
 \dontrun{
- gwrngs
+ data(gwrngs19)
+ gwrngs19
  }
 }

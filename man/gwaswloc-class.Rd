@@ -5,6 +5,7 @@
 \alias{[,gwaswloc,ANY,ANY,ANY-method}
 \alias{[,gwaswloc,ANY-method}
 \alias{[,gwaswloc-method}
+\alias{show,gwaswloc-method}
 \alias{getRsids,gwaswloc-method}
 \alias{getTraits,gwaswloc-method}
 \alias{subsetByChromosome,gwaswloc-method}
@@ -34,7 +35,7 @@ coordinates for locus }
     \item{\code{strand}:}{Object of class \code{"Rle"} identifier of
 chromosome strand }
     \item{\code{elementMetadata}:}{Object of class \code{"DataFrame"} general
-\code{\link[IRanges]{DataFrame-class}} instance providing attributes
+\code{\link[S4Vectors]{DataFrame-class}} instance providing attributes
 for the locus-trait association }
     \item{\code{seqinfo}:}{Object of class \code{"Seqinfo"}  }
     \item{\code{metadata}:}{Object of class \code{"list"}  }
@@ -72,8 +73,10 @@ to a given vector of traits }
 VJ Carey <stvjc@channing.harvard.edu>
 }
 \note{
-In gwascat package, the globally accessible \code{gwaswloc} instance
-\code{gwrngs} is created upon attachment.
+In gwascat package 1.9.6 and earlier, 
+the globally accessible \code{gwaswloc} instance
+\code{gwrngs} was created upon attachment.  This is no 
+longer the case.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

@@ -15,7 +15,7 @@ topTraits (gwwl, n=10, tag="Disease.Trait")
 
 locs4trait(gwwl, trait, tag="Disease.Trait") 
 
-chklocs(chrtag="20", gwwl=gwrngs)
+chklocs(chrtag="20", gwwl)
 }
 
 
@@ -61,7 +61,8 @@ VJ Carey <stvjc@channing.harvard.edu>
 %}
 \examples{
 #if (!exists("gwrngs")) gwascat:::.onAttach("a", "b")
-topTraits(gwrngs)
+data(gwrngs19)
+topTraits(gwrngs19)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

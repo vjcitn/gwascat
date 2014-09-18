@@ -58,7 +58,8 @@ VJ Carey <stvjc@channing.harvard.edu>
 \examples{
 # do a p-value truncation if you want to reduce compression
 #gwascat:::.onAttach("A", "gwascat")
-traitsManh(gwrngs)
+data(gwrngs19)
+traitsManh(gwrngs19)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

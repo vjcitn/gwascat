@@ -50,7 +50,8 @@ with support from Genentech, Inc.
 \examples{
  \dontrun{
  # requires internet access
- g2 = as(gwrngs, "GRanges")
+ data(gwrngs19)
+ g2 = as(gwrngs19, "GRanges")
  bindcadd_snv( g2[which(seqnames(g2)=="chr2")][1:20] )
  }
 }
