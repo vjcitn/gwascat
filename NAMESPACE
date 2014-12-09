@@ -7,7 +7,7 @@ importFrom(IRanges, IRanges, ranges, "%in%", as.list)
 
 importClassFrom(snpStats, "SnpMatrix")
 exportClass("SnpMatrix")
-importFrom(snpStats, impute.snps)
+importFrom(snpStats, impute.snps, ld)
 export(impute.snps)
 
 importFrom(BiocGenerics, mget, match)
@@ -26,5 +26,7 @@ exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTrait
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
    "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz", 
-   values, mcols, "mcols<-", seqnames, match, overlapsAny, DataFrame, bindcadd_snv, show)
+   values, mcols, "mcols<-", seqnames, match, 
+   overlapsAny, DataFrame, bindcadd_snv, show, ldtagr)
+
 
