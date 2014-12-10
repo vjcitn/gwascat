@@ -29,4 +29,7 @@ export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
    values, mcols, "mcols<-", seqnames, match, 
    overlapsAny, DataFrame, bindcadd_snv, show, ldtagr)
 
+importFrom(Gviz, GeneRegionTrack, DataTrack,
+  displayPars, "displayPars<-", "plotTracks", GenomeAxisTrack)
+
 

@@ -6,7 +6,7 @@ gwcex2gviz = function( basegr,
 #
 # objective is to visualize features of GWAS in gene/transcript context
 #
- require(Gviz, quietly=TRUE)
+# require(Gviz, quietly=TRUE)
  library(txrefpk, character.only=TRUE, quietly=TRUE)
  library(genesympk, character.only=TRUE, quietly=TRUE)
  symmap = get(gsub(".db", "SYMBOL", genesympk))

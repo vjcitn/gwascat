@@ -13,7 +13,6 @@ ldtagr = function( snprng, tf, samples, genome="hg19",
          samps=samples, genome=genome, getSM=TRUE )
   empty = GRanges()
   mcols(empty) = DataFrame(paramRangeID = factor(), R2 = numeric())
-  require(snpStats)
   vcfrng = rowData(quer$readout)
   gt = quer$sm$genotypes
   if (!(snpid %in% colnames(gt))) {
