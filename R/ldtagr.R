@@ -13,7 +13,7 @@ ldtagr = function( snprng, tf, samples, genome="hg19",
          samps=samples, genome=genome, getSM=TRUE )
   empty = GRanges()
   mcols(empty) = DataFrame(paramRangeID = factor(), R2 = numeric())
-  vcfrng = rowData(quer$readout)
+  vcfrng = rowRanges(quer$readout)
   gt = quer$sm$genotypes
   if (!(snpid %in% colnames(gt))) {
     message(paste0("NOTE: ", snpid, " not in VCF at given radius, returning empty GRanges"))
