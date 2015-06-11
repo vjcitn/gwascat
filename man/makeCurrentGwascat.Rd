@@ -10,8 +10,8 @@ read NHGRI table and construct associated GRanges instance
 \usage{
 makeCurrentGwascat(table.url =
                  "http://www.ebi.ac.uk/gwas/api/search/downloads/alternative",
-                 fixNonASCII = FALSE, useHg38seqinfo = TRUE,
-                 altSeqinfo, withOnt = FALSE)
+                 fixNonASCII = FALSE, 
+                 withOnt = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,10 +21,10 @@ string identifying the .txt file curated at EBI/EMBL
   \item{fixNonASCII}{
 logical, if TRUE, non-ASCII characters as identified by iconv will be replaced by asterisk
 }
-  \item{useHg38seqinfo}{logical indicating that metadata on reference
-genome comes from GRCh38/hg38}
-  \item{altSeqinfo}{Seqinfo instance to be used directly to
-document the value produced}
+ \item{genome}{character string: 'GRCh38' is default and yields
+current image as provided by EMBL/EBI; 'GRCh37' yields a realtime liftOver
+to hg19 coordinates, via AnnotationHub storage of the chain files.
+Any other value yields an error.}
  \item{withOnt}{logical indicating whether 'alternative' (ontology-present,
 includes repetition of loci with one:many ontological mapping) or 'full'
 (ontology-absent, one record per locus report) version of distributed table}

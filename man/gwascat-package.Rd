@@ -10,6 +10,7 @@
 \alias{gwrngs19}
 \alias{gwrngs38}
 \alias{ebicat38}
+\alias{ebicat37}
 \alias{impute.snps}
 \alias{SnpMatrix-class}
 \alias{si.hs.38}
@@ -48,7 +49,8 @@ gwaswloc-class          Class '"gwaswloc"'
 
 The GWAS catalog management has migrated to EMBL/EBI.  Use 
 data(ebicat38) for an image dated 10 June 2015.  Use makeCurrentGwascat()
-to get a more recent image.
+to get a more recent image.  Use data(ebicat37) for a GRCh37 (or hg19)
+liftOver result.
 
 The data objects
 

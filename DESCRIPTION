@@ -1,13 +1,13 @@
 Package: gwascat
 Title: representing and modeling data in the NHGRI GWAS catalog
-Version: 2.1.2
+Version: 2.1.3
 Author: VJ Carey <stvjc@channing.harvard.edu>
 Description: representing and modeling data in the NHGRI GWAS catalog
 Enhances: SNPlocs.Hsapiens.dbSNP.20120608
 Depends: R (>= 3.0.0)
 Imports: methods, BiocGenerics, S4Vectors, IRanges, GenomeInfoDb,
         GenomicRanges, snpStats, Biostrings, Rsamtools, rtracklayer,
-	gQTLstats, Gviz, VariantAnnotation
+	gQTLstats, Gviz, VariantAnnotation, AnnotationHub
 Suggests: DO.db, ggbio, graph
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0

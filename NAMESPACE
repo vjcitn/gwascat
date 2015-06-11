@@ -16,7 +16,7 @@ importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
 
 importFrom(GenomicRanges, GRanges, show)
 importFrom(IRanges, RangedData, overlapsAny)
-importFrom(rtracklayer, import)
+importFrom(rtracklayer, import, liftOver)
 importFrom(Rsamtools, TabixFile, open.TabixFile, close.TabixFile)
 importFrom(BiocGenerics, cbind)
 
@@ -34,3 +34,4 @@ importFrom(Gviz, GeneRegionTrack, DataTrack,
 
 export(metadata)
 
+importFrom(AnnotationHub, AnnotationHub, query)
