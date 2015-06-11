@@ -9,6 +9,7 @@
 \alias{DataFrame}
 \alias{gwrngs19}
 \alias{gwrngs38}
+\alias{ebicat38}
 \alias{impute.snps}
 \alias{SnpMatrix-class}
 \alias{si.hs.38}
@@ -35,15 +36,19 @@ Index:
 \preformatted{
 gwaswloc-class          Class '"gwaswloc"'
 }
-Prior to 1.9.7, upon attachment, a \code{\link[GenomicRanges]{GRanges-class}} structure
-call \code{gwrngs} was formed.  This culd be interrogated by position or
-through use of element metadata to learn about catalogued GWAS associations.
+%Prior to 1.9.7, upon attachment, a \code{\link[GenomicRanges]{GRanges-class}} structure
+%call \code{gwrngs} was formed.  This culd be interrogated by position or
+%through use of element metadata to learn about catalogued GWAS associations.
+%
+%This automated approach is no longer used.  The user
+%must use data(gwrngs19) for an hg19-based catalog, or
+%data(gwrngs38) for an hg38-based catalog.  The latter
+%is based on records as distributed by NHGRI, the
+%former arises after liftOver.
 
-This automated approach is no longer used.  The user
-must use data(gwrngs19) for an hg19-based catalog, or
-data(gwrngs38) for an hg38-based catalog.  The latter
-is based on records as distributed by NHGRI, the
-former arises after liftOver.
+The GWAS catalog management has migrated to EMBL/EBI.  Use 
+data(ebicat38) for an image dated 10 June 2015.  Use makeCurrentGwascat()
+to get a more recent image.
 
 The data objects
 

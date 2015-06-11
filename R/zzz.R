@@ -35,35 +35,38 @@
 gwdf2GRanges = function (df, extractDate, seqlSrc ) 
 {
 #
-# intent is to take a data frame like that distributed by NHGRI
+# intent is to take a data frame like that distributed by EMBL/EBI (formerly by NHGRI)
 # and convert to a useful GRanges instance, coercing heterogeneous vectors
 # to majority type
 #
-    gwcatloc = df[which(!is.na(as.numeric(df$Chr_pos))), ]
+# NOTE: EMBL/EBI changed the column header case to capitals.  Code
+#  will use the new naming convention
 #
-# put chr prefix to Chr_id as needed
+    gwcatloc = df[which(!is.na(as.numeric(df$CHR_POS))), ]
 #
-    ch = as.character(gwcatloc$Chr_id)
+# put chr prefix to CHR_ID as needed
+#
+    ch = as.character(gwcatloc$CHR_ID)
     if (any(ch == "23")) ch[ch=="23"] = "X"
     
     if (length(grep("chr", ch)) == 0) 
         ch = paste("chr", ch, sep = "")
-    gwrngs = GRanges(seqnames = ch, IRanges(as.numeric(gwcatloc$Chr_pos), 
+    gwrngs = GRanges(seqnames = ch, IRanges(as.numeric(gwcatloc$CHR_POS), 
         width = 1))
     mcols(gwrngs) = gwcatloc
 #
 # make numeric p values and addresses
 #
-    mcols(gwrngs)$p.Value = as.numeric(as.character(mcols(gwrngs)$p.Value)) # was factor
-    mcols(gwrngs)$Pvalue_mlog = as.numeric(as.character(mcols(gwrngs)$Pvalue_mlog)) # was factor
-    mcols(gwrngs)$OR.or.beta = suppressWarnings(as.numeric(as.character(mcols(gwrngs)$OR.or.beta))) # was factor
-    mcols(gwrngs)$Chr_pos = as.numeric(mcols(gwrngs)$Chr_pos)
+    mcols(gwrngs)$P.VALUE = as.numeric(as.character(mcols(gwrngs)$P.VALUE)) # was factor
+    mcols(gwrngs)$PVALUE_MLOG = as.numeric(as.character(mcols(gwrngs)$PVALUE_MLOG)) # was factor
+    mcols(gwrngs)$OR.or.BETA = suppressWarnings(as.numeric(as.character(mcols(gwrngs)$OR.or.BETA))) # was factor
+    mcols(gwrngs)$CHR_POS = as.numeric(mcols(gwrngs)$CHR_POS)
 #
 # clean out stray whitespace
 #
-    badco = mcols(gwrngs)$Strongest.SNP.Risk.Allele
+    badco = mcols(gwrngs)$STRONGEST.SNP.RISK.ALLELE
     co = gsub(" $", "", badco)
-    mcols(gwrngs)$Strongest.SNP.Risk.Allele = co
+    mcols(gwrngs)$STRONGEST.SNP.RISK.ALLELE = co
 #
 #
 #
@@ -74,30 +77,23 @@ gwdf2GRanges = function (df, extractDate, seqlSrc )
 #        vec
 #    }
 #
-# utility to strip out some unusual tokens in OR.or.beta
+# utility to strip out some unusual tokens in OR.or.BETA
 #
 #    cleanToNum = function(x, bad = c("NR", "Pending")) {
 #      lkbad = which(x %in% bad)
 #      if (length(lkbad) > 0) x[lkbad] = NA
 #    }
-#    mcols(gwrngs)$OR.or.beta = cleanToNum(
-#          mcols(gwrngs)$OR.or.beta ) #as.numeric(fixhet(mcols(gwrngs)$OR.or.beta))
+#    mcols(gwrngs)$OR.or.BETA = cleanToNum(
+#          mcols(gwrngs)$OR.or.BETA ) #as.numeric(fixhet(mcols(gwrngs)$OR.or.BETA))
 #
 # utility to get numeric values in Risk.Allele.Frequency
 #
     killpatt = "\\+|[[:alpha:]]|\\(|\\)|\\ "
     nulcToNA = function(x) {isn = which(nchar(x)==0); if (length(isn)>0) x[isn] = NA; x}
-    mcols(gwrngs)$num.Risk.Allele.Frequency = as.numeric(nulcToNA(gsub(killpatt, "", as.character(mcols(gwrngs)$Risk.Allele.Frequency))))
+    mcols(gwrngs)$num.RISK.ALLELE.FREQUENCY = as.numeric(nulcToNA(gsub(killpatt, "", as.character(mcols(gwrngs)$RISK.ALLELE.FREQUENCY))))
 #    gwrngs = makeConsecChrs(gwrngs)  # WHY???
 #    gwrngs = addSeqlengths(gwrngs, src=seqlSrc)
     gwrngs = new("gwaswloc", extractDate = extractDate, gwrngs)
     gwrngs
 }
 
-#   gwrngs <- NULL
-#   .onAttach = function(libname, pkgname) {
-#    psm =  function(..., appendLF=FALSE )packageStartupMessage(..., appendLF=appendLF)
-#       gwrngs <<- get(load(system.file("data", "gwrngs.rda", package="gwascat")))
-#   psm("Object 'gwrngs' loaded and assigned from serialized version of 2013.12.03.", appendLF=TRUE)
-#   psm("Use makeCurrentGwascat() to obtain up-to-date image.", appendLF=TRUE)
-#    }

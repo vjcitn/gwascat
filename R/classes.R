@@ -36,7 +36,7 @@ setMethod("show", "gwaswloc", function(object) {
  cat("Excerpt:\n")
  nrec = min(5, length(object))
  availcols = colnames(mcols(object))
- majorfields = c("Disease.Trait", "SNPs", "p.Value")
+ majorfields = c("DISEASE.TRAIT", "SNPS", "P.VALUE")
  if (all(majorfields %in% availcols) & length(availcols) > 5)
    show(as(object, "GRanges")[1:nrec, majorfields])
  else show(as(object, "GRanges")[1:nrec,])
