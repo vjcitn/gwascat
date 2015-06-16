@@ -6,6 +6,10 @@
    if (length(strinds)>0) vec[strinds] = ""
    vec
    }
+.onLoad = function(libname, pkgname) {
+message("gwascat loaded.  Use data(ebicat38) for hg38 coordinates;")
+message(" data(ebicat37) for hg19 coordinates.")
+}
 
 #.onAttach = function(libname, pkgname) {
 ##
