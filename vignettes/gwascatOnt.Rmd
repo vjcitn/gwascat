@@ -1,0 +1,102 @@
+---
+title: "GWAS catalog: Phenotypes systematized by the experimental factor ontology"
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "August 2015"
+output:
+  BiocStyle::pdf_document:
+    toc: yes
+    number_sections: yes
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{gwascat: exploring GWAS results using the experimental factor ontology}
+-->
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+```
+
+# Introduction
+
+The EMBL-EBI curation of the GWAS catalog (originated at NHGRI)
+includes labelings of GWAS hit records with terms from the EBI Experimental
+Factor Ontology (EFO).  The Bioconductor `r Biocpkg("gwascat")`
+package includes a `r Biocpkg("graph")` representation of the ontology
+and records the EFO assignments of GWAS results in its basic
+representations of the catalog.
+
+# Views of the EFO
+
+Term names are regimented.
+
+```{r getg}
+library(gwascat)
+data(efo.obo.g)
+efo.obo.g
+sn = head(nodes(efo.obo.g))
+sn
+```
+
+The nodeData of the graph includes a `def` field.
+We will process that to create a data.frame.
+
+```{r procdef}
+nd = nodeData(efo.obo.g)
+alldef = sapply(nd, function(x) unlist(x[["def"]]))
+allnames = sapply(nd, function(x) unlist(x[["name"]]))
+alld2 = sapply(alldef, function(x) if(is.null(x)) return(" ") else x[1])
+mydf = data.frame(id = names(allnames), concept=as.character(allnames), def=unlist(alld2))
+```
+
+We can create an interactive data table for all terms, but for
+performance we limit the table size to terms involving the string
+'autoimm'.
+
+```{r limtab}
+limdf = mydf[ grep("autoimm", mydf$def, ignore.case=TRUE), ]
+library(DT)
+suppressWarnings({
+datatable(limdf, rownames=FALSE, options=list(pageLength=5))
+})
+```
+
+# Graph operations
+
+The use of the graph representation allows various approaches
+to traversal and selection.  Here we examine metadata for a
+term of interest, transform to an undirected graph, and obtain
+the adjacency list for that term.
+
+```{r lkg}
+nodeData(efo.obo.g, "EFO:0000540")
+ue = ugraph(efo.obo.g)
+neighISD = adj(ue, "EFO:0000540")[[1]]
+sapply(nodeData(subGraph(neighISD, efo.obo.g)), "[[", "name")
+```
+
+With RBGL we can compute paths to terms from root.
+```{r lkggg}
+library(RBGL)
+p = sp.between( efo.obo.g, "EFO:0000685", "EFO:0000001")
+sapply(nodeData(subGraph(p[[1]]$path_detail, efo.obo.g)), "[[", "name")
+```
+
+# Connections to the GWAS catalog
+
+The `mcols` element of the `GRanges` instances provided by
+gwascat include mapped EFO terms and EFO URIs.
+
+```{r lkef}
+data(ebicat38)
+names(mcols(ebicat38))
+adinds = grep("autoimmu", ebicat38$MAPPED_TRAIT)
+adgr = ebicat38[adinds]
+adgr
+mcols(adgr)[, c("MAPPED_TRAIT", "MAPPED_TRAIT_URI")]
+```
