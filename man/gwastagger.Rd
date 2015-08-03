@@ -63,11 +63,11 @@ by Michael McGeachie, Harvard Medical School;
 \examples{
 data(gwastagger)
 gwastagger[1:5]
-data(gwrngs19)
-mean(gwrngs19$SNPs \%in\% gwastagger$baseid)
+data(ebicat37)
+mean(ebicat37$SNPS \%in\% gwastagger$baseid)
 # ideally, all GWAS SNP would be in our tagging ranges as baseid
-query <- setdiff(gwrngs19$SNPs, gwastagger$baseid)
+query <- setdiff(ebicat37$SNPS, gwastagger$baseid)
 # relatively recent catalog additions
-sort(table(gwrngs19[which(gwrngs19$SNPs \%in\% query)]$Date.Added.to.Catalog), decreasing=TRUE)[1:10]
+sort(table(ebicat37[which(ebicat37$SNPS \%in\% query)]$DATE.ADDED.TO.CATALOG), decreasing=TRUE)[1:10]
 }
 \keyword{datasets}
