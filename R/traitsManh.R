@@ -7,11 +7,11 @@ traitsManh = function( gwr,
  Trait <- NA # try to squelch note
  require(ggbio)
  gwr = gwr[ which(overlapsAny(gwr, selr)) ]
- availtr = as.character(mcols(gwr)$Disease.Trait)
+ availtr = as.character(mcols(gwr)$DISEASE.TRAIT)
  oth = which(!(availtr %in% traits))
  availtr[oth] = "Other"
  mcols(gwr)$Trait = availtr
- pv = mcols(gwr)$Pvalue_mlog 
- mcols(gwr)$Pvalue_mlog = ifelse(pv > 25, 25, pv)
- autoplot( gwr, geom="point", aes(y=Pvalue_mlog, color=Trait))
+ pv = mcols(gwr)$PVALUE_MLOG 
+ mcols(gwr)$PVALUE_MLOG = ifelse(pv > 25, 25, pv)
+ autoplot( gwr, geom="point", aes(y=PVALUE_MLOG, color=Trait))
 }

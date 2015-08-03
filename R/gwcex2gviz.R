@@ -34,10 +34,10 @@ gwcex2gviz = function( basegr,
  GR = GeneRegionTrack(k, chromosome=chrmin, genome=genome)
  library(gwascat)
  studs = basegr[ which(overlapsAny(basegr, contextGR)) ]
- mlp = mcols(studs)$Pvalue_mlog
+ mlp = mcols(studs)$PVALUE_MLOG
  mlp = ifelse(mlp > maxmlp, maxmlp, mlp)
- mcols(studs)$Pvalue_mlog = mlp
- sss = mcols(studs)$Pvalue_mlog
+ mcols(studs)$PVALUE_MLOG = mlp
+ sss = mcols(studs)$PVALUE_MLOG
  studp = DataTrack( as(studs, "GRanges"), data=sss, 
      chromosome=chrmin, genome=genome, name="-log P GWAS" )
 #

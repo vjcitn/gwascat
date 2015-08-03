@@ -62,11 +62,11 @@ setMethod("[", "gwaswloc", function(x, i, j, ..., drop=FALSE) {
 
 setGeneric("getRsids", function(x)standardGeneric("getRsids"))
 setMethod("getRsids", "gwaswloc", function(x)
- mcols(x)$SNPs)
+ mcols(x)$SNPS)
 
 setGeneric("getTraits", function(x)standardGeneric("getTraits"))
 setMethod("getTraits", "gwaswloc", function(x)
- mcols(x)$Disease.Trait)
+ mcols(x)$DISEASE.TRAIT)
 
 
 setGeneric("subsetByChromosome", function(x, ch)standardGeneric("subsetByChromosome"))

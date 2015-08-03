@@ -1,9 +1,9 @@
 
-topTraits = function(gwwl, n=10, tag="Disease.Trait") {
+topTraits = function(gwwl, n=10, tag="DISEASE.TRAIT") {
  sort(table(mcols(gwwl)[[tag]]), decreasing=TRUE)[1:n]
 }
 
-locs4trait = function(gwwl, trait, tag="Disease.Trait") {
+locs4trait = function(gwwl, trait, tag="DISEASE.TRAIT") {
  if (length(trait) != 1) stop("please supply only one trait string")
  curem = mcols(gwwl) #as(mcols(gwwl), "DataFrame")
  tr = curem[[tag]]
@@ -22,26 +22,26 @@ chklocs = function(chrtag="20", gwwl=gwrngs19) {
 # in the gwrngs19 structure
 #
   require(SNPlocs.Hsapiens.dbSNP.20120608)
-  allrs = mcols(gwwl)$SNPs
-  allch = mcols(gwwl)$Chr_id
+  allrs = mcols(gwwl)$SNPS
+  allch = mcols(gwwl)$CHR_ID
   rsbyc = split(allrs, allch)
   rcur = rsbyc[[chrtag]]
   refcur = getSNPlocs(paste("ch", chrtag, sep=""))
   rownames(refcur) = paste("rs", refcur$RefSNP_id, sep="")
   Ncur = refcur[ intersect(rcur, rownames(refcur)), ]
-  minds <- match(rownames(Ncur), mcols(gwwl)$SNPs)
-  #Ncurpos = mcols(gwwl[ minds ])$Chr_pos
+  minds <- match(rownames(Ncur), mcols(gwwl)$SNPS)
+  #Ncurpos = mcols(gwwl[ minds ])$CHR_POS
   Ncurpos = start(gwwl[ minds ])
   all((Ncurpos - Ncur[,3]) == 0)
 }
 
 variantProps = function(rs, ..., gwwl=gwrngs) {
   subr = gwwl[rs,]
-  strg = mcols(subr)$Strongest.SNP
+  strg = mcols(subr)$STRONGEST.SNP.RISK.ALLELE
   alls = sapply(strsplit(strg, "-"), "[", 2)
   strs = sapply(strsplit(strg, "-"), "[", 1)
   mcols(subr) = DataFrame(rsid=strs, riskAllele=alls,
-     mcols(subr)[, c("Disease.Trait", "SNPs", "p.Value")])
+     mcols(subr)[, c("DISEASE.TRAIT", "SNPS", "P.VALUE")])
   subr
 }
 
