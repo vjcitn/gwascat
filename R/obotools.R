@@ -22,12 +22,14 @@ cleanup = function (x)
 
 
 obo2graphNEL = function(obo="human-phenotype-ontology.obo", 
-  kill="\\[Typedef\\]") {
+  kill="\\[Typedef\\]", killTrailSp=TRUE) {
 #
 # generate a bioconductor graph graphNEL instance with
 # formal term IDs as nodes, edge list defined by is_a links,
 # and nodeData composed of name, def, and xref content
 # 
+# killTrailSp introduced for EFO, EFO:0000001 has a trailing blank
+# that kills the edge parsing utility
 #
  require(graph)
  lol = obo2lol(obo, kill=kill)
@@ -44,6 +46,7 @@ obo2graphNEL = function(obo="human-phenotype-ontology.obo",
 # ids = get_ids(lol)
  names(isas) = unlist(ids)
  idvec = unlist(ids)
+ if (killTrailSp) idvec = gsub(" $", "", idvec)
  edl = lapply(isas, function(x) list(edges=x))
  names(edl) = idvec 
  g = new("graphNEL", nodes=idvec, edgeL = edl, edgemode = "directed")
