@@ -63,8 +63,8 @@ modifying the contents of Pvalue\_mlogp in the elementMetadata for the call}
 \examples{
 args(gwcex2gviz)
 #gwascat:::.onAttach("", "gwascat")
-data(gwrngs19)
-gwcex2gviz(gwrngs19)
+data(ebicat37)
+gwcex2gviz(ebicat37)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
