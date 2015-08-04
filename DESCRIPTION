@@ -9,7 +9,7 @@ Imports: methods, BiocGenerics, S4Vectors, IRanges, GenomeInfoDb,
         GenomicRanges, snpStats, Biostrings, Rsamtools, rtracklayer,
 	gQTLstats, Gviz, VariantAnnotation, AnnotationHub, AnnotationDbi,
 	GenomicFeatures, graph, ggbio, ggplot2
-Suggests: DO.db, DT, utils, knitr, RBGL, RUnit
+Suggests: DO.db, DT, utils, knitr, RBGL, RUnit, GGtools
 VignetteBuilder: utils, knitr
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
