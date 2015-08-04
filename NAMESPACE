@@ -1,6 +1,7 @@
 import(methods)
 import(graph)
 export(nodeData, nodes, ugraph, subGraph, adj)
+importFrom(gQTLstats, queryVCF)
 
 import(S4Vectors)
 import(GenomeInfoDb)
@@ -27,11 +28,9 @@ importFrom(BiocGenerics, cbind)
 exportClass(gwaswloc)
 exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTraits", show)
 
-export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
+export(locs4trait, topTraits, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
    "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz", 
-#   values, mcols, "mcols<-", seqnames, match, 
-#   overlapsAny, DataFrame, 
    bindcadd_snv, show, ldtagr)
 
 importFrom(Gviz, GeneRegionTrack, DataTrack,

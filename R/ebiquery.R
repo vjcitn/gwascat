@@ -40,6 +40,6 @@ quer = paste0(f1, equo(term), f2, pvbound, f3, orlimi,
 if (!submit) return(quer)
 
 suppressWarnings({
- read.delim(quer, sep="\t", h=TRUE, stringsAsFactors=FALSE)
+ read.delim(quer, sep="\t", header=TRUE, stringsAsFactors=FALSE)
 })
 }

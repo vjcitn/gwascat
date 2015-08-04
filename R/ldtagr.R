@@ -9,7 +9,7 @@ ldtagr = function( snprng, tf, samples, genome="hg19",
   stopifnot(length(snprng)==1)
   snpid = names(snprng)
   stopifnot(length(snpid)==1)
-  quer = gQTLstats:::queryVCF( gr=snprng+radius, vcf.tf=tf, 
+  quer = queryVCF( gr=snprng+radius, vcf.tf=tf, 
          samps=samples, genome=genome, getSM=TRUE )
   empty = GRanges()
   mcols(empty) = DataFrame(paramRangeID = factor(), R2 = numeric())

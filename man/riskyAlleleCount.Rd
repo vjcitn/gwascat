@@ -63,8 +63,10 @@ to SNP
 %}
 \examples{
 data(gg17N) # translated from GGdata chr 17 calls using ABmat2nuc
-data(gwrngs19)
-h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17", gwwl=gwrngs19)
+data(ebicat37)
+library(GenomeInfoDb)
+seqlevelsStyle(ebicat37) = "UCSC"
+h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17", gwwl=ebicat37)
 h17[1:5,1:5]
 table(as.numeric(h17))
 }
