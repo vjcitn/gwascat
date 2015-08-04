@@ -60,9 +60,8 @@ VJ Carey <stvjc@channing.harvard.edu>
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
 \examples{
-#if (!exists("gwrngs")) gwascat:::.onAttach("a", "b")
-data(gwrngs19)
-topTraits(gwrngs19)
+data(ebicat38)
+topTraits(ebicat38)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -57,9 +57,10 @@ VJ Carey <stvjc@channing.harvard.edu>
 %}
 \examples{
 # do a p-value truncation if you want to reduce compression
-#gwascat:::.onAttach("A", "gwascat")
-data(gwrngs19)
-traitsManh(gwrngs19)
+data(ebicat38)
+library(GenomeInfoDb)
+seqlevelsStyle(ebicat38) = "UCSC"
+traitsManh(ebicat38)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

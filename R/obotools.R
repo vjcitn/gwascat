@@ -1,6 +1,8 @@
 # obotools.R -- VJ Carey 19 March 2012
 # simple models for obo term data
 
+#iconv(df[,badinds[i]], to="ASCII", sub="*")
+
 cleanup = function (x) 
 {
 #
@@ -10,6 +12,7 @@ cleanup = function (x)
 #
     if (!is(x, "character")) stop("expecting character vector")
     x = x[-1] # drop Term
+    x = iconv(x, to="ASCII", sub="*")
     x = gsub(" ! .*", "", x) # deal with extraneous info in isa fields
     if (any(nchar(x) == 0)) 
         x = x[-which(nchar(x) == 0)]
