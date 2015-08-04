@@ -3,13 +3,9 @@ title: "GWAS catalog: Phenotypes systematized by the experimental factor ontolog
 author: "Vincent J. Carey, stvjc at channing.harvard.edu"
 date: "August 2015"
 output:
-  BiocStyle::pdf_document:
-    toc: yes
-    number_sections: yes
   BiocStyle::html_document:
     highlight: pygments
     number_sections: yes
-    theme: united
     toc: yes
 ---
 

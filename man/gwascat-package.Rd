@@ -48,7 +48,7 @@ gwaswloc-class          Class '"gwaswloc"'
 %former arises after liftOver.
 
 The GWAS catalog management has migrated to EMBL/EBI.  Use 
-data(ebicat38) for an image dated 10 June 2015.  Use makeCurrentGwascat()
+data(ebicat38) for an image dated 3 August 2015.  Use makeCurrentGwascat()
 to get a more recent image.  Use data(ebicat37) for a GRCh37 (or hg19)
 liftOver result.
 
@@ -84,7 +84,7 @@ Genentech, Inc.
 %}
 \examples{
 \dontrun{
- data(gwrngs19)
- gwrngs19
+ data(ebicat38)
+ ebicat38
  }
 }

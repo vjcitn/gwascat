@@ -8,6 +8,7 @@
 %\VignetteDepends{GenomicRanges, DO.db}
 %\VignetteKeywords{genetics, GWAS}
 %\VignettePackage{gwascat}
+%\VignetteBuilder{utils::Sweave}
 
 \documentclass[12pt]{article}
 
