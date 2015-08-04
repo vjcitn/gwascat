@@ -1,0 +1,33 @@
+library(GenomicRanges)
+dir()
+load(dir()[2])
+ls()
+ebicat_ont[1,]
+summary(ebicat_ont$CHR_POS)
+dim(ebicat_ont)
+nna = ebicat_ont[!is.na(ebicat_ont$CHR_POS),]
+dim(nna)
+ebicat = GRanges( as.character(nna$CHR_ID), IRanges(nna$CHR_POS, width=1))
+ebicat
+mcols(ebicat) = nna
+ebicat[,1:5]
+genome(ebicat) = "hg38"
+ebicat38 = ebicat
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+biocLite("TxDb.Hsapiens.UCSC.hg38.knownGene")
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+txdb = TxDb.Hsapiens.UCSC.hg38.knownGene
+seqinfo(txdb)
+seqinfo(ebicat38)
+seqlevelsStyle(ebicat38)
+seqlevelsStyle(ebicat38) = "UCSC"
+seqinfo(ebicat38) = seqinfo(txdb)[seqnames(seqinfo(ebicat38))]
+seqinfo(ebicat38)
+table(seqnames(ebicat38))
+table(ebicat$CHR_ID)
+ebicat$REGION[ebicat$CHR_ID=="23"][1:10]
+seqlevels(ebicat38)
+seqlevels(ebicat38)[23]
+seqlevels(ebicat38)[23] = "chrX"
+table(seqnames(ebicat38))
+savehistory(file="doebicat38.hist.txt")

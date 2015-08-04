@@ -1,0 +1,63 @@
+library(GenomicRanges)
+dir()
+load(dir()[2])
+ls()
+ebicat_ont[1,]
+summary(ebicat_ont$CHR_POS)
+dim(ebicat_ont)
+nna = ebicat_ont[!is.na(ebicat_ont$CHR_POS),]
+dim(nna)
+ebicat = GRanges( as.character(nna$CHR_ID), IRanges(nna$CHR_POS, width=1))
+ebicat
+mcols(ebicat) = nna
+ebicat[,1:5]
+genome(ebicat) = "hg38"
+ebicat38 = ebicat
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+biocLite("TxDb.Hsapiens.UCSC.hg38.knownGene")
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+txdb = TxDb.Hsapiens.UCSC.hg38.knownGene
+seqinfo(txdb)
+seqinfo(ebicat38)
+seqlevelsStyle(ebicat38)
+seqlevelsStyle(ebicat38) = "UCSC"
+seqinfo(ebicat38) = seqinfo(txdb)[seqnames(seqinfo(ebicat38))]
+seqinfo(ebicat38)
+table(seqnames(ebicat38))
+table(ebicat$CHR_ID)
+ebicat$REGION[ebicat$CHR_ID=="23"][1:10]
+seqlevels(ebicat38)
+seqlevels(ebicat38)[23]
+seqlevels(ebicat38)[23] = "chrX"
+table(seqnames(ebicat38))
+savehistory(file="doebicat38.hist.txt")
+save(ebicat38, file="ebicat38.rda")
+library(rtracklayer)
+dir("~", patt="chain")
+ch = import.chain("~/hg38ToHg19.over.chain")
+li = liftOver(ebicat38, ch)
+li
+unlist(li)
+ebicat19 = unlist(li)
+ebicat19
+txlib()
+seqinfo(ebicat19)
+seqinfo(ebicat19) = seqinfo(txdb)[seqinfo(ebicat19)[,1]]
+seqinfo(ebicat19)
+seqinfo(ebicat19)$seqnames
+seqnames(seqinfo(ebicat19))
+seqinfo(ebicat19) = seqinfo(txdb)[seqnames(seqinfo(ebicat19))]
+seqinfo(ebicat19)
+seqinfo(ebicat38)
+seqinfo(txdb38)
+txdb38 = TxDb.Hsapiens.UCSC.hg38.knownGene
+seqinfo(txdb38)
+seqinfo(txdb38)["chrX"]
+seqinfo(ebicat38)["chrX"]
+seqinfo(ebicat38)["chrX"] = seqinfo(txdb38)["chrX"]
+seqinfo(ebicat38)= seqinfo(txdb38)[seqnames(seqinfo(ebicat38))]
+seqinfo(ebicat38)
+ebicat38
+save(ebicat38, file="ebicat38.rda")
+save(ebicat19, file="ebicat19.rda")
+savehistory(file="builders.hist.txt")
