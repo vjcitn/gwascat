@@ -1,5 +1,6 @@
 \name{obo2graphNEL}
 \alias{obo2graphNEL}
+\alias{efo.obo.g}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 convert a typical OBO text file to a graphNEL instance (using Term elements)
