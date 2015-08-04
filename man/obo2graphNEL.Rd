@@ -8,7 +8,7 @@ convert a typical OBO text file to a graphNEL instance (using Term elements)
 convert a typical OBO text file to a graphNEL instance (using Term elements)
 }
 \usage{
-obo2graphNEL(obo, kill = "\\\\[Typedef\\\\]")
+obo2graphNEL(obo, kill = "\\\\[Typedef\\\\]", killTrailSp=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,6 +18,11 @@ string naming a file in OBO format
   \item{kill}{
 entity types to be excluded from processing -- probably this
 should be in a 'keep' form, but for now this works.
+}
+  \item{killTrailSp}{
+In the textual version of EFO ca. Aug 2015, there is a trailing blank in the tag field defining EFO:0000001, which is not present in references to
+ this term.  Set this to TRUE to eliminate this, or graphNEL 
+ construction will fail to validate.
 }
 }
 \details{
@@ -52,8 +57,12 @@ package.
 %\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
-%\examples{
-%}
+\examples{
+example(efo.obo.g)
+hn = nodes(efo.obo.g)[1:5]
+hn
+nodeData(efo.obo.g, hn[5])
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ models }

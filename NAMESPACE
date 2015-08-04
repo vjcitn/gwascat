@@ -2,6 +2,7 @@ import(methods)
 import(graph)
 export(nodeData, nodes, ugraph, subGraph, adj)
 importFrom(gQTLstats, queryVCF)
+importFrom(ggbio, autoplot, aes)
 
 import(S4Vectors)
 import(GenomeInfoDb)

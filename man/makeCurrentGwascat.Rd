@@ -10,8 +10,8 @@ read NHGRI table and construct associated GRanges instance
 \usage{
 makeCurrentGwascat(table.url =
                  "http://www.ebi.ac.uk/gwas/api/search/downloads/alternative",
-                 fixNonASCII = FALSE, 
-                 withOnt = FALSE)
+                 fixNonASCII = TRUE, genome="GRCh38",
+                 withOnt = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
