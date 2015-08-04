@@ -21,7 +21,7 @@ chklocs = function(chrtag="20", gwwl=gwrngs19) {
 # the shipped catalog.  We have to use the result of liftOver,
 # in the gwrngs19 structure
 #
-  require(SNPlocs.Hsapiens.dbSNP.20120608)
+  requireNamespace("SNPlocs.Hsapiens.dbSNP.20120608")
   allrs = mcols(gwwl)$SNPS
   allch = mcols(gwwl)$CHR_ID
   rsbyc = split(allrs, allch)
@@ -52,7 +52,7 @@ snpGenos = function(chr, snpap="SNPlocs.Hsapiens.dbSNP.20120608") {
 # for S snp on chrom chr, returns an S x 3 matrix with columns A/A, A/B, B/B
 # the i, j element is the nuc assignment for genotype j of snp i
 #
- require(snpap, character.only=TRUE, quietly=TRUE)
+ requireNamespace(snpap, quietly=TRUE)
  df = getSNPlocs(chr)
  rsids = paste("rs", df$RefSNP_id, sep="")
  alls = as.character(df$alleles_as_ambig)
@@ -73,7 +73,7 @@ AB2nuc = function(abvec, rsids, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608"
 # alphabetically earlier and nucleotide mappings defined for rsids are as in
 # snpannopk
 #
- require(snpannopk, character.only=TRUE, quietly=TRUE)
+ requireNamespace(snpannopk, quietly=TRUE)
  if (length(chr) > 1) stop("supports only chr of length 1")
 #
 # process Bioc SNP location metadata
@@ -110,7 +110,7 @@ ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608",
 # alphabetically earlier and nucleotide mappings defined for rsids are as in
 # snpannopk
 #
- require(snpannopk, character.only=TRUE, quietly=TRUE)
+ requireNamespace(snpannopk, quietly=TRUE)
  if (length(chr) > 1) stop("supports only chr of length 1")
 #
 # process Bioc SNP location metadata

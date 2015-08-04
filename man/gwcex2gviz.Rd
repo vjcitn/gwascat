@@ -64,6 +64,7 @@ modifying the contents of Pvalue\_mlogp in the elementMetadata for the call}
 args(gwcex2gviz)
 #gwascat:::.onAttach("", "gwascat")
 data(ebicat37)
+seqlevelsStyle(ebicat37) = "UCSC"
 gwcex2gviz(ebicat37)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

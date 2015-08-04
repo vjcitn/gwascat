@@ -1,7 +1,11 @@
 import(methods)
+import(graph)
+export(nodeData, nodes, ugraph, subGraph, adj)
 
 import(S4Vectors)
 import(GenomeInfoDb)
+import(GenomicFeatures)
+importFrom(AnnotationDbi, select)
 
 importFrom(IRanges, IRanges, ranges, "%in%", as.list)
 
@@ -26,8 +30,9 @@ exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTrait
 export(locs4trait, topTraits, elementMetadata, ranges, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
    "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz", 
-   values, mcols, "mcols<-", seqnames, match, 
-   overlapsAny, DataFrame, bindcadd_snv, show, ldtagr)
+#   values, mcols, "mcols<-", seqnames, match, 
+#   overlapsAny, DataFrame, 
+   bindcadd_snv, show, ldtagr)
 
 importFrom(Gviz, GeneRegionTrack, DataTrack,
   displayPars, "displayPars<-", "plotTracks", GenomeAxisTrack)

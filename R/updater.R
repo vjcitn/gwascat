@@ -16,7 +16,7 @@ makeCurrentGwascat.legacy = function(table.url="http://www.genome.gov/admin/gwas
 
 makeCurrentGwascat = function(table.url=
   "http://www.ebi.ac.uk/gwas/api/search/downloads/alternative",
-   fixNonASCII=FALSE, genome="GRCh38", withOnt=FALSE) {
+   fixNonASCII=TRUE, genome="GRCh38", withOnt=TRUE) {
  stopifnot(genome %in% c("GRCh37", "GRCh38"))
  suppressWarnings({
  if (!withOnt) table.url = sub("alternative", "full", table.url)

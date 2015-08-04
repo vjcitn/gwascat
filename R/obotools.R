@@ -31,7 +31,7 @@ obo2graphNEL = function(obo="human-phenotype-ontology.obo",
 # killTrailSp introduced for EFO, EFO:0000001 has a trailing blank
 # that kills the edge parsing utility
 #
- require(graph)
+ requireNamespace("graph")
  lol = obo2lol(obo, kill=kill)
  xll = lapply( lol, cleanup )
  isas = lapply(xll, "[[", "is_a") #get_isas(lol)  # some can be vectors

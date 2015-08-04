@@ -9,6 +9,8 @@ USER VISIBLE CHANGES
 
     o Interfaces to the Experimental Factor Ontology (www.ebi.ac.uk/efo/)
       are provided: efo.obo.g is an annotated graphNEL with the ontology
+   
+    o Vignette gwascatOnt.Rmd introduced
 
 CHANGES IN VERSION 1.9.8
 ------------------------
