@@ -58,7 +58,7 @@ package.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
 \examples{
-example(efo.obo.g)
+data(efo.obo.g)
 hn = nodes(efo.obo.g)[1:5]
 hn
 nodeData(efo.obo.g, hn[5])
