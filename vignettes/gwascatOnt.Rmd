@@ -16,6 +16,9 @@ output:
 
 ```{r style, echo = FALSE, results = 'asis'}
 BiocStyle::markdown()
+suppressPackageStartupMessages({
+library(gwascat)
+})
 ```
 
 # Introduction
