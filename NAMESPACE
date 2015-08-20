@@ -33,7 +33,7 @@ exportMethods("getRsids", "[", "getTraits", "subsetByChromosome", "subsetByTrait
 export(locs4trait, topTraits, chklocs, riskyAlleleCount)
 export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
    "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz", 
-   bindcadd_snv, show, ldtagr)
+   bindcadd_snv, show, ldtagr, uri2node, node2uri)
 
 importFrom(Gviz, GeneRegionTrack, DataTrack,
   displayPars, "displayPars<-", "plotTracks", GenomeAxisTrack)

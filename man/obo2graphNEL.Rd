@@ -1,6 +1,8 @@
 \name{obo2graphNEL}
 \alias{obo2graphNEL}
 \alias{efo.obo.g}
+\alias{node2uri}
+\alias{uri2node}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 convert a typical OBO text file to a graphNEL instance (using Term elements)
@@ -10,11 +12,19 @@ convert a typical OBO text file to a graphNEL instance (using Term elements)
 }
 \usage{
 obo2graphNEL(obo, kill = "\\\\[Typedef\\\\]", killTrailSp=TRUE)
+node2uri(nn)
+uri2node(us)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{obo}{
 string naming a file in OBO format
+}
+  \item{nn}{
+node name for converted graph, generally of form EFO:nnnnnnn
+}
+  \item{us}{
+URI string from GWAS catalog annotation MAPPED\_TRAIT\_URI
 }
   \item{kill}{
 entity types to be excluded from processing -- probably this

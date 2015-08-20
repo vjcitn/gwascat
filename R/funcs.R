@@ -166,3 +166,13 @@ riskyAlleleCount = function(callmat, matIsAB=TRUE, chr,
  
  
  
+uri2node = function(us) {
+ stopifnot(length(us)==1, is.atomic(us))
+ ents = strsplit(us, ", ")[[1]]
+ gsub("http://www.ebi.ac.uk/efo/EFO_", "EFO:", ents)
+ }
+
+node2uri = function(nn) {
+ stopifnot(length(nn)==1, is.atomic(nn))
+ paste0("http://www.ebi.ac.uk/efo/", gsub(":", "_",nn))
+ }
