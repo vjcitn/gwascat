@@ -55,7 +55,8 @@ gwaswloc-class          Class '"gwaswloc"'
 The GWAS catalog management has migrated to EMBL/EBI.  Use 
 data(ebicat38) for an image dated 3 August 2015.  Use makeCurrentGwascat()
 to get a more recent image.  Use data(ebicat37) for a GRCh37 (or hg19)
-liftOver result.
+liftOver result.  Use data(ebicat37UCSC) for an image with
+\code{hg19} as genome tag and UCSC seqnames.
 
 The data objects
 
