@@ -170,7 +170,7 @@ scores of genetic associations with DNaseI hypersensitivity
 <<getgd>>=
 gffpath = system.file("gff3/chr17_43000000_45000000.gff3", package="gwascat")
 library(rtracklayer)
-c17tg = import(gffpath, asRangedData=FALSE)
+c17tg = import(gffpath)
 @
 
 We make a Gviz DataTrack of the dsQTL scores.
