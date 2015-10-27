@@ -1,5 +1,7 @@
 import(methods)
 import(graph)
+import(Homo.sapiens)
+import(VariantAnnotation)
 export(nodeData, nodes, ugraph, subGraph, adj)
 importFrom(gQTLstats, queryVCF)
 import(ggplot2)
@@ -8,20 +10,20 @@ importFrom(ggbio, autoplot)
 import(S4Vectors)
 import(GenomeInfoDb)
 import(GenomicFeatures)
-importFrom(AnnotationDbi, select)
+importFrom(AnnotationDbi, select, mapIds)
 
 importFrom(IRanges, IRanges, ranges, "%in%", as.list)
 
 importClassFrom(snpStats, "SnpMatrix")
 exportClass("SnpMatrix")
-importFrom(snpStats, impute.snps, ld)
+importFrom(snpStats, impute.snps, ld, col.summary)
 export(impute.snps)
 
 importFrom(BiocGenerics, mget, match)
 
 importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
 
-importFrom(GenomicRanges, GRanges, show)
+importFrom(GenomicRanges, GRanges, show, findOverlaps)
 importFrom(IRanges, RangedData, overlapsAny)
 importFrom(rtracklayer, import, liftOver)
 importFrom(Rsamtools, TabixFile, open.TabixFile, close.TabixFile)
@@ -41,3 +43,5 @@ importFrom(Gviz, GeneRegionTrack, DataTrack,
 export(metadata)
 
 importFrom(AnnotationHub, AnnotationHub, query)
+
+importFrom(SummarizedExperiment, rowRanges)

@@ -42,7 +42,7 @@ object with records defining associations to the specified trait
 \code{chklocs} returns a logical that is TRUE when the
 asserted locations of SNP in the GWAS catalog agree
 with the locations given in the dbSNP package 
-SNPlocs.Hsapiens.dbSNP.20110815
+SNPlocs.Hsapiens.dbSNP144.GRCh37
 }
 %\references{
 %% ~put references to the literature/web site here ~

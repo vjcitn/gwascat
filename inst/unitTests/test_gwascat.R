@@ -6,4 +6,4 @@ tt38saved = structure(c(957L, 699L, 649L, 323L, 294L, 249L, 248L, 245L, 222L,
 
 library(gwascat)
 data(ebicat38)
-checkTrue(identical(topTraits(ebicat38), tt38saved))
+checkTrue(identical(topTraits(ebicat38), as.table(tt38saved)))

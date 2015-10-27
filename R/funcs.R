@@ -21,7 +21,7 @@ chklocs = function(chrtag="20", gwwl=gwrngs19) {
 # the shipped catalog.  We have to use the result of liftOver,
 # in the gwrngs19 structure
 #
-  requireNamespace("SNPlocs.Hsapiens.dbSNP.20120608")
+  requireNamespace("SNPlocs.Hsapiens.dbSNP144.GRCh37")
   allrs = mcols(gwwl)$SNPS
   allch = mcols(gwwl)$CHR_ID
   rsbyc = split(allrs, allch)
@@ -47,7 +47,7 @@ variantProps = function(rs, ..., gwwl=gwrngs) {
 
 
 
-snpGenos = function(chr, snpap="SNPlocs.Hsapiens.dbSNP.20120608") {
+snpGenos = function(chr, snpap="SNPlocs.Hsapiens.dbSNP144.GRCh37") {
 #
 # for S snp on chrom chr, returns an S x 3 matrix with columns A/A, A/B, B/B
 # the i, j element is the nuc assignment for genotype j of snp i
@@ -67,7 +67,7 @@ snpGenos = function(chr, snpap="SNPlocs.Hsapiens.dbSNP.20120608") {
  ans
 }
 
-AB2nuc = function(abvec, rsids, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608") {
+AB2nuc = function(abvec, rsids, chr, snpannopk="SNPlocs.Hsapiens.dbSNP144.GRCh37") {
 #
 # converts variant calls in A/B form to nucleotides assuming A in A/B is
 # alphabetically earlier and nucleotide mappings defined for rsids are as in
@@ -103,7 +103,7 @@ AB2nuc = function(abvec, rsids, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608"
 }
 
  
-ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608",
+ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP144.GRCh37",
   gencode = c("A/A", "A/B", "B/B")) {
 #
 # converts variant calls in A/B form to nucleotides assuming A in A/B is
@@ -143,7 +143,7 @@ ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP.20120608",
 }
 
 riskyAlleleCount = function(callmat, matIsAB=TRUE, chr,
-   gwwl, snpap="SNPlocs.Hsapiens.dbSNP.20120608",
+   gwwl, snpap="SNPlocs.Hsapiens.dbSNP144.GRCh37",
    gencode = c("A/A", "A/B", "B/B")) {
  if (matIsAB) callmat = ABmat2nuc( abmat=callmat, chr=chr, snpannopk=snpap, gencode=gencode)
  uchr = gsub("ch", "chr", chr)
