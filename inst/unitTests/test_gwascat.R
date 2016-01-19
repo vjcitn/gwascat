@@ -1,8 +1,16 @@
-tt38saved = structure(c(957L, 699L, 649L, 323L, 294L, 249L, 248L, 245L, 222L, 
+tt38saved.old = structure(c(957L, 699L, 649L, 323L, 294L, 249L, 248L, 245L, 222L, 
 197L), .Dim = 10L, .Dimnames = structure(list(c("Obesity-related traits", 
 "IgG glycosylation", "Height", "Type 2 diabetes", "Rheumatoid arthritis", 
 "Crohn's disease", "Schizophrenia", "Blood metabolite levels", 
 "HDL cholesterol", "Breast cancer")), .Names = ""))
+
+# as of 18 Jan 2016
+
+tt38saved = structure(c(957L, 822L, 699L, 340L, 294L, 249L, 248L, 245L, 222L, 
+199L), .Dim = 10L, .Dimnames = structure(list(c("Obesity-related traits", 
+"Height", "IgG glycosylation", "Type 2 diabetes", "Rheumatoid arthritis", 
+"Crohn's disease", "Schizophrenia", "Blood metabolite levels", 
+"HDL cholesterol", "Breast cancer")), .Names = ""), class = "table")
 
 library(gwascat)
 data(ebicat38)

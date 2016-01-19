@@ -66,7 +66,7 @@ setMethod("getRsids", "gwaswloc", function(x)
 
 setGeneric("getTraits", function(x)standardGeneric("getTraits"))
 setMethod("getTraits", "gwaswloc", function(x)
- mcols(x)$DISEASE.TRAIT)
+ mcols(x)[["DISEASE/TRAIT"]])
 
 
 setGeneric("subsetByChromosome", function(x, ch)standardGeneric("subsetByChromosome"))

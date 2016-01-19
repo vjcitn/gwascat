@@ -11,9 +11,9 @@ operations on GWAS catalog
 operations on GWAS catalog
 }
 \usage{
-topTraits (gwwl, n=10, tag="DISEASE.TRAIT") 
+topTraits (gwwl, n=10, tag="DISEASE/TRAIT") 
 
-locs4trait(gwwl, trait, tag="DISEASE.TRAIT") 
+locs4trait(gwwl, trait, tag="DISEASE/TRAIT") 
 
 chklocs(chrtag="20", gwwl)
 }

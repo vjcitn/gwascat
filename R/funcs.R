@@ -37,7 +37,7 @@ chklocs = function(chrtag="20", gwwl=gwrngs19) {
 
 variantProps = function(rs, ..., gwwl=gwrngs) {
   subr = gwwl[rs,]
-  strg = mcols(subr)$STRONGEST.SNP.RISK.ALLELE
+  strg = mcols(subr)[["STRONGEST SNP-RISK ALLELE"]]
   alls = sapply(strsplit(strg, "-"), "[", 2)
   strs = sapply(strsplit(strg, "-"), "[", 1)
   mcols(subr) = DataFrame(rsid=strs, riskAllele=alls,
