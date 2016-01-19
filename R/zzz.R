@@ -61,7 +61,8 @@ gwdf2GRanges = function (df, extractDate, seqlSrc )
 #
 # make numeric p values and addresses
 #
-    mcols(gwrngs)$P-VALUE = as.numeric(as.character(mcols(gwrngs)$P.VALUE)) # was factor
+    mcols(gwrngs)[["P-VALUE"]] = 
+  as.numeric(as.character(mcols(gwrngs)[["P-VALUE"]])) # was factor
     mcols(gwrngs)$PVALUE_MLOG = as.numeric(as.character(mcols(gwrngs)$PVALUE_MLOG)) # was factor
     mcols(gwrngs)[["OR or BETA"]] = suppressWarnings(as.numeric(as.character(mcols(gwrngs)[["OR or BETA"]]))) # was factor
     mcols(gwrngs)$CHR_POS = as.numeric(mcols(gwrngs)$CHR_POS)
