@@ -1,9 +1,9 @@
 
-topTraits = function(gwwl, n=10, tag="DISEASE.TRAIT") {
+topTraits = function(gwwl, n=10, tag="DISEASE/TRAIT") {
  sort(table(mcols(gwwl)[[tag]]), decreasing=TRUE)[1:n]
 }
 
-locs4trait = function(gwwl, trait, tag="DISEASE.TRAIT") {
+locs4trait = function(gwwl, trait, tag="DISEASE/TRAIT") {
  if (length(trait) != 1) stop("please supply only one trait string")
  curem = mcols(gwwl) #as(mcols(gwwl), "DataFrame")
  tr = curem[[tag]]
@@ -41,7 +41,7 @@ variantProps = function(rs, ..., gwwl=gwrngs) {
   alls = sapply(strsplit(strg, "-"), "[", 2)
   strs = sapply(strsplit(strg, "-"), "[", 1)
   mcols(subr) = DataFrame(rsid=strs, riskAllele=alls,
-     mcols(subr)[, c("DISEASE.TRAIT", "SNPS", "P.VALUE")])
+     mcols(subr)[, c("DISEASE/TRAIT", "SNPS", "P-VALUE")])
   subr
 }
 

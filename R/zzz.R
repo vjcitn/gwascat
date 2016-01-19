@@ -61,16 +61,16 @@ gwdf2GRanges = function (df, extractDate, seqlSrc )
 #
 # make numeric p values and addresses
 #
-    mcols(gwrngs)$P.VALUE = as.numeric(as.character(mcols(gwrngs)$P.VALUE)) # was factor
+    mcols(gwrngs)$P-VALUE = as.numeric(as.character(mcols(gwrngs)$P.VALUE)) # was factor
     mcols(gwrngs)$PVALUE_MLOG = as.numeric(as.character(mcols(gwrngs)$PVALUE_MLOG)) # was factor
-    mcols(gwrngs)$OR.or.BETA = suppressWarnings(as.numeric(as.character(mcols(gwrngs)$OR.or.BETA))) # was factor
+    mcols(gwrngs)[["OR or BETA"]] = suppressWarnings(as.numeric(as.character(mcols(gwrngs)[["OR or BETA"]]))) # was factor
     mcols(gwrngs)$CHR_POS = as.numeric(mcols(gwrngs)$CHR_POS)
 #
 # clean out stray whitespace
 #
-    badco = mcols(gwrngs)$STRONGEST.SNP.RISK.ALLELE
+    badco = mcols(gwrngs)[["STRONGEST SNP-RISK ALLELE"]]
     co = gsub(" $", "", badco)
-    mcols(gwrngs)$STRONGEST.SNP.RISK.ALLELE = co
+    mcols(gwrngs)[["STRONGEST SNP-RISK ALLELE"]] = co
 #
 #
 #
@@ -87,14 +87,14 @@ gwdf2GRanges = function (df, extractDate, seqlSrc )
 #      lkbad = which(x %in% bad)
 #      if (length(lkbad) > 0) x[lkbad] = NA
 #    }
-#    mcols(gwrngs)$OR.or.BETA = cleanToNum(
-#          mcols(gwrngs)$OR.or.BETA ) #as.numeric(fixhet(mcols(gwrngs)$OR.or.BETA))
+#    mcols(gwrngs)[["OR or BETA"]] = cleanToNum(
+#          mcols(gwrngs)[["OR or BETA"]] ) #as.numeric(fixhet(mcols(gwrngs)[["OR or BETA"]]))
 #
 # utility to get numeric values in Risk.Allele.Frequency
 #
     killpatt = "\\+|[[:alpha:]]|\\(|\\)|\\ "
     nulcToNA = function(x) {isn = which(nchar(x)==0); if (length(isn)>0) x[isn] = NA; x}
-    mcols(gwrngs)$num.RISK.ALLELE.FREQUENCY = as.numeric(nulcToNA(gsub(killpatt, "", as.character(mcols(gwrngs)$RISK.ALLELE.FREQUENCY))))
+    mcols(gwrngs)[["RISK ALLELE FREQUENCY"]] = as.numeric(nulcToNA(gsub(killpatt, "", as.character(mcols(gwrngs)[["RISK ALLELE FREQUENCY"]]))))
 #    gwrngs = makeConsecChrs(gwrngs)  # WHY???
 #    gwrngs = addSeqlengths(gwrngs, src=seqlSrc)
     gwrngs = new("gwaswloc", extractDate = extractDate, gwrngs)
