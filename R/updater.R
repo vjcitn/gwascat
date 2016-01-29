@@ -49,7 +49,7 @@ lo38to19 = function(gwwl) {
  seqlevelsStyle(gwwl) = "UCSC"
  g19 = liftOver( as(gwwl, "GRanges"), ch )
  message("liftover complete.")
- e = elementLengths(g19)
+ e = elementNROWS(g19)
  dr = which(e==0)
  if (length(dr)>0) g19 = g19[-dr]
  g19 = unlist(g19)
