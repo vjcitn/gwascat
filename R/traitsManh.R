@@ -13,5 +13,8 @@ traitsManh = function( gwr,
  mcols(gwr)$Trait = availtr
  pv = mcols(gwr)$PVALUE_MLOG 
  mcols(gwr)$PVALUE_MLOG = ifelse(pv > 25, 25, pv)
- autoplot( gwr, geom="point", aes(y=PVALUE_MLOG, color=Trait))
+ sn = paste(genome(gwr)[1], as.character(seqnames(gwr))[1], sep=" ")
+ autoplot(gwr, geom = "point", aes(y = PVALUE_MLOG, color = Trait),
+      xlab=sn)
+
 }

@@ -46,9 +46,9 @@ autoplot value
 \author{
 VJ Carey <stvjc@channing.harvard.edu>
 }
-%\note{
-%%  ~~further notes~~
-%}
+\note{
+An xlab is added, concatenating genome tag with seqnames tag.
+}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
