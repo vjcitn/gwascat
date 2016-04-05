@@ -16,7 +16,7 @@ gwcex2gviz = function( basegr,
 # name from txrefpk, indeed allowing more general spec of an exon range resource
 #
  ex = exons( get(txrefpk), columns = c("gene_id", "tx_id", "exon_id"),
-    vals=list(exon_chrom = chrmin) )
+    filter=list(exon_chrom = chrmin) )
  txin = ex[ which(overlapsAny(ex, contextGR)) ]
  if (length(txin) == 0) stop("no transcripts in contextGR")
  v = mcols(txin)
