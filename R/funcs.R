@@ -22,17 +22,21 @@ chklocs = function(chrtag="20", gwwl=gwrngs19) {
 # in the gwrngs19 structure
 #
   requireNamespace("SNPlocs.Hsapiens.dbSNP144.GRCh37")
+  locdata = SNPlocs.Hsapiens.dbSNP144.GRCh37::SNPlocs.Hsapiens.dbSNP144.GRCh37
   allrs = mcols(gwwl)$SNPS
-  allch = mcols(gwwl)$CHR_ID
+  allch = mcols(gwwl)$CHR_ID # is NCBI format, we hope
   rsbyc = split(allrs, allch)
   rcur = rsbyc[[chrtag]]
-  refcur = getSNPlocs(paste("ch", chrtag, sep=""))
-  rownames(refcur) = paste("rs", refcur$RefSNP_id, sep="")
-  Ncur = refcur[ intersect(rcur, rownames(refcur)), ]
-  minds <- match(rownames(Ncur), mcols(gwwl)$SNPS)
-  #Ncurpos = mcols(gwwl[ minds ])$CHR_POS
-  Ncurpos = start(gwwl[ minds ])
-  all((Ncurpos - Ncur[,3]) == 0)
+  refcur = snpsBySeqname(locdata, chrtag) #GPos with rsid in $RefSNP_id
+  ref2keep_inds = match(rcur, refcur$RefSNP_id, nomatch=0)
+  chkstat = setdiff(start(gwwl[rcur[which(ref2keep_inds != 0)]]) ,
+            start(refcur[ref2keep_inds]))
+  if (length(chkstat) > 0) {
+       warning(paste0(length(chkstat), " snp ids in gwascat had reported location discordant with reference address; printing:"), immediate.=TRUE)
+       print(gwwl[ which(start(gwwl[rcur[which(ref2keep_inds != 0)]]) %in% chkstat) ])
+       return(FALSE)
+  }
+  return(TRUE)
 }
 
 variantProps = function(rs, ..., gwwl=gwrngs) {

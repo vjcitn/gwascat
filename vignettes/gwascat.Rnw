@@ -542,12 +542,12 @@ gwas catalog,
 <<getrs,keep.source=TRUE,cache=FALSE>>=
 if ("SNPlocs.Hsapiens.dbSNP144.GRCh37" %in% installed.packages()[,1]) {
  library(SNPlocs.Hsapiens.dbSNP144.GRCh37)
- suppressWarnings(chklocs("20", ebicat37))
+ chklocs("20", ebicat37)
 }
 @
 
-This is not a fast procedure but has succeeded for 
-all chromosomes 1-22 when checked off line.
+This is not a fast procedure.  As of March 2017, small numbers
+of catalog locations are found discrepant with dbSNP for GRCh37.
 
 
 \bibliography{gwascat}
