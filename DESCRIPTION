@@ -1,12 +1,12 @@
 Package: gwascat
 Title: representing and modeling data in the EMBL-EBI GWAS catalog
-Version: 2.9.0
+Version: 2.9.1
 Author: VJ Carey <stvjc@channing.harvard.edu>
 Description: Represent and model data in the EMBL-EBI GWAS catalog.
 Enhances: SNPlocs.Hsapiens.dbSNP144.GRCh37
 Depends: R (>= 3.0.0), Homo.sapiens
 Imports: methods, BiocGenerics, S4Vectors (>= 0.9.25), IRanges, GenomeInfoDb,
-        GenomicRanges, snpStats, Biostrings, Rsamtools, rtracklayer,
+        GenomicRanges (>= 1.29.6), snpStats, Biostrings, Rsamtools, rtracklayer,
 	gQTLstats, Gviz, VariantAnnotation, AnnotationHub, AnnotationDbi,
 	GenomicFeatures, graph, ggbio, ggplot2, SummarizedExperiment
 Suggests: DO.db, DT, utils, knitr, RBGL, RUnit

@@ -21,7 +21,7 @@ export(impute.snps)
 
 importFrom(BiocGenerics, mget, match)
 
-importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRangesORmissing)
+importClassFrom(GenomicRanges, GRanges, GenomicRanges, GenomicRanges_OR_missing)
 
 importFrom(GenomicRanges, GRanges, show, findOverlaps)
 importFrom(IRanges, RangedData, overlapsAny)

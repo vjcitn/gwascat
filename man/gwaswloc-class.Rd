@@ -45,8 +45,8 @@ for the locus-trait association }
 Class \code{"\linkS4class{GRanges}"}, directly.
 Class \code{"\linkS4class{GenomicRanges}"}, by class "GRanges", distance 2.
 Class \code{"\linkS4class{Vector}"}, by class "GRanges", distance 3.
-Class \code{"\linkS4class{GenomicRangesORmissing}"}, by class "GRanges", distance 3.
-Class \code{"\linkS4class{GenomicRangesORGRangesList}"}, by class "GRanges", distance 3.
+Class \code{"\linkS4class{GenomicRanges_OR_missing}"}, by class "GRanges", distance 3.
+Class \code{"\linkS4class{GenomicRanges_OR_GRangesList}"}, by class "GRanges", distance 3.
 Class \code{"\linkS4class{Annotated}"}, by class "GRanges", distance 4.
 }
 \section{Methods}{
