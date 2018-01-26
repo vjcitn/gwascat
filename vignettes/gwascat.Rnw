@@ -320,7 +320,7 @@ gwr = ebicat37
 gwr = gwr[colnames(h17),]
 mcols(gwr) = cbind(mcols(gwr), DataFrame(t(h17)))
 sn = rownames(h17)
-gwr[,c("DISEASE.TRAIT", sn[1:4])]
+gwr[,c("DISEASE/TRAIT", sn[1:4])]
 @
 
 Now by programming on the metadata columns, we can identify
