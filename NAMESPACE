@@ -45,3 +45,4 @@ export(metadata)
 importFrom(AnnotationHub, AnnotationHub, query)
 
 importFrom(SummarizedExperiment, rowRanges)
+importFrom("utils", "data", "read.delim", "sessionInfo")

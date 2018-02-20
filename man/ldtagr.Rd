@@ -65,7 +65,7 @@ require(GenomicRanges)
 cand = GRanges("1", IRanges(113038694, width=1))
 names(cand) = "rs883593"
 require(VariantAnnotation)
-expath = dir(system.file("vcf", package="GGtools"), patt=".*exon.*gz$", full=TRUE)
+expath = dir(system.file("vcf", package="gwascat"), patt=".*exon.*gz$", full=TRUE)
 tf = TabixFile(expath)
 ldtagr( cand, tf, lbR2 = .8)
 # should do with 1000 genomes in S3 bucket and gwascat
