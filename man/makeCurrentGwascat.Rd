@@ -56,10 +56,11 @@ VJ Carey
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
 \examples{
-\dontrun{
 # if you have good internet access
-newcatr = makeCurrentGwascat()
-}
+  if (interactive()) {
+     newcatr = makeCurrentGwascat()
+     newcatr
+     }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -48,7 +48,7 @@ convenience container for imported table from NHGRI GWAS catalog
   }
 }
 \source{
-\url{http://www.genome.gov/gwastudies}
+\url{http://www.ebi.ac.uk/gwas/}
 }
 \note{
 In versions prior to 1.9.6,

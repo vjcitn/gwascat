@@ -16,7 +16,7 @@ ldtagr(snprng, tf, samples, genome = "hg19", lbmaf = 0.05, lbR2 = 0.8, radius = 
 \arguments{
   \item{snprng}{
 a named GRanges for a single SNP.  The name must correspond to
-the name that will be assigned by \code{\link[VariantAnnotation]{genotypeToSnpMatrix}} to the corresponding column of a SnpMatrix.
+the name that will be assigned by \code{\link{genotypeToSnpMatrix}} to the corresponding column of a SnpMatrix.
 }
   \item{tf}{
 TabixFile instance pointing to a bgzipped tabix-indexed VCF file

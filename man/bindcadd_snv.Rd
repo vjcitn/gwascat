@@ -48,12 +48,11 @@ with support from Genentech, Inc.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 %}
 \examples{
- \dontrun{
- # requires internet access
- data(ebicat37)
- g2 = as(ebicat37, "GRanges")
- bindcadd_snv( g2[which(seqnames(g2)=="chr2")][1:20] )
- }
+ if (interactive()) {
+  data(ebicat37)
+  g2 = as(ebicat37, "GRanges")
+  bindcadd_snv( g2[which(seqnames(g2)=="chr2")][1:20] )
+  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

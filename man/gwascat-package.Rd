@@ -81,7 +81,7 @@ VJ Carey <stvjc@channing.harvard.edu>
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 }
 \references{
-\url{http://www.genome.gov/gwastudies/}.
+\url{http://www.ebi.ac.uk/gwas/}
 
 Partial support from the Computational Biology Group at
 Genentech, Inc.
@@ -91,8 +91,6 @@ Genentech, Inc.
 %\seealso{
 %}
 \examples{
-\dontrun{
  data(ebicat38)
  ebicat38
- }
 }

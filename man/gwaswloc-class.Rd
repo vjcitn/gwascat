@@ -35,7 +35,7 @@ coordinates for locus }
     \item{\code{strand}:}{Object of class \code{"Rle"} identifier of
 chromosome strand }
     \item{\code{elementMetadata}:}{Object of class \code{"DataFrame"} general
-\code{\link[S4Vectors]{DataFrame-class}} instance providing attributes
+\code{\link{DataFrame-class}} instance providing attributes
 for the locus-trait association }
     \item{\code{seqinfo}:}{Object of class \code{"Seqinfo"}  }
     \item{\code{metadata}:}{Object of class \code{"list"}  }
@@ -54,7 +54,7 @@ Class \code{"\linkS4class{Annotated}"}, by class "GRanges", distance 4.
     \item{[}{\code{signature(x = "gwaswloc")}: a character argument to the bracket
 will be assumed to be a dbSNP identifier for a SNP locus, and records corresponding
 to this SNP are extracted; numeric indexes are supported as for
-\code{\link[GenomicRanges]{GRanges-class}} instances.  }
+\code{\link{GRanges-class}} instances.  }
     \item{getRsids}{\code{signature(x = "gwaswloc")}: extract all dbSNP identifiers
 as a character vector}
     \item{getTraits}{\code{signature(x = "gwaswloc")}: extract all traits (NHGRI
@@ -67,7 +67,7 @@ to a given vector of traits }
 }
 \references{
 %%  ~~put references to the literature/web site here~~
-\url{http://www.genome.gov/gwastudies/}
+\url{http://www.ebi.ac.uk/gwas/}
 }
 \author{
 VJ Carey <stvjc@channing.harvard.edu>

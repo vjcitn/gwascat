@@ -7,12 +7,12 @@ output:
     highlight: pygments
     number_sections: yes
     toc: yes
----
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{gwascat -- GRanges for GWAS hits in EBI catalog}
+  %\VignetteEncoding{UTF-8}
 
-<!--
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{gwascat: exploring GWAS results using the experimental factor ontology}
--->
+---
 
 ```{r style, echo = FALSE, results = 'asis'}
 BiocStyle::markdown()
