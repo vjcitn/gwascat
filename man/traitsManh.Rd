@@ -57,10 +57,12 @@ An xlab is added, concatenating genome tag with seqnames tag.
 %}
 \examples{
 # do a p-value truncation if you want to reduce compression
+\dontrun{  # ggbio July 2018
 data(ebicat38)
 library(GenomeInfoDb)
 seqlevelsStyle(ebicat38) = "UCSC"
 traitsManh(ebicat38)
+ }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
