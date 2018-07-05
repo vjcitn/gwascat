@@ -144,13 +144,14 @@ dev.off()
 A simple call permits visualization of GWAS results for
 a small number of traits.  Note the defaults in this call.
 
+July 2018: The following is unevaluated owing to ggbio.
 <<lktrm>>=
 args(traitsManh)
-<<lkn,results=hide,echo=FALSE>>=
+<<lkn,results=hide,echo=FALSE,eval=FALSE>>=
 pdf(file="annman.pdf", width=8, height=2)
-<<runit>>=
+<<runit,eval=FALSE>>=
 traitsManh(gwtrunc)
-<<dodie,echo=FALSE,results=hide>>=
+<<dodie,echo=FALSE,results=hide,eval=FALSE>>=
 dev.off()
 @
 
