@@ -155,8 +155,8 @@ traitsManh(gwtrunc)
 dev.off()
 @
 
-\setkeys{Gin}{width=0.95\textwidth}
-\includegraphics{annman}
+%\setkeys{Gin}{width=0.95\textwidth}
+%\includegraphics{annman}
 
 \subsection{Integrative view of potential genetic determinants}
 
