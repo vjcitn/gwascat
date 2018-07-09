@@ -73,7 +73,7 @@ function.
 
 si.hs.38 is a \code{\link[GenomeInfoDb]{Seqinfo-class}} instance for hg38.
 
-\code{\link[graph]{nodeData}} (and nodes, ugraph, subGraph, adj) are exported for use in the vignettes.
+\code{\link{nodeData}} (and nodes, ugraph, subGraph, adj) are exported for use in the vignettes.
 }
 \author{
 VJ Carey <stvjc@channing.harvard.edu>
