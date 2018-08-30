@@ -57,11 +57,11 @@ association studies.  This document describes R/Bioconductor facilities for
 working with contents of this database.
 
 \subsection{Installation}
-The package can be installed using Bioconductor's \textit{BiocInstaller}
+The package can be installed using Bioconductor's \textit{BiocManager}
 package, with the sequence
 \begin{verbatim}
-library(BiocInstaller)
-biocLite("gwascat")
+library(BiocManager)
+BiocManager::install("gwascat")
 \end{verbatim}
 
 \subsection{Attachment and access to documentation}
