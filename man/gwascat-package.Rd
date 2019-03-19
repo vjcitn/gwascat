@@ -12,11 +12,6 @@
 \alias{ebicat38}
 \alias{ebicat37}
 \alias{impute.snps}
-#\alias{nodeData}
-#\alias{nodes}
-#\alias{ugraph}
-#\alias{subGraph}
-#\alias{adj}
 \alias{SnpMatrix-class}
 \alias{si.hs.38}
 \docType{package}
@@ -42,15 +37,6 @@ Index:
 \preformatted{
 gwaswloc-class          Class '"gwaswloc"'
 }
-%Prior to 1.9.7, upon attachment, a \code{\link[GenomicRanges]{GRanges-class}} structure
-%call \code{gwrngs} was formed.  This culd be interrogated by position or
-%through use of element metadata to learn about catalogued GWAS associations.
-%
-%This automated approach is no longer used.  The user
-%must use data(gwrngs19) for an hg19-based catalog, or
-%data(gwrngs38) for an hg38-based catalog.  The latter
-%is based on records as distributed by NHGRI, the
-%former arises after liftOver.
 
 The GWAS catalog management has migrated to EMBL/EBI.  Use 
 data(ebicat38) for an image dated 3 August 2015.  Use makeCurrentGwascat()
@@ -72,8 +58,6 @@ related to rule-based imputation, using the \code{\link[snpStats]{impute.snps}}
 function.
 
 si.hs.38 is a \code{\link[GenomeInfoDb]{Seqinfo-class}} instance for hg38.
-
-%\code{\link{nodeData}} (and nodes, ugraph, subGraph, adj) are exported for use in the vignettes.
 }
 \author{
 VJ Carey <stvjc@channing.harvard.edu>
@@ -88,8 +72,6 @@ Genentech, Inc.
 
 }
 \keyword{ package }
-%\seealso{
-%}
 \examples{
  data(ebicat38)
  ebicat38
