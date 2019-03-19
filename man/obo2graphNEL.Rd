@@ -70,9 +70,10 @@ package.
 %}
 \examples{
 data(efo.obo.g)
-hn = nodes(efo.obo.g)[1:5]
+requireNamespace("graph")
+hn = graph::nodes(efo.obo.g)[1:5]
 hn
-nodeData(efo.obo.g, hn[5])
+graph::nodeData(efo.obo.g, hn[5])
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

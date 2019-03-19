@@ -6,7 +6,7 @@ gwcex2gviz = function( basegr,
 #
 # objective is to visualize features of GWAS in gene/transcript context
 #
-# require(Gviz, quietly=TRUE)
+ if (!requireNamespace("Gviz")) stop("install Gviz to use this function")
  requireNamespace(txrefpk, quietly=TRUE)
  requireNamespace(genesympk, quietly=TRUE)
 # symmap = get(gsub(".db", "SYMBOL", genesympk))
@@ -32,21 +32,21 @@ gwcex2gviz = function( basegr,
  kk = mapIds(get(genesympk), keys=mcols(k)$gene, keytype="ENTREZID",
            column="SYMBOL")  # multiVals == first
  mcols(k)$symbol = kk
- GR = GeneRegionTrack(k, chromosome=chrmin, genome=genome)
+ GR = Gviz::GeneRegionTrack(k, chromosome=chrmin, genome=genome)
  studs = basegr[ which(overlapsAny(basegr, contextGR)) ]
  mlp = mcols(studs)$PVALUE_MLOG
  mlp = ifelse(mlp > maxmlp, maxmlp, mlp)
  mcols(studs)$PVALUE_MLOG = mlp
  sss = mcols(studs)$PVALUE_MLOG
- studp = DataTrack( as(studs, "GRanges"), data=sss, 
+ studp = Gviz::DataTrack( as(studs, "GRanges"), data=sss, 
      chromosome=chrmin, genome=genome, name="-log P GWAS" )
 #
 # need to move these controls up to interface
 #
- displayPars(GR)$collapseTranscripts = TRUE
- displayPars(GR)$showId = TRUE
+ Gviz::displayPars(GR)$collapseTranscripts = TRUE
+ Gviz::displayPars(GR)$showId = TRUE
  GR@name = "Genes"
- if (plot.it) plotTracks(list(  studp, GenomeAxisTrack(),  GR))
- invisible( list( studp, GenomeAxisTrack(), GR ) )
+ if (plot.it) Gviz::plotTracks(list(  studp, Gviz::GenomeAxisTrack(),  GR))
+ invisible( list( studp, Gviz::GenomeAxisTrack(), GR ) )
 }
 

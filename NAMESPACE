@@ -1,11 +1,9 @@
+#  'GenomicFeatures', 
+
 import(methods)
-import(graph)
-import(Homo.sapiens)
-import(VariantAnnotation)
-export(nodeData, nodes, ugraph, subGraph, adj)
-importFrom(gQTLstats, queryVCF)
-import(ggplot2)
-importFrom(ggbio, autoplot)
+#import(Homo.sapiens)
+#import(VariantAnnotation)
+#export(nodeData, nodes, ugraph, subGraph, adj)
 
 import(S4Vectors)
 import(GenomeInfoDb)
@@ -14,10 +12,10 @@ importFrom(AnnotationDbi, select, mapIds)
 
 importFrom(IRanges, IRanges, ranges, "%in%", as.list)
 
-importClassFrom(snpStats, "SnpMatrix")
-exportClass("SnpMatrix")
-importFrom(snpStats, impute.snps, ld, col.summary)
-export(impute.snps)
+#importClassFrom(snpStats, "SnpMatrix")
+#exportClass("SnpMatrix")
+#importFrom(snpStats, impute.snps, ld, col.summary)
+#export(impute.snps)
 
 importFrom(BiocGenerics, mget, match)
 
@@ -37,12 +35,12 @@ export("getRsids", "getTraits", "subsetByChromosome", "subsetByTraits",
    "obo2graphNEL", "makeCurrentGwascat", "traitsManh", "gwcex2gviz", 
    bindcadd_snv, show, ldtagr, uri2node, node2uri)
 
-importFrom(Gviz, GeneRegionTrack, DataTrack,
-  displayPars, "displayPars<-", "plotTracks", GenomeAxisTrack)
+#importFrom(Gviz, GeneRegionTrack, DataTrack,
+#  displayPars, "displayPars<-", "plotTracks", GenomeAxisTrack)
 
 export(metadata)
 
-importFrom(AnnotationHub, AnnotationHub, query)
+#importFrom(AnnotationHub, AnnotationHub, query)
 
-importFrom(SummarizedExperiment, rowRanges)
+#importFrom(SummarizedExperiment, rowRanges)
 importFrom("utils", "data", "read.delim", "sessionInfo")

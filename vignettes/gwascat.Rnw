@@ -117,6 +117,8 @@ catalog with $-log_{10} p$ truncated at a maximum value of 25.
 
 <<lkm,results=hide>>=
 gwtrunc = ebicat37
+requireNamespace("S4Vectors")
+mcols = S4Vectors::mcols
 mlpv = mcols(ebicat37)$PVALUE_MLOG
 mlpv = ifelse(mlpv > 25, 25, mlpv)
 mcols(gwtrunc)$PVALUE_MLOG = mlpv
@@ -446,7 +448,8 @@ close(hpobo)
 
 The phenotypic terms are obtained via:
 <<dohpot>>=
-hpoterms = unlist(nodeData(HPOgraph, nodes(HPOgraph), "name"))
+requireNamespace("graph")
+hpoterms = unlist(graph::nodeData(HPOgraph, graph::nodes(HPOgraph), "name"))
 hpoterms[1:10]
 @
 

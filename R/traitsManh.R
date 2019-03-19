@@ -5,7 +5,7 @@ traitsManh = function( gwr,
    ...)
  {
  Trait <- NA # try to squelch note
- requireNamespace("ggbio")
+ if (!requireNamespace("ggbio")) stop("install ggbio to use this function")
  gwr = gwr[ which(overlapsAny(gwr, selr)) ]
  availtr = as.character(mcols(gwr)[["DISEASE/TRAIT"]])
  oth = which(!(availtr %in% traits))

@@ -41,10 +41,11 @@ makeCurrentGwascat = function(table.url=
 }
 
 lo38to19 = function(gwwl) {
+ if (!requireNamespace("AnnotationHub")) stop("install AnnotationHub to use this function")
  message("starting liftover from GRCh38 to GRCh37")
  stopifnot(genome(gwwl)[1] == "GRCh38")
- ah = AnnotationHub()
- ii = query(ah, "UCSC liftOver chain file from hg38 to hg19")
+ ah = AnnotationHub::AnnotationHub()
+ ii = AnnotationHub::query(ah, "UCSC liftOver chain file from hg38 to hg19")
  ch = ah[[names(ii)]]
  seqlevelsStyle(gwwl) = "UCSC"
  g19 = liftOver( as(gwwl, "GRanges"), ch )

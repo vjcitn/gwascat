@@ -12,11 +12,11 @@
 \alias{ebicat38}
 \alias{ebicat37}
 \alias{impute.snps}
-\alias{nodeData}
-\alias{nodes}
-\alias{ugraph}
-\alias{subGraph}
-\alias{adj}
+#\alias{nodeData}
+#\alias{nodes}
+#\alias{ugraph}
+#\alias{subGraph}
+#\alias{adj}
 \alias{SnpMatrix-class}
 \alias{si.hs.38}
 \docType{package}
@@ -73,7 +73,7 @@ function.
 
 si.hs.38 is a \code{\link[GenomeInfoDb]{Seqinfo-class}} instance for hg38.
 
-\code{\link{nodeData}} (and nodes, ugraph, subGraph, adj) are exported for use in the vignettes.
+%\code{\link{nodeData}} (and nodes, ugraph, subGraph, adj) are exported for use in the vignettes.
 }
 \author{
 VJ Carey <stvjc@channing.harvard.edu>

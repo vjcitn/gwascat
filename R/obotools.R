@@ -34,7 +34,7 @@ obo2graphNEL = function(obo="human-phenotype-ontology.obo",
 # killTrailSp introduced for EFO, EFO:0000001 has a trailing blank
 # that kills the edge parsing utility
 #
- requireNamespace("graph")
+ if (!requireNamespace("graph")) stop("install graph package to use this function")
  lol = obo2lol(obo, kill=kill)
  xll = lapply( lol, cleanup )
  isas = lapply(xll, "[[", "is_a") #get_isas(lol)  # some can be vectors
@@ -53,10 +53,10 @@ obo2graphNEL = function(obo="human-phenotype-ontology.obo",
  edl = lapply(isas, function(x) list(edges=x))
  names(edl) = idvec 
  g = new("graphNEL", nodes=idvec, edgeL = edl, edgemode = "directed")
- nodeDataDefaults(g) = list(name="", def="", xref="")
- nodeData(g, nodes(g), "name") = nms
- nodeData(g, nodes(g), "def") = defs
- nodeData(g, nodes(g), "xref") = xrefs
+ graph::nodeDataDefaults(g) = list(name="", def="", xref="")
+ graph::nodeData(g, graph::nodes(g), "name") = nms
+ graph::nodeData(g, graph::nodes(g), "def") = defs
+ graph::nodeData(g, graph::nodes(g), "xref") = xrefs
  g
 }
 

@@ -9,18 +9,21 @@ ldtagr = function( snprng, tf, samples, genome="hg19",
   stopifnot(length(snprng)==1)
   snpid = names(snprng)
   stopifnot(length(snpid)==1)
-  quer = queryVCF( gr=snprng+radius, vcf.tf=tf, 
+  if (!requireNamespace("gQTLstats")) stop("install gQTLstats to use this function")
+  if (!requireNamespace("DelayedArray")) stop("install DelayedArray to use this function")
+  if (!requireNamespace("snpStats")) stop("install snpStats to use this function")
+  quer = gQTLstats::queryVCF( gr=snprng+radius, vcf.tf=tf, 
          samps=samples, genome=genome, getSM=TRUE )
   empty = GRanges()
   mcols(empty) = DataFrame(paramRangeID = factor(), R2 = numeric())
-  vcfrng = rowRanges(quer$readout)
+  vcfrng = DelayedArray::rowRanges(quer$readout)
   gt = quer$sm$genotypes
   if (!(snpid %in% colnames(gt))) {
     message(paste0("NOTE: ", snpid, " not in VCF at given radius, returning empty GRanges"))
     return(empty)
     }
   map = quer$sm$map
-  cs = col.summary(gt)
+  cs = snpStats::col.summary(gt)
   mafok = which(cs[,"MAF"] >= lbmaf)
   stopifnot(length(mafok)>0)
   gt = gt[,mafok]
@@ -28,7 +31,7 @@ ldtagr = function( snprng, tf, samples, genome="hg19",
     message(paste0("NOTE: ", snpid, " has MAF too low, returning empty GRanges."))
     return(empty)
     }
-  ldvec = ld(gt[,snpid], gt, stats="R.squared")
+  ldvec = snpStats::ld(gt[,snpid], gt, stats="R.squared")
   extrng = vcfrng[ thec <- colnames(theld <- ldvec[, which(as.numeric(ldvec) > lbR2),drop=FALSE ]) ]
   extrng$R2 = theld
   #list(gt=gt, map=map, vcfrng=vcfrng, ldvec=ldvec,
