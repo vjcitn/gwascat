@@ -24,6 +24,41 @@ cleanup = function (x)
 }
 
 
+
+
+#' convert a typical OBO text file to a graphNEL instance (using Term elements)
+#' 
+#' convert a typical OBO text file to a graphNEL instance (using Term elements)
+#' 
+#' Very rudimentary list and grep operations are used to retain sufficient
+#' information to map the DAG to a graphNEL, using formal term identifiers as
+#' node names and 'is-a' relationships as edges, and term names and other
+#' metadata are assigned to nodeData components.
+#' 
+#' @aliases obo2graphNEL efo.obo.g node2uri uri2node
+#' @param obo string naming a file in OBO format
+#' @param kill entity types to be excluded from processing -- probably this
+#' should be in a 'keep' form, but for now this works.
+#' @param killTrailSp In the textual version of EFO ca. Aug 2015, there is a
+#' trailing blank in the tag field defining EFO:0000001, which is not present
+#' in references to this term.  Set this to TRUE to eliminate this, or graphNEL
+#' construction will fail to validate.
+#' @return a graphNEL instance 
+#' @note The OBO for Human Disease ontology is serialized as text with this
+#' package.
+#' @author VJ Carey <stvjc@@channing.harvard.edu>
+#' @references For use with human disease ontology,
+#' \url{http://www.obofoundry.org/cgi-bin/detail.cgi?id=disease_ontology}
+#' @keywords models
+#' @examples
+#' 
+#' data(efo.obo.g)
+#' requireNamespace("graph")
+#' hn = graph::nodes(efo.obo.g)[1:5]
+#' hn
+#' graph::nodeData(efo.obo.g, hn[5])
+#' 
+#' @export obo2graphNEL
 obo2graphNEL = function(obo="human-phenotype-ontology.obo", 
   kill="\\[Typedef\\]", killTrailSp=TRUE) {
 #

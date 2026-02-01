@@ -1,21 +1,44 @@
+#' 
+#' Prepare salient components of GWAS catalog for rendering with Gviz
+#' 
+#' @importFrom S4Vectors mcols "mcols<-" metadata "metadata<-"
+#' @importFrom GenomicFeatures exons
+#' @importFrom AnnotationDbi mapIds
+#' @importFrom IRanges overlapsAny
+#' @param basegr gwaswloc instance containing information about GWAS in catalog
+#' @param contextGR A GRanges instance delimiting the visualization in genomic
+#' coordinates
+#' @param txrefobj a TxDb instance
+#' @param genesymobj an OrgDb instance
+#' @param genome character tag like 'hg19'
+#' @param plot.it logical, if FALSE, just return list
+#' @param maxmlp maximum value of -10 log p -- winsorization of all larger
+#' values is performed, modifying the contents of Pvalue\_mlogp in the
+#' elementMetadata for the call
+#' @keywords graphics
+#' @examples
+#' 
+#'  data(ebicat_2020_04_30)
+#'  # GenomeInfoDb::seqlevelsStyle(ebicat_2020_04_30) = "UCSC" # no more
+#'  Seqinfo::seqlevels(ebicat_2020_04_30) = paste0("chr", Seqinfo::seqlevels(ebicat_2020_04_30))
+#'  gwcex2gviz(ebicat_2020_04_30)
+#' 
+#' @export gwcex2gviz
 gwcex2gviz = function( basegr, 
-   contextGR = GRanges(seqnames="chr17", IRanges(start=37500000, width=1e6)), 
-   txrefpk = "TxDb.Hsapiens.UCSC.hg19.knownGene", genome="hg19",
-   genesympk = "Homo.sapiens",
+   contextGR = GRanges(seqnames="chr17", IRanges::IRanges(start=37500000, width=1e6)), 
+   txrefobj = TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene, genome="hg19",
+   genesymobj = org.Hs.eg.db::org.Hs.eg.db,
    plot.it=TRUE, maxmlp=25 ) {
 #
 # objective is to visualize features of GWAS in gene/transcript context
 #
  if (!requireNamespace("Gviz")) stop("install Gviz to use this function")
- requireNamespace(txrefpk, quietly=TRUE)
- requireNamespace(genesympk, quietly=TRUE)
-# symmap = get(gsub(".db", "SYMBOL", genesympk))
  chrmin = as.character(seqnames(contextGR))
 #
 # the get() here is a hack.  need to have a way of getting relevant object
-# name from txrefpk, indeed allowing more general spec of an exon range resource
+# name from txrefobj, indeed allowing more general spec of an exon range resource
 #
- ex = exons( get(txrefpk), columns = c("gene_id", "tx_id", "exon_id"),
+ ex = exons( txrefobj, columns = c("gene_id", "tx_id", "exon_id"),
     filter=list(exon_chrom = chrmin) )
  txin = ex[ which(overlapsAny(ex, contextGR)) ]
  if (length(txin) == 0) stop("no transcripts in contextGR")
@@ -26,10 +49,10 @@ gwcex2gviz = function( basegr,
  g = sapply(as.list(v$gene_id), "[", 1)
  g = unlist(g)
  drop = which(is.na(g))
- k = GRanges(seqnames=chrmin, ranges=ranges(txin), gene=g, exon=e,
+ k = GRanges(seqnames=chrmin, ranges=IRanges::ranges(txin), gene=g, exon=e,
     transcript=texx, id=1:length(g))
  if (length(drop) > 0) k = k[-drop]
- kk = mapIds(get(genesympk), keys=mcols(k)$gene, keytype="ENTREZID",
+ kk = mapIds(genesymobj, keys=mcols(k)$gene, keytype="ENTREZID",
            column="SYMBOL")  # multiVals == first
  mcols(k)$symbol = kk
  GR = Gviz::GeneRegionTrack(k, chromosome=chrmin, genome=genome)

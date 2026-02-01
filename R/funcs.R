@@ -1,8 +1,35 @@
-
+#' 
+#' operations on GWAS catalog
+#' 
+#' @param gwwl instance of \code{{gwaswloc}}
+#' @param n numeric, number of traits to report
+#' @param tag character, name of field to be used for trait enumeration
+#' @return \code{topTraits} returns a character vector of most frequently
+#' occurring traits in the database
+#' 
+#' \code{locs4trait} returns a \code{{gwaswloc}} object with
+#' records defining associations to the specified trait
+#' 
+#' \code{chklocs} returns a logical that is TRUE when the asserted locations of
+#' SNP in the GWAS catalog agree with the locations given in the dbSNP package
+#' SNPlocs.Hsapiens.dbSNP144.GRCh37
+#' @author VJ Carey <stvjc@@channing.harvard.edu>
+#' @keywords models
+#' @examples
+#' 
+#' data(ebicat_2020_04_30)
+#' topTraits(ebicat_2020_04_30)
+#' 
+#' @export topTraits
 topTraits = function(gwwl, n=10, tag="DISEASE/TRAIT") {
  sort(table(mcols(gwwl)[[tag]]), decreasing=TRUE)[1:n]
 }
 
+#' get locations for SNP affecting a selected trait
+#' @param gwwl instance of \code{{gwaswloc}}
+#' @param trait character, name of trait
+#' @param tag character, name of field to be used for trait enumeration
+#' @export
 locs4trait = function(gwwl, trait, tag="DISEASE/TRAIT") {
  if (length(trait) != 1) stop("please supply only one trait string")
  curem = mcols(gwwl) #as(mcols(gwwl), "DataFrame")
@@ -12,6 +39,10 @@ locs4trait = function(gwwl, trait, tag="DISEASE/TRAIT") {
  new("gwaswloc", gwwl[okind])
 }
 
+#' return TRUE if all named SNPs with locations in both
+#' the SNPlocs package and the gwascat agree 
+#' @param gwwl instance of \code{{gwaswloc}}
+#' @param chrtag character, chromosome identifier
 chklocs = function(chrtag="20", gwwl=gwrngs19) {
 #
 # return TRUE if all named SNPs with locations in both
@@ -146,6 +177,40 @@ ABmat2nuc = function(abmat, chr, snpannopk="SNPlocs.Hsapiens.dbSNP144.GRCh37",
  t(ans)
 }
 
+
+
+#' given a matrix of subjects x SNP calls, count number of risky alleles
+#' 
+#' given a matrix of subjects x SNP calls, count number of risky alleles for
+#' various conditions, relative to NHGRI GWAS catalog
+#' 
+#' 
+#' @param callmat matrix with subjects as rows, SNPs as columns; entries can be
+#' generic A/A, A/B, B/B, or specific nucleotide calls
+#' @param matIsAB logical, FALSE if nucleotide codes are present, TRUE if
+#' generic call codes are present; in the latter case, gwascat:::ABmat2nuc will
+#' be run
+#' @param chr code for chromosome, should work with the SNP annotation
+#' getSNPlocs function, so likely "ch[nn]"
+#' @param gwwl an instance of \code{{gwaswloc}}
+#' @param snpap name of a Bioconductor SNPlocs.Hsapiens.dbSNP.* package
+#' @param gencode codes used for generic SNP call
+#' @return matrix with rows corresponding to subjects , columns corresponding
+#' to SNP
+#' @keywords models
+#' @examples
+#' 
+#' \dontrun{
+#' data(gg17N) # translated from GGdata chr 17 calls using ABmat2nuc
+#' data(ebicat37)
+#' library(GenomeInfoDb)
+#' seqlevelsStyle(ebicat37) = "UCSC"
+#' h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17", gwwl=ebicat37)
+#' h17[1:5,1:5]
+#' table(as.numeric(h17))
+#' }
+#' 
+#' @export riskyAlleleCount
 riskyAlleleCount = function(callmat, matIsAB=TRUE, chr,
    gwwl, snpap="SNPlocs.Hsapiens.dbSNP144.GRCh37",
    gencode = c("A/A", "A/B", "B/B")) {

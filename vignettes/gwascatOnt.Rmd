@@ -11,11 +11,9 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{gwascat -- GRanges for GWAS hits in EBI catalog}
   %\VignetteEncoding{UTF-8}
-
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
-BiocStyle::markdown()
 suppressPackageStartupMessages({
 library(gwascat)
 })
@@ -93,10 +91,10 @@ The `mcols` element of the `GRanges` instances provided by
 gwascat include mapped EFO terms and EFO URIs.
 
 ```{r lkef}
-data(ebicat38)
-names(S4Vectors::mcols(ebicat38))
-adinds = grep("autoimmu", ebicat38$MAPPED_TRAIT)
-adgr = ebicat38[adinds]
+data(ebicat_2020_04_30)
+names(S4Vectors::mcols(ebicat_2020_04_30))
+adinds = grep("autoimmu", ebicat_2020_04_30$MAPPED_TRAIT)
+adgr = ebicat_2020_04_30[adinds]
 adgr
-mcols(adgr)[, c("MAPPED_TRAIT", "MAPPED_TRAIT_URI")]
+S4Vectors::mcols(adgr)[, c("MAPPED_TRAIT", "MAPPED_TRAIT_URI")]
 ```

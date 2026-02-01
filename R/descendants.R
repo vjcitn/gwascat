@@ -40,4 +40,3 @@ parentingDF = function(gnel, nodes, useNodeData=NULL) {
  data.frame(cbind(mx, formal))
 }
  
-

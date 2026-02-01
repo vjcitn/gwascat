@@ -1,0 +1,40 @@
+library(gwascat)
+load("ebicat_b37.rda")
+save(ebicat_b37, file="ebicat_b37.rda", compress="xz")
+cur = makeCurrentGwascat()
+library(GenomeInfoDb)
+seqinfo
+cur = makeCurrentGwascat()
+cur
+as.character(Sys.Date())
+genome(cur)
+table(seqnames(cur))
+genome(cur) = genome(cur)[1]
+table(seqnames(cur))
+genome(cur)
+cur
+validObject(cur)
+dir()
+ebicat_b38 = cur
+save(ebicat_b38, file="ebicat_b38.rda", compress="xz")
+ch = import.chain("/Users/stvjc/hg38ToHg19.over.chain")
+library(rtracklayer)
+ch = import.chain("/Users/stvjc/hg38ToHg19.over.chain")
+mm = liftOver(ebicat_b38, ch)
+seqlevelsStyle(ebicat_b38) = "UCSC"
+mm = liftOver(ebicat_b38, ch)
+mmm = unlist(mm)
+mmm
+seqlevelsStyle(mmm) = "NCBI"
+genome(mmm) = "GRCh37"
+ebicat_b37 = as(mmm, "gwaswloc")
+ebicat_b37
+ebicat_b38
+ebicat_b37@extracted
+getClass("gwaswloc")
+ebicat_b37@extractDate
+ebicat_b37@extractDate = ebicat_b38@extractDate
+ebicat_b37
+save(ebicat_b37, file="ebicat_b37.rda", compress="xz")
+getwd()
+savehistory(file="../inst/scripts/do_37_2020.hist.txt")

@@ -1,62 +1,40 @@
+---
+title: "gwascat: structuring and querying the NHGRI GWAS catalog"
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{gwascat: structuring and querying the NHGRI GWAS catalog}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+bibliography: gwascat.bib
+---
 
-%
-% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
-% likely to be overwritten.
-%
-
-%\VignetteIndexEntry{gwascat -- exploring NHGRI GWAS catalog}
-%\VignetteDepends{GenomicRanges, DO.db}
-%\VignetteKeywords{genetics, GWAS}
-%\VignettePackage{gwascat}
-%\VignetteBuilder{utils::Sweave}
-
-\documentclass[12pt]{article}
-
-\usepackage{amsmath,pstricks}
-%\usepackage{auto-pst-pdf}
-\usepackage[authoryear,round]{natbib}
-\usepackage{hyperref}
+```{r setup,echo=FALSE,results="hide"}
+suppressMessages({
+suppressPackageStartupMessages({
+ library(gwascat)
+ library(dplyr)
+ library(GenomeInfoDb)
+ library(rtracklayer)
+ library(ggbio)
+})
+})
+```
 
 
-\textwidth=6.2in
-\textheight=8.5in
-%\parskip=.3cm
-\oddsidemargin=.1in
-\evensidemargin=.1in
-\headheight=-.3in
-
-\newcommand{\scscst}{\scriptscriptstyle}
-\newcommand{\scst}{\scriptstyle}
-
-
-\newcommand{\Rfunction}[1]{{\texttt{#1}}}
-\newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\textit{#1}}}
-\newcommand{\Rmethod}[1]{{\texttt{#1}}}
-\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
-\newcommand{\Rclass}[1]{{\textit{#1}}}
-
-\textwidth=6.2in
-
-\bibliographystyle{plainnat} 
- 
-\begin{document}
-%\setkeys{Gin}{width=0.55\textwidth}
-
-\title{\textit{gwascat}: structuring and querying the NHGRI GWAS catalog}
-\author{VJ Carey\footnote{Generous support of Robert Gentleman and the
-Computational Biology Group of
-Genentech, Inc. is gratefully acknowledged}.}
-\maketitle
-\tableofcontents
-
-\section{Introduction}
+# Introduction
 
 NHGRI maintains and routinely updates a database of selected genome-wide
 association studies.  This document describes R/Bioconductor facilities for
 working with contents of this database.
 
-\subsection{Installation}
+## Installation
 The package can be installed using Bioconductor's \textit{BiocManager}
 package, with the sequence
 \begin{verbatim}
@@ -64,103 +42,145 @@ library(BiocManager)
 BiocManager::install("gwascat")
 \end{verbatim}
 
-\subsection{Attachment and access to documentation}
+## Attachment and access to documentation
 Once the package has been installed, use \verb+library(gwascat)+ to 
 obtain interactive access to all the facilities.  After executing
 this command, use \verb+help(package="gwascat")+ to obtain an overview.
 The current version of this vignette can always be accessed at
 www.bioconductor.org, or by suitably navigating the web pages generated
-with \texttt{help.start()}.
+with `help.start()`.
 
-<<getlib,echo=FALSE,results=hide>>=
+```{r getlib,echo=FALSE,results='hide'}
 library(gwascat)
-@
+```
+
+## Using tidy methods -- added August 2022
+
+```{r dotidy}
+gwcat = get_cached_gwascat()
+library(dplyr)
+gwcat |> arrange(DATE)
+```
+
+We can produce a GRanges in two forms.  By default
+we get an mcols that has a small set of columns.  Note
+that records that lack a `CHR_POS` value are omitted.  
+Records that have complicated `CHR_POS` values, including
+semicolons or " x " notation are kept, but only the first
+position is retained.  The `CHR_ID` field may have
+complicated character values, these are not normalized,
+and are simply used as `seqnames` "as is".
+
+```{r getgr}
+gg = gwcat |> as_GRanges()
+gg
+```
+
+We can set the seqinfo as follows, retaining only
+records that employ
+standard chromosomes.
+```{r dosei}
+library(GenomeInfoDb)
+data(si.hs.38)
+gg = keepStandardChromosomes(gg, pruning="coarse")
+seqlevels(gg) = seqlevels(si.hs.38)
+seqinfo(gg) = si.hs.38
+gg
+```
+
+## Getting a recent version of the GWAS catalog
+
+We use BiocFileCache to manage downloaded TSV from
+EBI's download site.  The file is provided without
+compression, so prepare for 200+MB download if you
+are not working from a cache.  There is no etag
+set, so you have to check for updates on your own.
+
+```{r lkadasd}
+args(get_cached_gwascat)
+```
+
+This is converted to a manageable extension of GRanges using
+`process_gwas_dataframe`.
+```{r lkasdasdasd}
+args(process_gwas_dataframe)
+```
 
 
-\subsection{Illustrations: computing}
+# Illustrations: computing
 
-<<lk1,echo=FALSE,results=hide>>=
+```{r lk1,echo=FALSE,results='hide'}
 if (length(grep("gwascat", search()))>0) detach("package:gwascat")
-@
+```
 Available functions are:
-<<lk2>>=
+```{r lk2}
 library(gwascat)
 objects("package:gwascat")
-@
+```
 
-The extended GRanges instance with all SNP-disease associations is
-obtained as follows, using the hg19 genome build (GRCh38/hg38-based
-ranges are also available as ebicat38).
-<<lkgr>>=
-data(ebicat37)
-@
+An extended GRanges instance with a sample of 50000 SNP-disease associations reported
+on 30 April 2020 is
+obtained as follows, with addresses based on the GRCh38 genome build.
+We use `gwtrunc` to refer to it in the sequel.
+```{r lkgr}
+data(ebicat_2020_04_30)
+gwtrunc = ebicat_2020_04_30
+```
 
-To determine the most frequently occurring traits:
-<<lktr>>=
-topTraits(ebicat37)
-@
+To determine the most frequently occurring traits in this sample:
+```{r lktr}
+topTraits(gwtrunc)
+```
 
 For a given trait, obtain a GRanges with all recorded associations; here
 only three associations are shown:
-<<lklocs>>=
-subsetByTraits(ebicat37, tr="LDL cholesterol")[1:3]
-@
+```{r lklocs}
+subsetByTraits(gwtrunc, tr="LDL cholesterol")[1:3]
+```
 
-\section{Some visualizations}
+# Some visualizations
 
-\subsection{Basic Manhattan plot}
+## Basic Manhattan plot
 
 A basic Manhattan plot is easily constructed with the
 ggbio package facilities.  Here we confine attention to
 chromosomes 4:6.  First, we create a version of the
 catalog with $-log_{10} p$ truncated at a maximum value of 25.
 
-<<lkm,results=hide>>=
-gwtrunc = ebicat37
+```{r lkm,results='hide'}
 requireNamespace("S4Vectors")
 mcols = S4Vectors::mcols
-mlpv = mcols(ebicat37)$PVALUE_MLOG
+mlpv = mcols(gwtrunc)$PVALUE_MLOG
 mlpv = ifelse(mlpv > 25, 25, mlpv)
-mcols(gwtrunc)$PVALUE_MLOG = mlpv
+S4Vectors::mcols(gwtrunc)$PVALUE_MLOG = mlpv
 library(GenomeInfoDb)
-seqlevelsStyle(gwtrunc) = "UCSC"
+# seqlevelsStyle(gwtrunc) = "UCSC" # no more!
+seqlevels(gwtrunc) = paste0("chr", seqlevels(gwtrunc))
 gwlit = gwtrunc[ which(as.character(seqnames(gwtrunc)) %in% c("chr4", "chr5", "chr6")) ]
 library(ggbio)
 mlpv = mcols(gwlit)$PVALUE_MLOG
 mlpv = ifelse(mlpv > 25, 25, mlpv)
-mcols(gwlit)$PVALUE_MLOG = mlpv
-<<dodie,echo=FALSE,results=hide,eval=FALSE>>=
-pdf(file="litman.pdf", width=8, height=2)
-<<dorunap,eval=FALSE>>=
-methods:::bind_activation(FALSE)
+S4Vectors::mcols(gwlit)$PVALUE_MLOG = mlpv
+```{r dorunap}
 autoplot(gwlit, geom="point", aes(y=PVALUE_MLOG), xlab="chr4-chr6")
-<<dodie,echo=FALSE,results=hide,eval=FALSE>>=
-dev.off()
-@
+```
 
 \setkeys{Gin}{width=0.95\textwidth}
 \includegraphics{litman}
 
-\subsection{Annotated Manhattan plot}
+## Annotated Manhattan plot
 
 A simple call permits visualization of GWAS results for
 a small number of traits.  Note the defaults in this call.
 
-July 2018: The following is unevaluated owing to ggbio.
-<<lktrm>>=
-args(traitsManh)
-<<lkn,results=hide,echo=FALSE,eval=FALSE>>=
-pdf(file="annman.pdf", width=8, height=2)
-<<runit,eval=FALSE>>=
+```{r runit,eval=TRUE}
 traitsManh(gwtrunc)
-<<dodie,echo=FALSE,results=hide,eval=FALSE>>=
-dev.off()
-@
+```
 
 %\setkeys{Gin}{width=0.95\textwidth}
 %\includegraphics{annman}
 
-\subsection{Integrative view of potential genetic determinants}
+## Integrative view of potential genetic determinants
 
 
 The following chunk uses GFF3 data on eQTL and related
@@ -170,55 +190,46 @@ eqtl.uchicago.edu.  A request for all information at
 Of interest are locations and
 scores of genetic associations with DNaseI hypersensitivity
 (scores identifying dsQTL, see Degner et al 2012).
-<<getgd>>=
+```{r getgd}
 gffpath = system.file("gff3/chr17_43000000_45000000.gff3", package="gwascat")
 library(rtracklayer)
 c17tg = import(gffpath)
-@
+```
 
 We make a Gviz DataTrack of the dsQTL scores.
-<<lkgvt>>=
-c17td = c17tg[ which(mcols(c17tg)$type == "Degner_dsQTL") ]
+```{r lkgvt}
+c17td = c17tg[ which(S4Vectors::mcols(c17tg)$type == "Degner_dsQTL") ]
 library(Gviz)
 dsqs = DataTrack( c17td, chrom="chr17", genome="hg19", data="score",
   name="dsQTL")
-@
+```
 
 We start the construction of the graph here.
-<<dost>>=
+```{r dost}
 g2 = GRanges(seqnames="chr17", IRanges(start=4.3e7, width=2e6))
 
-seqlevelsStyle(ebicat37) = "UCSC"
-basic = gwcex2gviz(basegr = ebicat37, contextGR=g2, plot.it=FALSE) 
-@
+basic = gwcex2gviz(basegr = gwtrunc, contextGR=g2, plot.it=FALSE) 
+```
 
 We also collect locations of eQTL in the Stranger 2007
 multipopulation eQTL study.
-<<getstr>>=
-c17ts = c17tg[ which(mcols(c17tg)$type == "Stranger_eqtl") ]
+```{r getstr}
+c17ts = c17tg[ which(S4Vectors::mcols(c17tg)$type == "Stranger_eqtl") ]
 eqloc = AnnotationTrack(c17ts,  chrom="chr17", genome="hg19", name="Str eQTL")
 displayPars(eqloc)$col = "black"
 displayPars(dsqs)$col = "red"
 integ = list(basic[[1]], eqloc, dsqs, basic[[2]], basic[[3]])
-@
+```
 
 Now use Gviz.
 
-<<dogr,echo=FALSE,results=hide>>=
-pdf(file="integ.pdf", width=9, height=4)
-<<doplot>>=
+```{r doplot}
 plotTracks(integ)
-<<dono,echo=FALSE, results=hide>>=
-dev.off()
-@
+```
 
-\includegraphics{integ}
+# SNP sets and trait sets
 
-
-
-\section{SNP sets and trait sets}
-
-\subsection{SNPs by name}
+## SNPs by name
 
 We can regard the content of a SNP chip as a set of SNP, referenced
 by name.  The
@@ -227,32 +238,32 @@ We can determine which traits are associated with loci interrogated
 by the chip as follows.  We work with a subset of the 1 million loci
 for illustration.
 
-The \texttt{locon6} data frame has information on 10000 probes,
+The `locon6` data frame has information on 10000 probes,
 acquired through the following code (not executed here to reduce
 dependence on the pd.genomewidesnp.6 package, which is very large.
-<<dobig,eval=FALSE>>=
+```{r dobig,eval=FALSE}
 library(pd.genomewidesnp.6)
 con = pd.genomewidesnp.6@getdb()
 locon6 = dbGetQuery(con, 
    "select dbsnp_rs_id, chrom, physical_pos from featureSet limit 10000")
-@
+```
 Instead use the serialized information:
-<<doloc>>=
+```{r doloc}
 data(locon6)
 rson6 = as.character(locon6[[1]])
 rson6[1:5]
-@
+```
 
 We subset the GWAS ranges structure with rsids that
 are common to both the chip and the GWAS catalog.
 We then tabulate the diseases associated with the
 common loci.
-<<lkdtab>>=
-intr = ebicat37[ intersect(getRsids(ebicat37), rson6) ]
+```{r lkdtab}
+intr = gwtrunc[ intersect(getRsids(gwtrunc), rson6) ]
 sort(table(getTraits(intr)), decreasing=TRUE)[1:10]
-@
+```
 
-\subsection{Traits by genomic location}
+## Traits by genomic location
 
 We will assemble genomic coordinates for SNP on the Affymetrix 6.0 chip
 and show the effects of identifying the trait-associated
@@ -261,214 +272,156 @@ of 1bp.
 
 The following code retrieves coordinates for SNP interrogated
 on 10000 probes (to save time)
-on the 6.0 chip, and stores the results in a GRanges instance.
-<<lkexp,keep.source=TRUE>>=
-gr6.0 = GRanges(seqnames=ifelse(is.na(locon6$chrom),0,locon6$chrom), 
-       IRanges(ifelse(is.na(locon6$phys),1,locon6$phys), width=1))
-mcols(gr6.0)$rsid = as.character(locon6$dbsnp_rs_id)
-seqlevels(gr6.0) = paste("chr", seqlevels(gr6.0), sep="")
-@
+on the 6.0 chip, in a GRanges instance that was lifted over to GRCh38.
+The data statement is preceded by legacy code that produced
+an instance with hg19 coordinates.
+```{r lkexp,keep.source=TRUE}
+#gr6.0 = GRanges(seqnames=ifelse(is.na(locon6$chrom),0,locon6$chrom), 
+#       IRanges(ifelse(is.na(locon6$phys),1,locon6$phys), width=1))
+#S4Vectors::mcols(gr6.0)$rsid = as.character(locon6$dbsnp_rs_id)
+#seqlevels(gr6.0) = paste("chr", seqlevels(gr6.0), sep="")
+data(gr6.0_hg38)
+```
 
 Here we compute overlaps with both the raw disease-associated locus
 addresses, and with the locus address $\pm$ 500bp.
-<<dosub>>=
+```{r dosub}
 ag = function(x) as(x, "GRanges")
-ovraw = suppressWarnings(subsetByOverlaps(ag(ebicat37), gr6.0))
+ovraw = suppressWarnings(subsetByOverlaps(ag(gwtrunc), gr6.0_hg38))
 length(ovraw)
-ovaug = suppressWarnings(subsetByOverlaps(ag(ebicat37+500), gr6.0))
+ovaug = suppressWarnings(subsetByOverlaps(ag(gwtrunc+500), gr6.0_hg38))
 length(ovaug)
-@
+```
 
 To acquire the subset of the catalog to which 6.0 probes are
 within 500bp, use:
-<<dosub2>>=
+```{r dosub2}
 rawrs = mcols(ovraw)$SNPS
 augrs = mcols(ovaug)$SNPS
-ebicat37[augrs]
-@
+gwtrunc[augrs]
+```
 
 Relaxing the intersection criterion in this
 limited case leads to a larger set of traits.
 
-<<lkrelax>>=
-setdiff( getTraits(ebicat37[augrs]), getTraits(ebicat37[rawrs]) )
-@
+```{r lkrelax}
+nn = setdiff( getTraits(gwtrunc[augrs]), getTraits(gwtrunc[rawrs]) )
+length(nn)
+head(nn)
+tail(nn)
+```
 
-\section{Counting alleles associated with traits}
+# Counting alleles associated with traits
 
-We can use \texttt{riskyAlleleCount} to count
+We can use `riskyAlleleCount` to count
 risky alleles enumerated in the GWAS catalog.  This
 particular function assumes that we have genotyped at
 the catalogued loci.  Below we will discuss how to impute
 from non-catalogued loci to those enumerated in the catalog.
-<<lkcout>>=
+```{r lkcout}
 data(gg17N) # translated from GGdata chr 17 calls using ABmat2nuc
 gg17N[1:5,1:5]
-@
+```
 This function can use genotype information in the A/B format,
 assuming that B denotes the alphabetically later nucleotide.
 Because we have direct nucleotide coding in our matrix, we set
-the \texttt{matIsAB} parameter to false in this call.
+the `matIsAB` parameter to false in this call.
 
-<<dorun>>=
+```{r dorun}
 h17 = riskyAlleleCount(gg17N, matIsAB=FALSE, chr="ch17",
- gwwl = ebicat37)
+ gwwl = gwtrunc)
 h17[1:5,1:5]
 table(as.numeric(h17))
-@
+```
 
 It is of interest to bind the counts back to the catalog data.
-<<domo>>=
-gwr = ebicat37
+```{r domo}
+gwr = gwtrunc
 gwr = gwr[colnames(h17),]
-mcols(gwr) = cbind(mcols(gwr), DataFrame(t(h17)))
+S4Vectors::mcols(gwr) = cbind(mcols(gwr), DataFrame(t(h17)))
 sn = rownames(h17)
 gwr[,c("DISEASE/TRAIT", sn[1:4])]
-@
+```
 
 Now by programming on the metadata columns, we can identify
 individuals with particular risk profiles.
 
-\section{Imputation to unobserved loci}
+# Formal management of trait vocabularies
 
-If we lack information on a specific locus $s$, but have
-reasonably dense genotyping on a subject, population genetics
-may allow a reasonable guess at the genotype at $s$ for
-this subject.  Many algorithms for genotype imputation have been proposed.
-Here we use a very simple approach due to
-David Clayton in the \textit{snpStats} package.
+## Diseases: Disease Ontology
 
-We use the ``low coverage'' 1000 genomes genotypes for
-the CEU (central European) HapMap cohort as a base for constructing
-imputation rules.  We focus on chromosome 17 for illustration.
-
-The base data are
-<<getbase,cache=FALSE>>=
-data(low17)
-low17
-@
-
-A somewhat sparser set of genotypes (HapMap phase II,
-genomewide 4 million loci) on chromosome 17 is 
-archived as \texttt{g17SM}.
-This has a compact SnpMatrix encoding of genotypes.
-<<lkggd,cache=FALSE>>=
-data(g17SM)
-g17SM
-@
-For a realistic demonstration, we use the subset of these
-loci that are present on the Affy 6.0 SNP array.
-<<dog,cache=FALSE>>=
-data(gw6.rs_17)
-g17SM = g17SM[, intersect(colnames(g17SM), gw6.rs_17)]
-dim(g17SM)
-@
-
-The base data were used to create a set of rules allowing
-imputation from genotypes in the sparse set to the richer set.
-Some rules involve only a single locus, some as many as 4.
-The construction of rules involves tuning of modeling parameters.
-See snp.imputation in snpStats for details.
-<<lkrul,cache=FALSE>>=
-if (!exists("rules_6.0_1kg_17")) data(rules_6.0_1kg_17)
-rules_6.0_1kg_17[1:5,]
-@
-The summary of rules shows the degree of association between
-the predictors and predictands in terms of $R^2$.  Many potential
-targets are not imputed.
-<<lksum>>=
-summary(rules_6.0_1kg_17)
-@
-The overlap between the 6.0-resident g17SM loci and the catalog is
-<<lkov>>=
-length(intersect(colnames(g17SM), mcols(ebicat37)$SNPS))
-@
-
-The new expected B allele counts are
-<<doimp>>=
-exg17 = impute.snps(rules_6.0_1kg_17, g17SM)
-@
-The number of new loci that coincide with risk loci in the catalog is:
-<<lkl>>=
-length(intersect(colnames(exg17), mcols(ebicat37)$SNPS))
-@
-
-\section{Formal management of trait vocabularies}
-
-\subsection{Diseases: Disease Ontology}
-
-The Disease Ontology project \cite{Osborne:2009p4571} formalizes a vocabulary
+The Disease Ontology project @Osborne:2009p4571 formalizes a vocabulary
 for human diseases.  Bioconductor's DO.db package is a curated
 representation.
 
-<<getdo>>=
+```{r getdo}
 library(DO.db)
 DO()
-@
+```
 
 All tokens of the ontology are acquired via:
-<<getallt>>=
+```{r getallt}
 alltob = unlist(mget(mappedkeys(DOTERM), DOTERM))
 allt = sapply(alltob, Term)
 allt[1:5]
-@
+```
 
 Direct mapping from disease trait tokens in the catalog
 to this vocabulary succeeds for a modest proportion of
 records.
-<<dohit>>=
-cattra = mcols(ebicat37)$Disease.Trait
+```{r dohit}
+cattra = mcols(gwtrunc)$`DISEASE/TRAIT`
 mat = match(tolower(cattra), tolower(allt))
 catDO = names(allt)[mat]
 na.omit(catDO)[1:50]
 mean(is.na(catDO))
-@
+```
 
 Approximate matching of unmatched tokens can proceed
 by various routes.  Some traits are not diseases, and
 will not be mappable using Disease Ontology.  However, consider
-<<dogr>>=
+```{r dogr}
 unique(cattra[is.na(catDO)])[1:20]
 nomatch = cattra[is.na(catDO)]
 unique(nomatch)[1:5]
-@
+```
 Manual searching shows that a number of these have
 very close matches.
 
-\subsection{Other phenotypic traits: Human Phenotype Ontology}
+## Other phenotypic traits: Human Phenotype Ontology
 
 Bioconductor does not possess an annotation package for phenotype ontology,
 but the standardized OBO format can be parsed and modeled into a graph.
 
-<<dopar,cache=FALSE>>=
+```{r dopar,cache=FALSE}
 hpobo = gzfile(dir(system.file("obo", package="gwascat"), pattern="hpo", full=TRUE))
 HPOgraph = obo2graphNEL(hpobo)
 close(hpobo)
-@
+```
 
 The phenotypic terms are obtained via:
-<<dohpot>>=
+```{r dohpot}
 requireNamespace("graph")
 hpoterms = unlist(graph::nodeData(HPOgraph, graph::nodes(HPOgraph), "name"))
 hpoterms[1:10]
-@
+```
 
 Exact hits to unmatched GWAS catalog traits exist:
-<<lkint>>=
+```{r lkint}
 intersect(tolower(nomatch), tolower(hpoterms))
-@
+```
 
 More work on formalization of trait terms is underway.
 
-%\subsection{Curation of approximate matches}
+%## {Curation of approximate matches}
 
 % NB the graph stuff can be used for other OBO without .db packages..
 %The \textit{gwascat} package includes an OBO-formatted
-%image of the ontology and a model for it as a \texttt{graphNEL} instance
+%image of the ontology and a model for it as a `graphNEL` instance
 %as defined in the Bioconductor \textit{graph} package \cite{carey2005}.
 
 %The graph model is constructed as follows.
-%<<dogrmod>>=
+%<<dogrmod}
 %doobo = dir(system.file("obo", package="gwascat"), full=TRUE, patt="HumanDO")
 %DOgraph = obo2graphNEL(doobo)
 %DOgraph
@@ -476,28 +429,28 @@ More work on formalization of trait terms is underway.
 %
 %Nodes are the formal disease term identifiers; node data provides additional
 %metadata.
-%<<lkno>>=
+%<<lkno}
 %nodeData(DOgraph)[1:5]
 %@
 
-\section{CADD scores}
+# CADD scores
 
-Kircher et al. \citep{Kircher:2014p5681} define combined annotation-dependent
+@Kircher:2014p5681 define combined annotation-dependent
 depletion scores measuring variant pathogenicity in an integrative way.
 Small requests to bind scores for SNV to GRanges can be resolved
 through HTTP; large requests can be carried out on a local tabix-indexed
 selection from their archive.
 
-<<chkcadd,eval=FALSE>>=
-g3 = as(ebicat37, "GRanges")
+```{r chkcadd,eval=FALSE}
+g3 = as(gwtrunc, "GRanges")
 bg3 = bindcadd_snv( g3[which(seqnames(g3)=="chr3")][1:20] )
 inds = ncol(mcols(bg3))
 bg3[, (inds-3):inds]
-@
+```
 
 This requires cooperation of network interface and server, so we
 don't evaluate in vignette build but on 1 Apr 2014 the response was:
-\begin{verbatim}
+```
 GRanges with 20 ranges and 4 metadata columns:
        seqnames                 ranges strand   |         Ref         Alt
           <Rle>              <IRanges>  <Rle>   | <character> <character>
@@ -529,31 +482,36 @@ GRanges with 20 ranges and 4 metadata columns:
   seqlengths:
            1         2         3         4 ...        21        22         X
    249250621 243199373 198022430 191154276 ...  48129895  51304566 155270560
-\end{verbatim}
+```
 
-\section{Appendix: Adequacy of location annotation}
+# Appendix: Adequacy of location annotation
 
 A basic question concerning the use of archived
 SNP identifiers is durability
 of the association between asserted location
-and SNP identifier.  The \texttt{chklocs}
+and SNP identifier.  The `chklocs`
 function uses a current Bioconductor
 SNPlocs package to check this.
 
 For example, to verify that locations asserted on chromosome
 20 agree between the Bioconductor dbSNP image and the
 gwas catalog,
-<<getrs,keep.source=TRUE,cache=FALSE>>=
+```{r getrs,keep.source=TRUE,cache=FALSE,eval=FALSE}
 if ("SNPlocs.Hsapiens.dbSNP144.GRCh37" %in% installed.packages()[,1]) {
  library(SNPlocs.Hsapiens.dbSNP144.GRCh37)
- chklocs("20", ebicat37)
+ chklocs("20", gwtrunc)
 }
-@
+```
+This is not a fast procedure.  
 
-This is not a fast procedure.  As of March 2017, small numbers
-of catalog locations are found discrepant with dbSNP for GRCh37.
+# Acknowledgment 
 
+The development of this software was supported in part
+by Robert Gentleman and the
+Computational Biology Group of
+Genentech, Inc.
+
+# References
 
 \bibliography{gwascat}
 
-\end{document}

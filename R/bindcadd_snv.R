@@ -1,4 +1,32 @@
-
+#' bind CADD scores of Kircher et al. 2014 to a GRanges instance
+#' 
+#' bind CADD scores of Kircher et al. 2014 to a GRanges instance; by default
+#' will use HTTP access at UW
+#' 
+#' joins CADD fields at addresses that match query; the CADD fields for query
+#' ranges that are not matched are set to NA
+#' 
+#' @param gr query ranges to which CADD scores should be bound
+#' @param fn path to Tabix-indexed bgzipped TSV of CADD as distributed at
+#' krishna.gs.washington.edu on 1 April 2014
+#' @return GRanges instance with additional fields as obtained in the CADD
+#' resource
+#' @note This software developed in part with support from Genentech, Inc.
+#' @author VJ Carey <stvjc@@channing.harvard.edu>
+#' @references M Kircher, DM Witten, P Jain, BJ O'Roak, GM Cooper, J Shendure,
+#' A general framework for estimating the relative pathogenicity of human
+#' genetic variants, Nature Genetics Feb 2014, PMID 24487276
+#' @keywords models
+#' @examples
+#' 
+#'  \dontrun{
+#'   data(ebicat_2020_04_30)
+#'   g2 = as(ebicat_2020_04_30, "GRanges")
+#'  # would need to lift over here 
+#'   bindcadd_snv( g2[which(seqnames(g2)=="chr2")][1:20] )
+#'   }
+#' 
+#' @export bindcadd_snv
 bindcadd_snv = function(gr, fn="http://krishna.gs.washington.edu/download/CADD/v1.0/1000G.tsv.gz") {
 #
 # import and export SNVs from CADD

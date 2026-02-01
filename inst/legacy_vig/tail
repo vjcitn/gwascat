@@ -1,0 +1,69 @@
+library(DO.db)
+DO()
+
+
+###################################################
+### code chunk number 41: getallt
+###################################################
+alltob = unlist(mget(mappedkeys(DOTERM), DOTERM))
+allt = sapply(alltob, Term)
+allt[1:5]
+
+
+###################################################
+### code chunk number 42: dohit
+###################################################
+cattra = mcols(ebicat37)$Disease.Trait
+mat = match(tolower(cattra), tolower(allt))
+catDO = names(allt)[mat]
+na.omit(catDO)[1:50]
+mean(is.na(catDO))
+
+
+###################################################
+### code chunk number 43: dogr
+###################################################
+unique(cattra[is.na(catDO)])[1:20]
+nomatch = cattra[is.na(catDO)]
+unique(nomatch)[1:5]
+
+
+###################################################
+### code chunk number 44: dopar
+###################################################
+hpobo = gzfile(dir(system.file("obo", package="gwascat"), pattern="hpo", full=TRUE))
+HPOgraph = obo2graphNEL(hpobo)
+close(hpobo)
+
+
+###################################################
+### code chunk number 45: dohpot
+###################################################
+hpoterms = unlist(nodeData(HPOgraph, nodes(HPOgraph), "name"))
+hpoterms[1:10]
+
+
+###################################################
+### code chunk number 46: lkint
+###################################################
+intersect(tolower(nomatch), tolower(hpoterms))
+
+
+###################################################
+### code chunk number 47: chkcadd (eval = FALSE)
+###################################################
+## g3 = as(ebicat37, "GRanges")
+## bg3 = bindcadd_snv( g3[which(seqnames(g3)=="chr3")][1:20] )
+## inds = ncol(mcols(bg3))
+## bg3[, (inds-3):inds]
+
+
+###################################################
+### code chunk number 48: getrs
+###################################################
+if ("SNPlocs.Hsapiens.dbSNP144.GRCh37" %in% installed.packages()[,1]) {
+ library(SNPlocs.Hsapiens.dbSNP144.GRCh37)
+ chklocs("20", ebicat37)
+}
+
+

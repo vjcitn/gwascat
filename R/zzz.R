@@ -7,8 +7,8 @@
    vec
    }
 .onAttach = function(libname, pkgname) {
-packageStartupMessage("gwascat loaded.  Use data(ebicat38) for hg38 coordinates;")
-packageStartupMessage(" data(ebicat37) for hg19 coordinates.")
+packageStartupMessage("gwascat loaded.  Use makeCurrentGwascat() to extract current image.")
+packageStartupMessage(" from EBI.  The data folder of this package has some legacy extracts.")
 }
 
 #.onAttach = function(libname, pkgname) {
@@ -46,12 +46,18 @@ gwdf2GRanges = function (df, extractDate, seqlSrc )
 # NOTE: EMBL/EBI changed the column header case to capitals.  Code
 #  will use the new naming convention
 #
-    gwcatloc = df[which(!is.na(as.numeric(df$CHR_POS))), ]
+# April 30 2020 -- we find that CHR_POS can include NA and c x c and c X c for SNP-SNP interaction studies
+# We cannot make these into GRanges.  We hand them back in metadata component
+    badpos = unique(c(
+              which(is.na(df$CHR_ID)), 
+              which(is.na(df$CHR_POS)), grep(";|x|X", df$CHR_POS), which(df$CHR_POS=="")))
+    nogr = df[badpos,]
+    gwcatloc = df[-badpos,]
 #
 # put chr prefix to CHR_ID as needed
 #
     ch = as.character(gwcatloc$CHR_ID)
-    if (any(ch == "23")) ch[ch=="23"] = "X"
+#    if (any(ch == "23")) ch[ch=="23"] = "X"
     
     if (length(grep("chr", ch)) == 0) 
         ch = paste("chr", ch, sep = "")
@@ -73,32 +79,14 @@ gwdf2GRanges = function (df, extractDate, seqlSrc )
     co = gsub(" $", "", badco)
     mcols(gwrngs)[["STRONGEST SNP-RISK ALLELE"]] = co
 #
+# utility to get numeric values in Risk.Allele.Frequency -- note, there may be scientific notation
 #
-#
-#    fixhet = function(vec) {
-#        strinds = grep("[a-zA-Z]", vec)
-#        if (length(strinds) > 0) 
-#            vec[strinds] = ""
-#        vec
-#    }
-#
-# utility to strip out some unusual tokens in OR.or.BETA
-#
-#    cleanToNum = function(x, bad = c("NR", "Pending")) {
-#      lkbad = which(x %in% bad)
-#      if (length(lkbad) > 0) x[lkbad] = NA
-#    }
-#    mcols(gwrngs)[["OR or BETA"]] = cleanToNum(
-#          mcols(gwrngs)[["OR or BETA"]] ) #as.numeric(fixhet(mcols(gwrngs)[["OR or BETA"]]))
-#
-# utility to get numeric values in Risk.Allele.Frequency
-#
-    killpatt = "\\+|[[:alpha:]]|\\(|\\)|\\ "
-    nulcToNA = function(x) {isn = which(nchar(x)==0); if (length(isn)>0) x[isn] = NA; x}
-    mcols(gwrngs)[["RISK ALLELE FREQUENCY"]] = as.numeric(nulcToNA(gsub(killpatt, "", as.character(mcols(gwrngs)[["RISK ALLELE FREQUENCY"]]))))
-#    gwrngs = makeConsecChrs(gwrngs)  # WHY???
-#    gwrngs = addSeqlengths(gwrngs, src=seqlSrc)
+    killpatt = "\\-|\\+|[[:alpha:]]|\\(|\\)|\\ "
+#    nulcToNA = function(x) {isn = which(nchar(x)==0); if (length(isn)>0) x[isn] = NA; x}
+    raf = mcols(gwrngs)[["RISK ALLELE FREQUENCY"]] 
+    suppressWarnings({raf = as.numeric(raf)}) # will make NA for 'NR', ranges, etc. but keep scientific notation
+    mcols(gwrngs)[["RISK ALLELE FREQUENCY"]] = raf
     gwrngs = new("gwaswloc", extractDate = extractDate, gwrngs)
-    gwrngs
+    list(okrngs = gwrngs, nogr = nogr )
 }
 
